@@ -1,4 +1,4 @@
-<footer id="footer" class="footer">
+<footer id="footer" class="footer fixed-bottom">
     <div class="copyright">
         <?= config('app_name') ?>
         -

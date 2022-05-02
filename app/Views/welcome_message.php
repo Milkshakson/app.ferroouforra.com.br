@@ -7,8 +7,6 @@
     <h1>Testando o footer</h1>
 <?= $this->endSection() ?>
 <?=$this->section('customJavascriptFooter')?>
-
-Aqui vai JavaScript
 <script>
     function cronometro() {
         setTimeout(function() {
