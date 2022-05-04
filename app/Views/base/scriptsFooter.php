@@ -1,17 +1,33 @@
-<?= $this->extend('base') ?>
-<?= $this->section('content') ?>
-    <h1>Testando a view!</h1>
-<?= $this->endSection() ?>
+<?php
+use App\Libraries\Html;
+$html = new Html();
+$html->addRaw([
+    '<!-- End Footer -->',
+    '<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>',
+    '<!-- Vendor JS Files -->',
+    '<script src="/assets/templates/niceadmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/apexcharts/apexcharts.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/chart.js/chart.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/echarts/echarts.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/quill/quill.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/simple-datatables/simple-datatables.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/tinymce/tinymce.min.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/vendor/php-email-form/validate.js"></script>',
+    '<script src="/assets/templates/niceadmin/assets/js/main.js"></script>',
+    '<!-- Template Main JS File -->',
+    '<script src="/assets/plugins/jquery/jquery-3.6.0.min.js"></script>',
+    '<script src="/assets/plugins/moment/moment-with-locales.js"></script>',
+    '<script src="/assets/plugins/jquery-mask/jquery.mask.js"></script>',
+]);
+$html->display();
+?>
 
-<?= $this->section('footer') ?>
-    <h1>Testando o footer</h1>
-<?= $this->endSection() ?>
-<?=$this->section('customJavascriptFooter')?>
+<?php if (session('usuarioTokenAcesso')){ ?>
 <script>
     function cronometro() {
         setTimeout(function() {
             moment.locale('pt-br');
-            let exp = '<?=isset($usuarioToken)?$usuarioToken->expDate:''?>';
+            let exp = '<?=session('usuarioTokenAcesso')->expDate?>';
             let now = moment();
             let expira = moment(exp, 'DD/MM/YYYY HH:mm:ss');
             let restam = expira.diff(now, 'minutes');
@@ -45,4 +61,5 @@
         cronometro();
     });
 </script>
-<?=$this->endSection()?>
+<?php } ?>
+<?php $this->renderSection('customJavascriptFooter');?>

@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'https://app.ferroouforra.com.br/';
+    public $baseURL = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -69,7 +69,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $defaultLocale = 'pt_BR';
+    public $defaultLocale = 'pt-BR';
 
     /**
      * --------------------------------------------------------------------------
@@ -461,4 +461,7 @@ class App extends BaseConfig
      * @var bool
      */
     public $CSPEnabled = false;
+    public $appSigla = 'FF';
+    public $appName = 'Ferro ou Forra WEB';
+    public $appVersion = "7.1";
 }

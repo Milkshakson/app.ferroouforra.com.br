@@ -1,6 +1,6 @@
 <?php
-if (! defined('BASEPATH'))
-    exit('No direct script access allowed');
+
+namespace App\Libraries;
 
 class curl
 {
@@ -107,7 +107,7 @@ class curl
 
     public function setHeader($data, $merge = false)
     {
-        if (is_null($this->_header) || $merge==false) {
+        if (is_null($this->_header) || $merge == false) {
             $header = $data;
         } else {
             $header = array_merge($this->_header, $data);
@@ -202,4 +202,3 @@ class curl
         return $this->_webpage;
     }
 }
-?> 

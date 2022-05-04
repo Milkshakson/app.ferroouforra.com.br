@@ -15,7 +15,13 @@
 <?php if (!empty($erros)) { ?>
     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        <?= $erros ?>
+        <?php pre($erros)?>
+    </div>
+<?php } ?>
+<?php if (!empty($erro)) { ?>
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php pre($erro)?>
     </div>
 <?php } ?>
 <?php if (!empty($sucessos)) { ?>

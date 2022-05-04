@@ -13,3 +13,27 @@
  *
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
+function pre($var, $exit = false)
+{
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+    if ($exit) {
+        exit;
+    }
+}
+
+function coalesce($var, $replace = '')
+{
+    if (is_null($var)) {
+        return $replace;
+    } else {
+        return $var;
+    }
+}
+
+function dolarFormat($money = 0)
+{
+    $fmt = new NumberFormatter('usd', NumberFormatter::CURRENCY);
+    return $fmt->formatCurrency($money, 'usd');
+}
