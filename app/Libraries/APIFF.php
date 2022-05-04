@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-class APIFF extends curl
+class APIFF extends Curl
 {
     protected $tokenAcesso = '';
 

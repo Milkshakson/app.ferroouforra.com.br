@@ -10,7 +10,7 @@
     <?= $this->include('base/contentHeader'); ?>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <?= $this->include('base/sidebarleft'); ?>
+    <?= $this->include('base/sidebarLeft'); ?>
     <!-- End Sidebar-->
     <main id="main" class="main">
         <div class="container">

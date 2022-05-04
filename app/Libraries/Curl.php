@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-class curl
+class Curl
 {
 
     protected $_useragent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1';
