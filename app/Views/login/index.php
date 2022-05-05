@@ -1,5 +1,7 @@
 <?= $this->extend('loginLayout') ?>
 <?= $this->section('content') ?>
+
+<div class="container">
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -64,6 +66,5 @@
     </div>
 
 </section>
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</div>
 <?= $this->endSection() ?>

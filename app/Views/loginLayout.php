@@ -12,11 +12,9 @@
     <!-- ======= Sidebar ======= -->
     <?= $this->include('base/sidebarLeft'); ?>
     <!-- End Sidebar-->
-    <main id="main" class="main">
-        <div class="container">
+    <main>
             <?= $this->include('base/topContentMain'); ?>
             <?= $this->renderSection('content') ?>
-        </div>
     </main>
     <?= $this->include('base/scriptsFooter'); ?>
 </body>
