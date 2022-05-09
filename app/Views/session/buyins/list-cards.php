@@ -34,7 +34,7 @@
                   <li class="dropdown-header text-start">
                     <h6>Ações</h6>
                   </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i class='bi bi-trash'></i>Remover</a></li>
+                  <li><a class="dropdown-item text-danger btn-remove-buyin" href="/session/removeBuyIn/<?=$bi['buyinId']?>"><i class='bi bi-trash'></i>Remover</a></li>
                   <li><a class="dropdown-item text-primary" href="#"><i class='bi bi-pencil'></i>Editar</a></li>
                 </ul>
               </div>

@@ -14,4 +14,23 @@ class PokerSessionProvider extends APIFF
     {
         return $this->consumeEndpoint('POST', "/poker_session/create", $dados);
     }
+    public function removeBuyIn($dados = [])
+    {
+        return $this->consumeEndpoint('POST', "/poker_session/remove_buyin", $dados);
+    }
+
+    public function salvaBuyIn($dados = [])
+    {
+        return $this->consumeEndpoint('POST', "/poker_session/save_buyin", $dados);
+    }
+
+    public function getTiposBuyIn()
+    {
+        return $this->consumeEndpoint('GET', "/poker_session/tipos_buyin", []);
+    }
+
+    public function getPokerSites()
+    {
+        return $this->consumeEndpoint('GET', "/poker_session/sites", []);
+    }
 }

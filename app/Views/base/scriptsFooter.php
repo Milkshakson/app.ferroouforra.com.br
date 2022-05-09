@@ -13,9 +13,12 @@ $html->addRaw([
     '<script src="/assets/templates/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>',
     '<script src="/assets/templates/NiceAdmin/assets/vendor/tinymce/tinymce.min.js"></script>',
     '<script src="/assets/templates/NiceAdmin/assets/vendor/php-email-form/validate.js"></script>',
+    '<script src="/assets/plugins/jquery/jquery-3.6.0.min.js"></script>',
+    '<script src="/assets/scripts/global.js"></script>',
+    '<script src="/assets/scripts/funcoes.js"></script>',
+    '<script src="/assets/plugins/confirmbutton.js"></script>',
     '<script src="/assets/templates/NiceAdmin/assets/js/main.js"></script>',
     '<!-- Template Main JS File -->',
-    '<script src="/assets/plugins/jquery/jquery-3.6.0.min.js"></script>',
     '<script src="/assets/plugins/moment/moment-with-locales.js"></script>',
     '<script src="/assets/plugins/jquery-mask/jquery.mask.js"></script>',
 ]);

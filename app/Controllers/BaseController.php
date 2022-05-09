@@ -109,8 +109,12 @@ class BaseController extends Controller
     }
     protected function exitSafe($msg = '', $route = 'login/index')
     {
-        $this->session->setFlashdata('erro', $msg);
-        $this->response->redirect(base_url($route));
+        $this->session->setFlashdata('erros', $msg);
+        helper('url');
+       return $this->response->redirect(base_url($route));
+       return redirect()->to(base_url($route));
+       return redirect(base_url($route), 'refresh');
+        exit;
     }
     public function getResponse(
         array $responseBody,

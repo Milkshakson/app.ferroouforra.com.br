@@ -16,9 +16,18 @@ class APPException extends Exception
     {
         return $this->handleMessage(parent::getMessage());
     }
-    protected function handleMessage($message)
+    public static function handleMessage($message)
     {
-        $messages = ['POKER_SESSIONS_OPEN_EXISTS' => 'Já existe uma sessão aberta'];
+        $genericMessages = array_array([
+            'Erro ao recuperar a lista de sites',
+            'Erro ao recuperar os tipos de buy in',
+            'Erro ao recuperar a sessão aberta',
+            'Id do jogo não encontrado'
+        ]);
+        $APIMessages = [
+            'POKER_SESSIONS_OPEN_EXISTS' => 'Já existe uma sessão aberta',
+        ];
+        $messages = array_unique($APIMessages+$genericMessages);
         if (key_exists($message, $messages)) {
             return $messages[$message];
         } else {

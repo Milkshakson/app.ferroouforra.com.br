@@ -37,3 +37,14 @@ function dolarFormat($money = 0)
     $fmt = new NumberFormatter('usd', NumberFormatter::CURRENCY);
     return $fmt->formatCurrency($money, 'usd');
 }
+if (! function_exists('array_array')) {
+
+    function array_array($array = [])
+    {
+        $retorno = [];
+        foreach ($array as $value) {
+            $retorno[$value] = $value;
+        }
+        return $retorno;
+    }
+}

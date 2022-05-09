@@ -12,16 +12,36 @@
         <?php } ?>
     </div><!-- End Page Title -->
 <?php } ?>
+<!--flashdata -->
+<?php if (!empty(session()->getFlashdata('sucessos'))) { ?>
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?= session()->getFlashdata('sucessos')?>
+    </div>
+<?php } ?>
+<?php if (!empty(session()->getFlashdata('erros'))) { ?>
+    <div class="alert alert-success bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?= session()->getFlashdata('erros')?>
+    </div>
+<?php } ?>
+<?php if (!empty(session()->getFlashdata('avisos'))) { ?>
+    <div class="alert alert-success bg-warning text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?= session()->getFlashdata('avisos')?>
+    </div>
+<?php } ?>
+<!--Fim Flashdata-->
 <?php if (!empty($erros)) { ?>
     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        <?php pre($erros)?>
+        <?=$erros?>
     </div>
 <?php } ?>
 <?php if (!empty($erro)) { ?>
     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        <?php pre($erro)?>
+        <?=$erro?>
     </div>
 <?php } ?>
 <?php if (!empty($sucessos)) { ?>
