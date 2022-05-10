@@ -34,8 +34,12 @@ function coalesce($var, $replace = '')
 
 function dolarFormat($money = 0)
 {
-    $fmt = new NumberFormatter('usd', NumberFormatter::CURRENCY);
+    $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
     return $fmt->formatCurrency($money, 'usd');
+}
+function percent($number = 0)
+{
+        return number_format($number,2).'%';
 }
 if (! function_exists('array_array')) {
 
@@ -46,5 +50,15 @@ if (! function_exists('array_array')) {
             $retorno[$value] = $value;
         }
         return $retorno;
+    }
+}
+
+function getSiteSrcImage($siteName=''){
+    $sitesLogo = session('sitesLogo');
+    $siteName = strtolower($siteName);
+    if(is_array($sitesLogo) && key_exists($siteName,$sitesLogo)){
+        return $sitesLogo[$siteName] ;
+    }else{
+        return '';
     }
 }

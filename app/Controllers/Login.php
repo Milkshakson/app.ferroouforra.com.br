@@ -48,4 +48,9 @@ class Login extends BaseController
         }
         return view('login/index', $this->dados);
     }
+
+    public function logout(){
+        $this->session->destroy();
+        return $this->exitSafe('Você saiu do sistema.');
+    }
 }

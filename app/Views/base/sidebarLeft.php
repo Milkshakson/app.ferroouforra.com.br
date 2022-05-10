@@ -5,6 +5,7 @@
     <li class="nav-heading">Geral</li>
     <li class="nav-item"><a class="nav-link " href="<?=site_url()?>"> <i class="bx bx-home"></i> <span><?=config('App')->appSigla ?>-Início</span>
     </a></li>
+    <?php if(session('isValidTokenAcesso')){?>
     <li class="nav-item">
         <a class="nav-link collapsed" href="/session/current">
           <i class="bi bi-envelope"></i>
@@ -12,10 +13,11 @@
         </a>
       </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="/session/add">
-          <i class="bi bi-plus-circle"></i>
-          <span>Nova sessão</span>
+        <a class="nav-link collapsed" href="/login/logout">
+          <i class="bx bx-exit"></i>
+          <span>Sair</span>
         </a>
       </li>
+      <?php }?>
   </ul>
 </aside>

@@ -20,13 +20,13 @@
     </div>
 <?php } ?>
 <?php if (!empty(session()->getFlashdata('erros'))) { ?>
-    <div class="alert alert-success bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         <?= session()->getFlashdata('erros')?>
     </div>
 <?php } ?>
 <?php if (!empty(session()->getFlashdata('avisos'))) { ?>
-    <div class="alert alert-success bg-warning text-light border-0 alert-dismissible fade show" role="alert">
+    <div class="alert alert-warning bg-warning text-light border-0 alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         <?= session()->getFlashdata('avisos')?>
     </div>

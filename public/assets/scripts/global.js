@@ -28,6 +28,9 @@ $(function () {
     $('.money-dolar').mask('000000000000000.00', {
         reverse: true
     });
+    $('.markup').mask('0.0', {
+        reverse: true
+    });
     $('.money2').mask("#.##0,00", {
         reverse: true
     });
@@ -41,6 +44,9 @@ $(function () {
     });
     $('.ip_address').mask('099.099.099.099');
     $('.percent').mask('##0,00%', {
+        reverse: true
+    });
+    $('.percent-dot').mask('##0.00', {
         reverse: true
     });
     $('.clear-if-not-match').mask("00/00/0000", {

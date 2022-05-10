@@ -67,7 +67,7 @@ class Session extends BaseController
     }
 
 
-    public function salvaBuyIn()
+    public function salvaBuyIn($idBuyIN = null)
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
@@ -138,47 +138,71 @@ class Session extends BaseController
                             'label' => "Hora de início",
                             'rules' => 'required'
                         ],
-                        'stakingSelling' =>
-                        [
-                            'label' => "Cota à venda",
-                            'rules' => 'required'
-                        ],
-                        'stakingSold' =>
-                        [
-                            'label' => "Cota vendida",
-                            'rules' => 'required'
-                        ],
-                        'prizeIn' =>
-                        [
-                            'label' => "Premiação",
-                            'rules' => 'required'
-                        ],
-                        'prizeReentry' =>
-                        [
-                            'label' => "Premiação na reentrada",
-                            'rules' => 'required'
-                        ],
-                        'markup' =>
-                        [
+                    ];
+                    if (key_exists('isClosed', $input) && $input['isClosed']) {
+                        $rules['endDate'] =
+                            [
+                                'label' => "Data fim",
+                                'rules' => 'required'
+                            ];
+                        $rules['endTime'] =
+                            [
+                                'label' => "Hora fim",
+                                'rules' => 'required'
+                            ];
+                        $rules['prizeIn'] =
+                            [
+                                'label' => "Premiação",
+                                'rules' => 'required'
+                            ];
+                        if (key_exists('finalTable', $input) && $input['finalTable']) {
+                            $rules['position'] =
+                                [
+                                    'label' => "Posição",
+                                    'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
+                                ];
+                        } else {
+
+                            $rules['position'] =
+                                [
+                                    'label' => "Posição",
+                                    'rules' => 'required'
+                                ];
+                        }
+                        $rules['fieldSize'] =
+                            [
+                                'label' => "Tamanho do field",
+                                'rules' => 'required'
+                            ];
+                    }
+
+                    if (key_exists('stakingSellingCheck', $input) && $input['stakingSellingCheck'] > 0) {
+
+                        $rules['stakingSelling'] =
+                            [
+                                'label' => "Cota à venda",
+                                'rules' => 'required'
+                            ];
+                        $rules['markup'] = [
                             'label' => "Markup",
                             'rules' => 'required'
-                        ],
-                        'fieldSize' =>
-                        [
-                            'label' => "Tamanho do field",
-                            'rules' => 'required'
-                        ]
-                    ];
+                        ];
+                        $rules['stakingSold'] =
+                            [
+                                'label' => "Cota vendida",
+                                'rules' => 'required'
+                            ];
+                    }
 
                     if ($this->validate($rules)) {
-                        if(empty($input['startDate'])){
-                            $startDate =null;
-                        }else{
-                            $startDate = ($input['startDate'] . ' ' . $input['startDate']) ?? null;
+                        if (empty($input['startDate'])) {
+                            $startDate = null;
+                        } else {
+                            $startDate = ($input['startDate'] . ' ' . $input['startTime']) ?? null;
                         }
-                        if(empty($input['endDate'])){
-                            $endDate =null;
-                        }else{
+                        if (empty($input['endDate'])) {
+                            $endDate = null;
+                        } else {
                             $endDate = ($input['endDate'] . ' ' . $input['endTime']) ?? null;
                         }
                         $stakingSelling  = $input['stakingSelling'] ?? null;
@@ -186,18 +210,24 @@ class Session extends BaseController
                         $prizeIn  = $input['prizeIn'] ?? null;
                         $buyinValue  = $input['buyinValue'] ?? null;
                         $prizeReentry  = $input['prizeReentry'] ?? null;
+                        $reentryBuyIn  = $input['reentryBuyIn'] ?? null;
                         $markup  = $input['markup'] ?? null;
                         $fieldSize  = $input['fieldSize'] ?? null;
                         $gameName  = $input['gameName'] ?? null;
                         $tipoBuyIn  = $input['tipoBuyIn'] ?? null;
                         $pokerSiteId  = $input['pokerSiteId'] ?? null;
+                        $buyinId  = $input['buyinId'] > 0 ?? null;
+                        $position  = $input['position'] > 0 ?? null;
+                        $finalTable  = $input['finalTable'] > 0 ?? null;
                         $dataPost = [
+                            'buyinId' => $buyinId,
                             'buyinValue' => $buyinValue,
                             'sessionPokerid' => $input['sessionPokerid'],
                             'stakingSelling' => $stakingSelling,
                             'stakingSold' => $stakingSold,
                             'prizeIn' => $prizeIn,
                             'prizeReentry' => $prizeReentry,
+                            'reentryBuyIn' => $reentryBuyIn,
                             'markup' => $markup,
                             'currencyName' => 'dolar', //Somente dolar neste momento
                             'startDate' => $startDate,
@@ -206,10 +236,12 @@ class Session extends BaseController
                             'gameName' => $gameName,
                             'tipoBuyIn' => $tipoBuyIn,
                             'pokerSiteId' => $pokerSiteId,
+                            'position' => $position,
+                            'finalTable' => $finalTable,
                         ];
                         $adiciona =  $pokerSessionProvider->salvaBuyIn($dataPost);
                         if ($adiciona['statusCode'] == 201) {
-                            $this->session->setFlashdata('sucessos', 'Buy in adicionado com sucesso.');
+                            $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
                             $this->response->redirect('/session/current');
                         } else {
                             $this->dados['erros'] = APPException::handleMessage($adiciona['content']['erros']);
@@ -226,7 +258,13 @@ class Session extends BaseController
                 throw new APPException("Erro ao recuperar a sessão aberta");
             }
             $this->dados['openedSession'] = $openedSession['content'];
-
+            $buyInList = $openedSession['content']['buyInList'];
+            foreach ($buyInList as $bi) {
+                if ($bi['buyinId'] == $idBuyIN) {
+                    $this->dados['bi'] = $bi;
+                    break;
+                }
+            }
             $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
             if ($tiposBuyIn['statusCode'] != 200) {
                 throw new APPException("Erro ao recuperar os tipos de buy in");

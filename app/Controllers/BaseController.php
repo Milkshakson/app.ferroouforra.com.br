@@ -65,6 +65,24 @@ class BaseController extends Controller
         if (!in_array($path, $excecao)) {
             $this->checkToken();
         }
+
+        $sitesLogo = [
+            "gg poker"=> "/assets/img/poker-sites/ggpoker.jpg",
+            "poker stars"=> "/assets/img/poker-sites/pokerstars.jpg",
+            "natural 8"=> "/assets/img/poker-sites/natural8.jpg",
+            "party poker"=> "/assets/img/poker-sites/partypoker.jpg",
+            "winamax"=> "/assets/img/poker-sites/winamax.jpg",
+            "888 poker"=> "/assets/img/poker-sites/888poker.jpg",
+            "americas cardroom"=> "/assets/img/poker-sites/americascardroom.png",
+            "poker king"=> "/assets/img/poker-sites/pokerking.png",
+            "bet fair"=> "/assets/img/poker-sites/betfair.png",
+            "bodog"=> "/assets/img/poker-sites/bodog.png",
+            "ya poker"=> "/assets/img/poker-sites/yapoker.jpg",
+            "sportingbet"=> "/assets/img/poker-sites/sportingbet.jpg",
+            "tiger gaming"=> "/assets/img/poker-sites/tigergaming.png",
+            "poker stars.es"=> "/assets/img/poker-sites/pokerstars.es.png",
+        ];
+          $this->session->set('sitesLogo',$sitesLogo);
     }
     protected function checkToken()
     {

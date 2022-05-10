@@ -10,7 +10,7 @@
         <!--  Searchbar -->
         <h5 class="card-title">
             <?php if (is_object(session('openedSession'))) { ?>
-                <span>|<?=session('openedSession')->description ?></span>
+                <span>|<?= session('openedSession')->description ?></span>
             <?php } else { ?>
                 <span>Não há nenhuma sessão aberta no momento</span>
             <?php } ?>
@@ -149,10 +149,10 @@
                             </a></li>
                     </ul> <!-- End Profile Dropdown Items -->
                 </li>
-
-            <?php } ?>
-            <!-- End Profile Nav -->
+                <!-- End Profile Nav -->
             </ul>
         </nav>
         <!-- End Icons Navigation -->
+
+    <?php } ?>
 </header>

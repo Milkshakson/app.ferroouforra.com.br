@@ -76,13 +76,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Lista de Buy-ins</h5>
                             <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Ações</h6>
-                                    </li>
-                                    <li><a class="dropdown-item text-primary " href="/session/salvaBuyIn"><i class='bi bi-plus-circle'></i>Adicionar</a></li>
-                                </ul>
+                                
+                            <a class="dropdown-item text-primary " href="/session/salvaBuyIn"><i class='bi bi-plus-circle'></i>Adicionar</a>
                             </div>
                             <?= view('session/buyins/list-cards.php', ['buyInList' => $buyInList]) ?>
                         </div>
