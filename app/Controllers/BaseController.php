@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\APIFF;
-use App\Providers\PokerSessionProvider;
+use App\Libraries\View;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -45,6 +45,7 @@ class BaseController extends Controller
      * @var array
      */
     protected $helpers = [];
+    protected $twig;
 
     /**
      * Constructor.
@@ -59,6 +60,9 @@ class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $this->session = \Config\Services::session();
         $this->apiApp = new APIFF();
+        
+        $loader = new \Twig\Loader\FilesystemLoader(APPPATH.'Twig');
+        $this->view = new View();
         $path = $this->request->getPath();
         helper(['url', 'form']);
         $excecao = ['login/index', 'login/login', 'login/logout'];

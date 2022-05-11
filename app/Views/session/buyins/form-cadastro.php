@@ -67,7 +67,6 @@ if (!empty($endDate)) {
     $endTime = '';
 }
 ?>
-<div class='col-lg-6'>
     <div class="card">
 
         <div class="card-body">
@@ -75,19 +74,19 @@ if (!empty($endDate)) {
 
             <!-- Multi Columns Form -->
             <form method="post" class="row g-3">
-                <input type='hidden' name="sessionPokerid" value="<?= set_value('sessionPokerid', $sessionPokerid) ?>" />
-                <input type='hidden' name="buyinId" value="<?= set_value('buyinId', $buyinId) ?>" />
-                <div class="col-6 col-sm-6 col-md-3">
+                <input autocomplete="off" type='hidden' name="sessionPokerid" value="<?= set_value('sessionPokerid', $sessionPokerid) ?>" />
+                <input autocomplete="off" type='hidden' name="buyinId" value="<?= set_value('buyinId', $buyinId) ?>" />
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3">
                     <label for="startDate" class="form-label">Data Início</label>
-                    <input type="date" name="startDate" class="form-control" id="startDate" value="<?= set_value('startDate', $startDate) ?>" required>
+                    <input autocomplete="off" type="date" name="startDate" class="form-control" id="startDate" value="<?= set_value('startDate', $startDate) ?>" required>
                 </div>
 
                 <div class="col-6 col-sm-6 col-md-3">
                     <label for="startTime" class="form-label">Hora Início</label>
-                    <input type="time" name="startTime" class="form-control" id="startTime" value="<?= set_value('startTime', $startTime) ?>" required>
+                    <input autocomplete="off" type="time" name="startTime" class="form-control" id="startTime" value="<?= set_value('startTime', $startTime) ?>" required>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-3 col-lg-3">
                     <label for="tipoBuyIn" class="form-label">Tipo do buy in</label>
                     <select class="form-select" name="tipoBuyIn" id="tipoBuyIn" required>
                         <option></option>
@@ -97,7 +96,7 @@ if (!empty($endDate)) {
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
                     <label for="pokerSiteId" class="form-label">Site</label>
                     <select class="form-select" name="pokerSiteId" id="pokerSiteId" required>
                         <option></option>
@@ -107,46 +106,48 @@ if (!empty($endDate)) {
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-md-7 ">
+                <div class="col-md-12 col-12 col-lg-12 col-sm-12 ">
                     <label for="gameName" class="form-label">Nome do jogo</label>
-                    <input type="text" name="gameName" class="form-control" id="gameName" value="<?= set_value('gameName', $gameName) ?>" required>
+                    <input autocomplete="off" type="text" name="gameName" class="form-control" id="gameName" value="<?= set_value('gameName', $gameName) ?>" required>
                 </div>
-                <div class="col-6 col-sm-6 col-md-3">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                     <label for="buyinValue" class="form-label">Valor do buy in</label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="IGPBuyinValue"><i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i></span>
-                        <input type="text" inputmode="numeric" name="buyinValue" class="form-control money-dolar" id="buyinValue" value="<?= set_value('buyinValue', $buyinValue) ?>" required>
+                        <input autocomplete="off" type="text" inputmode="numeric" name="buyinValue" class="form-control money-dolar" id="buyinValue" value="<?= set_value('buyinValue', $buyinValue) ?>" required>
                     </div>
                 </div>
 
 
-                <div class="col-6 col-sm-6 col-md-3">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                     <label for="reentryBuyIn" class="form-label">Reentrada <i data-bs-toggle="tooltip" title="Inclusive rebuy, addon e outros extras" class='bi bi-info-circle-fill'></i></label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="IGPReentryBuyIn"><i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i></span>
-                        <input type="text" inputmode="numeric" name="reentryBuyIn" class="form-control money-dolar" id="reentryBuyIn" value="<?= set_value('reentryBuyIn', $reentryBuyIn) ?>">
+                        <input autocomplete="off" type="text" inputmode="numeric" name="reentryBuyIn" class="form-control money-dolar" id="reentryBuyIn" value="<?= set_value('reentryBuyIn', $reentryBuyIn) ?>">
                     </div>
                 </div>
 
-                <div class="col-6 col-sm-6 col-md-3">
-                    <label for="prizeIn" class="form-label" data-bs-toggle="tooltip" title="Valor da premiação na 1ª entrada"><span class='text-success'>$$</span> na 1ª entrada</label>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                    <label for="prizeIn" class="form-label">
+                        <span class='text-success'>Prêmiação</span> na 1ª entrada <i data-bs-toggle="tooltip" title="Valor da premiação na 1ª entrada" class='bi bi-info-circle-fill'></i></label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="IGPPrizeIn"><i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i></span>
-                        <input type="text" inputmode="numeric" name="prizeIn" class="form-control money-dolar" id="prizeIn" value="<?= set_value('prizeIn', $prizeIn) ?>">
+                        <input autocomplete="off" type="text" inputmode="numeric" name="prizeIn" class="form-control money-dolar" id="prizeIn" value="<?= set_value('prizeIn', $prizeIn) ?>">
                     </div>
                 </div>
 
-                <div class="col-6 col-sm-6 col-md-3">
-                    <label for="prizeReentry" class="form-label" data-bs-toggle="tooltip" title="Valor da premiação na reentrada"><span class='text-success'>$$</span> na reentrada</label>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                    <label for="prizeReentry" class="form-label" >
+                        <span class='text-success'>Premiação</span> na reentrada <i data-bs-toggle="tooltip" title="Valor da premiação na reentrada não entra na conta dos patrocinadores" class='bi bi-info-circle-fill'></i></label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="IGPPrizeReentry"><i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i></span>
-                        <input type="text" inputmode="numeric" name="prizeReentry" class="form-control money-dolar" id="prizeReentry" value="<?= set_value('prizeReentry', $prizeReentry) ?>">
+                        <input autocomplete="off" type="text" inputmode="numeric" name="prizeReentry" class="form-control money-dolar" id="prizeReentry" value="<?= set_value('prizeReentry', $prizeReentry) ?>">
                     </div>
                 </div>
                 <hr class='divider' />
                 <div class="col-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="stakingSellingCheck" id="stakingSellingCheck" <?= set_value('stakingSellingCheck', $stakingSelling) ? 'checked="true"' : '' ?>>
+                        <input autocomplete="off" class="form-check-input" type="checkbox" name="stakingSellingCheck" id="stakingSellingCheck" value="1" <?= set_value('stakingSellingCheck', $stakingSelling) ? 'checked="true"' : '' ?>>
                         <label class="form-check-label" for="stakingSellingCheck">
                             Estou vendendo cotas
                         </label>
@@ -156,7 +157,7 @@ if (!empty($endDate)) {
                     <div class="col-6 col-sm-6 col-md-4">
                         <label for="stakingSelling" class="form-label">% à venda</label>
                         <div class="input-group has-validation">
-                            <input type="text" inputmode="numeric" name="stakingSelling" class="form-control percent-dot text-end" id="stakingSelling" value="<?= set_value('stakingSelling', $stakingSelling) ?>">
+                            <input autocomplete="off" type="text" inputmode="numeric" name="stakingSelling" class="form-control percent-dot text-end" id="stakingSelling" value="<?= set_value('stakingSelling', $stakingSelling) ?>">
                             <span class="input-group-text" id="IGPStakingSelling"><i data-bs-toggle="tooltip" title="Valor percentual" class="bi bi-percent"></i></span>
                         </div>
                     </div>
@@ -166,13 +167,13 @@ if (!empty($endDate)) {
                         <label for="markup" class="form-label">Markup</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text" id="IGPMarkup"><i data-bs-toggle="tooltip" title="Cafézinho" class="bx bx-coffee"></i></span>
-                            <input type="text" inputmode="numeric" name="markup" class="form-control markup" id="markup" value="<?= set_value('markup', $markup) ?>">
+                            <input autocomplete="off" type="text" inputmode="numeric" pattern="[0-9]+([\.][0-9]{0,2})?" name="markup" class="form-control markup" id="markup" value="<?= set_value('markup', $markup) ?>">
                         </div>
                     </div>
                     <div class="col-6 col-sm-6 col-md-4">
                         <label for="stakingSold" class="form-label">% vendido</label>
                         <div class="input-group has-validation">
-                            <input type="text" inputmode="numeric" name="stakingSold" class="form-control percent-dot text-end" id="stakingSold" value="<?= set_value('stakingSold', $stakingSold) ?>">
+                            <input autocomplete="off" type="text" inputmode="numeric" name="stakingSold" class="form-control percent-dot text-end" id="stakingSold" value="<?= set_value('stakingSold', $stakingSold) ?>">
                             <span class="input-group-text" id="IGPStakingSold"><i data-bs-toggle="tooltip" title="Valor percentual" class="bi bi-percent"></i></span>
                         </div>
                     </div>
@@ -181,7 +182,7 @@ if (!empty($endDate)) {
                 <hr class='divider' />
                 <div class="col-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="isClosed" id="isClosed" <?= set_value('isClosed', $isClosed) ? 'checked="true"' : '' ?>>
+                        <input autocomplete="off" class="form-check-input" type="checkbox" name="isClosed" id="isClosed" <?= set_value('isClosed', $isClosed) ? 'checked="true"' : '' ?>>
                         <label class="form-check-label" for="isClosed">
                             Este evento já acabou
                         </label>
@@ -190,18 +191,18 @@ if (!empty($endDate)) {
                 <div class='row campos-finaliza <?= !set_value('isClosed', $isClosed) ? 'd-none' : ''  ?>'>
                     <div class="col-6 col-sm-6 col-md-3">
                         <label for="endDate" class="form-label">Data Fim</label>
-                        <input type="date" name="endDate" class="form-control" id="endDate" value="<?= set_value('endDate', $endDate) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
+                        <input autocomplete="off" type="date" name="endDate" class="form-control" id="endDate" value="<?= set_value('endDate', $endDate) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
                     </div>
 
                     <div class="col-6 col-sm-6 col-md-3">
                         <label for="endTime" class="form-label">Hora Fim</label>
-                        <input type="time" name="endTime" class="form-control" id="endTime" value="<?= set_value('endTime', $endTime) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
+                        <input autocomplete="off" type="time" name="endTime" class="form-control" id="endTime" value="<?= set_value('endTime', $endTime) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
                     </div>
 
                     <div class="col-6 col-sm-6 col-md-3">
                         <label for="fieldSize" class="form-label">Tamanho do field</label>
                         <div class="input-group mb-3">
-                            <input type="text" inputmode="numeric" name="fieldSize" class="form-control" id="fieldSize" value="<?= set_value('fieldSize', $fieldSize) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
+                            <input autocomplete="off" type="text" inputmode="numeric" name="fieldSize" class="form-control" id="fieldSize" value="<?= set_value('fieldSize', $fieldSize) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
                             <span class="input-group-text" id="basicAddonFieldSize"><i title="Players" data-bs-toggle="tooltip" class="text-primary bi bi-people"></i></span>
                         </div>
                     </div>
@@ -209,14 +210,14 @@ if (!empty($endDate)) {
                     <div class="col-6 col-sm-6 col-md-3">
                         <label for="position" class="form-label">Posição</label>
                         <div class="input-group mb-3">
-                            <input type="text" inputmode="numeric" name="position" class="form-control" id="position" value="<?= set_value('position', $position) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
-                            <span class="input-group-text" id="basicAddonPosition"><i title="Players" data-bs-toggle="tooltip" class="text-primary bi bi-people"></i></span>
+                            <input autocomplete="off" type="text" inputmode="numeric" name="position" class="form-control" id="position" value="<?= set_value('position', $position) ?>" <?= (!set_value('isClosed', $isClosed)) ? 'disabled="true"' : ''  ?>>
+                            <span class="input-group-text" id="basicAddonPosition"><i title="Posição final" data-bs-toggle="tooltip" class="text-primary bi bi-people"></i></span>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="finalTable" id="isClosed" <?= set_value('finalTable', $finalTable) ? 'checked="true"' : '' ?>>
+                            <input autocomplete="off" class="form-check-input" type="checkbox" value="1" name="finalTable" id="isClosed" <?= set_value('finalTable', $finalTable) ? 'checked="true"' : '' ?>>
                             <label class="form-check-label" for="finalTable">
                                 Alcancei a Mesa Final
                             </label>
@@ -230,5 +231,4 @@ if (!empty($endDate)) {
             </form><!-- End Multi Columns Form -->
 
         </div>
-    </div>
 </div>

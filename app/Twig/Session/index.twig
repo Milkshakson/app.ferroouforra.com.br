@@ -1,0 +1,49 @@
+{% extends 'templateBase.twig' %}
+{% set namespaceTime = 'CodeIgniter\\I18n\\Time' %}
+{% block content %}
+<div class="pagetitle">
+    <h1>Sessão</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Sessão atual</a></li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<section class="section dashboard">
+    <div class="row">
+        <div class='col-lg-6'>
+            {% if (is_array(openedSession) and not openedSession is empty) %}
+            {% set buyInList =openedSession['buyInList'] %}
+                {% set sitesJogados = [] %}
+                {% for bi  in buyInList %}
+                    {% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
+                {% endfor %}
+                {% set sitesJogados = array_unique(sitesJogados) %}
+                {% set distinctSites = count(sitesJogados) %}
+                {% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
+                {% set sumary = openedSession['sumary'] %}
+                {% if (sumary['profit'] > 0) %}
+                    {% set classTextProfit = 'text-success' %}
+                {% elseif (openedSession['sumary']['profit'] == 0) %}
+                    {% set classTextProfit = 'text-primary' %}
+                {% else %}
+                    {% set classTextProfit = 'text-danger'%}
+                {% endif %}               
+                <div class='row'>
+                {% include 'Session/Buyins/list-cards.twig' %}
+                </div>
+            {% else %}
+                 {% include 'Session/form-abertura.php' %}
+            {% endif %}
+        </div>
+        <div class='col-lg-6'>
+            <div class='row'>
+                 {% include 'session/cards-sumary.twig' %}
+            </div>
+            <div class='row'>
+                 {% include 'common/faq.twig' %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

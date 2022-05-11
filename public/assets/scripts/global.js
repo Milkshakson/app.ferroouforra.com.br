@@ -28,8 +28,14 @@ $(function () {
     $('.money-dolar').mask('000000000000000.00', {
         reverse: true
     });
-    $('.markup').mask('0.0', {
-        reverse: true
+    $('.markup').mask('?.?', {
+        reverse: true,
+        translation: {
+            '?': {
+                pattern: /[0-9]/,
+                optional: true
+            }
+        }
     });
     $('.money2').mask("#.##0,00", {
         reverse: true
@@ -66,5 +72,14 @@ $(function () {
     });
     $('.selectonfocus').mask("00/00/0000", {
         selectOnFocus: true
+    });
+
+    
+    $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function(k) {
+        let sender = $(this);
+        if (sender.val().startsWith(".", 0)) {
+            let val = sender.val();
+            sender.val('0'+val);
+        }
     });
 });

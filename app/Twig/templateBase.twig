@@ -1,0 +1,26 @@
+{% autoescape false %}
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		{% include 'header.twig' %}
+	</head>
+	<body>
+		<!-- ======= Header ======= -->
+		{% include 'contentHeader.twig' %}
+		<!-- End Header -->
+		<!-- ======= Sidebar ======= -->
+		{% include 'sidebarLeft.twig' %}
+		<!-- End Sidebar-->
+			<main id="main" class="main"> 
+            {% include 'topContentMain.twig' %}
+			{% block content %}{% endblock %}
+		</main>
+
+		{% include 'contentFooter.twig' %}
+		{% block scriptsFooter %}
+		{% include 'scriptsFooter.twig' %}
+		{% endblock %}
+	</body>
+
+</html>
+{% endautoescape %}

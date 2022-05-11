@@ -62,3 +62,13 @@ function getSiteSrcImage($siteName=''){
         return '';
     }
 }
+
+if (!function_exists('boxBi')) {
+    function boxBi($label, $value, $properties = '')
+    {
+      return "<div $properties>" . //
+        "<div class='row bg-light  py-0'>$label</div>" . //
+        "<div class='row py-0'>$value</div>" . //
+        "</div>";
+    }
+  }

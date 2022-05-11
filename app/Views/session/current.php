@@ -37,6 +37,7 @@
                 elseif ($openedSession['sumary']['profit'] == 0)
                     $classTextProfit = 'text-primary';
                 else $classTextProfit = 'text-danger';
+                $variaveis['classTextProfit']=$classTextProfit;
                 extract($variaveis);
             ?>
                 <!--

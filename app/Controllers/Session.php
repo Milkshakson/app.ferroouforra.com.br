@@ -46,11 +46,14 @@ class Session extends BaseController
                     $this->dados['erros'] = 'Dados não enviados.';
                 }
             }
-            $this->dados['openedSession'] = $pokerSessionProvider->getCurrentOpen()['content'];
+            $this->session->set('openedSession',$pokerSessionProvider->getCurrentOpen()['content']);
+            $this->dados['openedSession'] = $this->session->get('openedSession');
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
         }
-        return view('session/current', $this->dados);
+        helper('date');
+        $this->view->display('Session/index.twig', $this->dados);
+
     }
 
     public function removeBuyIn($idBuyIN = 0)
@@ -74,35 +77,6 @@ class Session extends BaseController
             if ($this->request->getMethod() == 'post') {
                 $input = $this->getRequestInput($this->request);
                 if (!empty($input)) {
-                    /*
-                    [buyinValue] => 0.00
-                    [buyinId] => 3723
-                    [currencyName] => dolar
-                    [gameId] => 1113
-                    [sessionPokerid] => 429
-                    [stakingSelling] => 
-                    [stakingSold] => 
-                    [stakingReturn] => 0.0000000000
-                    [profit] => 7.6000000000
-                    [markup] => 
-                    [prizeIn] => 7.60
-                    [prizeReentry] => 
-                    [reentryBuyIn] => 
-                    [totalBuyIn] => 0.00
-                    [totalPrize] => 7.60
-                    [totalPrizeStakers] => 0.00000000
-                    [endDate] => 2021-12-02 23:41:00
-                    [startDate] => 2021-12-02 21:00:00
-                    [startWeekDay] => Quinta
-                    [fieldSize] => 
-                    [gameName] => Freeroll RodriguesSF
-                    [pokerSiteName] => Party Poker
-                    [pokerSiteShortName] => Party
-                    [pokerSiteId] => 3
-                    [tipoBuyInName] => Torneio MTT
-                    [tipoBuyIn] => 1
-                    [isClosed] => 1
-                    */
                     $rules = [
                         "buyinValue" => [
                             "label" => "Valor do buy in",
@@ -185,7 +159,7 @@ class Session extends BaseController
                             ];
                         $rules['markup'] = [
                             'label' => "Markup",
-                            'rules' => 'required'
+                            'rules' => 'required|greater_than[0]|less_than_equal_to[2]'
                         ];
                         $rules['stakingSold'] =
                             [
@@ -216,9 +190,9 @@ class Session extends BaseController
                         $gameName  = $input['gameName'] ?? null;
                         $tipoBuyIn  = $input['tipoBuyIn'] ?? null;
                         $pokerSiteId  = $input['pokerSiteId'] ?? null;
-                        $buyinId  = $input['buyinId'] > 0 ?? null;
-                        $position  = $input['position'] > 0 ?? null;
-                        $finalTable  = $input['finalTable'] > 0 ?? null;
+                        $buyinId  = ($input['buyinId'] > 0) ? $input['buyinId'] : null;
+                        $position  = ($input['position'] > 0) ? $input['position'] : null;
+                        $finalTable  = $input['finalTable']  ?? null;
                         $dataPost = [
                             'buyinId' => $buyinId,
                             'buyinValue' => $buyinValue,
@@ -280,5 +254,42 @@ class Session extends BaseController
             return $this->exitSafe($exception->getHandledMessage(), 'home/index');
         }
         return view('session/buyins/index', $this->dados);
+    }
+    public function meusBuyIns()
+    {
+        $meusBuyIns = session('meusBuyIns');
+        if (!$meusBuyIns) {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $meusBuyIns = $pokerSessionProvider->getMeusBuyIns()['content'];
+            $this->session->set('meusBuyIns', $meusBuyIns);
+        }
+        $html = '';
+        $input = $this->getRequestInput($this->request);
+
+        $busca =  strtolower($input['busca']);
+
+        if (is_array($meusBuyIns)) {
+            $html .= '';
+            foreach ($meusBuyIns as $bi) {
+                $adicionar = false;
+                if (strtolower($bi['gameName']) == $busca) {
+                    $adicionar = true;
+                } else
+                if (str_contains(strtolower($bi['gameName']), $busca)) {
+                    $adicionar = true;
+                }
+                if ($adicionar) {
+                    $buyInValue = $bi['buyinValue'];
+                    $gameName = $bi['gameName'];
+                    $pokerSiteId = $bi['pokerSiteId'];
+                    $tipoBuyIn = $bi['tipoBuyIn'];
+                    $game = boxBi('Jogo', $gameName, 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                    $game .= boxBi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                    $game .= boxBi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                    $html .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$game</div></a>";
+                }
+            }
+        }
+        return $html;
     }
 }
