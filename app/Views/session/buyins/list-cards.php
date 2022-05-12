@@ -68,8 +68,8 @@
                         <?= boxBi('Cota oferecida', percent($bi['stakingSelling']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
                         <?= boxBi('Markup', ($bi['markup']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
                         <?= boxBi('Cota vendida', percent($bi['stakingSold']), 'class="col-md-4 col-lg-4 col-xs-4 col-4 "') ?>
-                        <?= boxBi('Cotistas pagaram', dolarFormat($bi['stakingReturn']), 'class="col-md-4 col-lg-4 col-xs-6 col-4"') ?>
-                        <?= boxBi('Cotistas receberam', dolarFormat($bi['totalPrizeStakers']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
+                        <?= boxBi('Patrocinadores pagaram', dolarFormat($bi['stakingReturn']), 'class="col-md-4 col-lg-4 col-xs-6 col-4"') ?>
+                        <?= boxBi('Patrocinadores receberam', dolarFormat($bi['totalPrizeStakers']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
                       </div>
                     <?php } ?>
                     <div class='row'>

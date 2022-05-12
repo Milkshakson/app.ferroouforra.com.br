@@ -138,7 +138,7 @@ if (!empty($endDate)) {
 
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                     <label for="prizeReentry" class="form-label" >
-                        <span class='text-success'>Premiação</span> na reentrada <i data-bs-toggle="tooltip" title="Valor da premiação na reentrada não entra na conta dos patrocinadores" class='bi bi-info-circle-fill'></i></label>
+                        <span class='text-success'>Premiação</span> na reentrada <i data-bs-toggle="tooltip" title="Valor da premiação na reentrada não entra na conta dos Patrocinadores " class='bi bi-info-circle-fill'></i></label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="IGPPrizeReentry"><i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i></span>
                         <input autocomplete="off" type="text" inputmode="numeric" name="prizeReentry" class="form-control money-dolar" id="prizeReentry" value="<?= set_value('prizeReentry', $prizeReentry) ?>">
