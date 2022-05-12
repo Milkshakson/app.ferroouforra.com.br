@@ -1,0 +1,268 @@
+{% extends 'templateBase.twig' %}
+{% block content %}
+	{% set openedSession = session('openedSession') %}
+	{% set sumary = session('openedSession')['sumary'] %}
+	{% set buyInList = session('openedSession')['buyInList'] %}
+	{% set sitesJogados = [] %}
+	{% for bi  in buyInList %}
+		{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
+	{% endfor %}
+	{% set sitesJogados = array_unique(sitesJogados) %}
+	{% set distinctSites = count(sitesJogados) %}
+	{% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
+	{% set sumary = openedSession['sumary'] %}
+	{% if (sumary['profit'] > 0) %}
+		{% set classTextProfit = 'text-success' %}
+	{% elseif (openedSession['sumary']['profit'] == 0) %}
+		{% set classTextProfit = 'text-primary' %}
+	{% else %}
+		{% set classTextProfit = 'text-danger'%}
+	{% endif %}
+
+	<div class="pagetitle">
+		<h1>Início</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="/">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Dashboard</li>
+			</ol>
+		</nav>
+	</div>
+	<!-- End Page Title -->
+	{% set colorsPrejuizo = json_encode(['#AA0000','#FF0000','#BB0000','#8B0000','#FF0000']) %}
+	{% set colorsLucro = json_encode(['#2E8B57','#43CD80','#7CCD7C','#9AFF9A','#00FF9A']) %}
+	{% set somaBuyIns = [] %}
+	{% set somaLucro = [] %}
+	{% for bi in buyInList %}
+		{% set somaBuyIns = arrayIncrement(somaBuyIns,bi['pokerSiteName'],bi['totalBuyIn']) %}
+		{% if bi['isClosed'] %}
+			{% set somaLucro = arrayIncrement(somaLucro,bi['pokerSiteName'],bi['profit']) %}
+		{% endif %}
+	{% endfor %}
+
+	{% set dataDistribuicaoBanca = "[" %}
+	{% for site,valor in somaBuyIns %}
+		{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
+	{% endfor %}
+	{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"]" %}
+
+
+	{% set dataDistribuicaoLucro = "[" %}
+	{% set dataDistribuicaoPrejuizo = "[" %}
+	{% for site,valor in somaLucro  %}
+		{% if valor>0 %}
+			{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
+		{% endif %}
+
+		{% if valor<0 %}
+			{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"{value:"~(valor*-1)~", name: '"~site~"', formatedValue:'"~dolarFormat(valor*-1)~"'}," %}
+		{% endif %}
+	{% endfor %}
+	{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"]" %}
+	{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"]" %}
+	<section class="section dashboard">
+		<div
+			class="row">
+			<!-- Left side columns -->
+			<div class="col-lg-12">
+				<div class="row">
+					{% include 'Home/cards-sumary-home.twig' %}
+
+					<!-- Distribuição da banca -->
+					<div class="col-xxl-4 col-xl-4">
+						<div class="card">
+
+							<div class="card-body pb-0">
+								<h5 class="card-title">Distribuição da banca
+									<span>| Esta sessão</span>
+								</h5>
+
+								<div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+								<script>
+									document.addEventListener("DOMContentLoaded", () => {
+echarts.init(document.querySelector("#trafficChart")).setOption({
+tooltip: {
+trigger: 'item',
+formatter: function (params) {
+return `${
+params.name
+}: ${
+params.data.formatedValue
+}<br />`;
+}
+},
+legend: {
+top: '5%',
+left: 'center'
+},
+series: [
+{
+name: 'Site',
+type: 'pie',
+radius: [
+'40%', '70%'
+],
+avoidLabelOverlap: false,
+label: {
+show: false,
+position: 'center'
+},
+emphasis: {
+label: {
+show: true,
+fontSize: '18',
+fontWeight: 'bold'
+}
+},
+labelLine: {
+show: false
+},
+color: [],
+data: {{ dataDistribuicaoBanca }}
+}
+]
+});
+});
+								</script>
+
+							</div>
+						</div>
+					</div>
+					<!-- End Distribuição da banca -->
+
+
+					<!-- Lucratividade -->
+					<div class="col-xxl-4 col-xl-4">
+						<div class="card">
+							<div class="card-body pb-0">
+								<h5 class="card-title text-success">Lucratividade
+									<span>| Esta sessão</span>
+								</h5>
+
+								<div id="lucratividadeChart" style="min-height: 400px;" class="echart"></div>
+
+								<script>
+									document.addEventListener("DOMContentLoaded", () => {
+echarts.init(document.querySelector("#lucratividadeChart")).setOption({
+tooltip: {
+trigger: 'item',
+formatter: function (params) {
+return `${
+params.name
+}: ${
+params.data.formatedValue
+}<br />`;
+}
+},
+legend: {
+top: '5%',
+left: 'center'
+},
+series: [
+{
+name: 'Lucratividade',
+type: 'pie',
+radius: [
+'40%', '70%'
+],
+avoidLabelOverlap: false,
+label: {
+show: false,
+position: 'center'
+},
+emphasis: {
+label: {
+show: true,
+fontSize: '18',
+fontWeight: 'bold'
+}
+},
+labelLine: {
+show: false
+},
+color: {{ colorsLucro }},
+data: {{ dataDistribuicaoLucro }}
+}
+]
+});
+});
+								</script>
+
+							</div>
+						</div>
+					</div>
+					<!-- End Lucratividade -->
+
+
+					<!-- Prejuízo -->
+					<div class="col-xxl-4 col-xl-4">
+						<div class="card">
+							<div class="card-body pb-0">
+								<h5 class="card-title text-danger">Prejuízo
+									<span>| Esta sessão</span>
+								</h5>
+
+								<div id="prejuizoChart" style="min-height: 400px;" class="echart"></div>
+
+								<script>
+									document.addEventListener("DOMContentLoaded", () => {
+echarts.init(document.querySelector("#prejuizoChart")).setOption({
+tooltip: {
+trigger: 'item',
+formatter: function (params) {
+return `${
+params.name
+}: ${
+params.data.formatedValue
+}<br />`;
+}
+},
+legend: {
+top: '5%',
+left: 'center'
+},
+series: [
+{
+name: 'Prejuízo',
+type: 'pie',
+radius: [
+'40%', '70%'
+],
+avoidLabelOverlap: false,
+label: {
+show: false,
+position: 'center'
+},
+emphasis: {
+label: {
+show: true,
+fontSize: '18',
+fontWeight: 'bold'
+}
+},
+labelLine: {
+show: false
+},
+color: {{ colorsPrejuizo }},
+data: {{ dataDistribuicaoPrejuizo }}
+}
+]
+});
+});
+								</script>
+
+							</div>
+						</div>
+					</div>
+					<!-- End Prejuizo -->
+
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+{% endblock %}

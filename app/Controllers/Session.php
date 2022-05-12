@@ -7,6 +7,10 @@ use App\Providers\PokerSessionProvider;
 
 class Session extends BaseController
 {
+    public function __construct()
+    {
+        helper('date');
+    }
     public function current()
     {
         try {
@@ -46,14 +50,12 @@ class Session extends BaseController
                     $this->dados['erros'] = 'Dados não enviados.';
                 }
             }
-            $this->session->set('openedSession',$pokerSessionProvider->getCurrentOpen()['content']);
+            $this->session->set('openedSession', $pokerSessionProvider->getCurrentOpen()['content']);
             $this->dados['openedSession'] = $this->session->get('openedSession');
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
         }
-        helper('date');
         $this->view->display('Session/index.twig', $this->dados);
-
     }
 
     public function removeBuyIn($idBuyIN = 0)
@@ -190,8 +192,8 @@ class Session extends BaseController
                         $gameName  = $input['gameName'] ?? null;
                         $tipoBuyIn  = $input['tipoBuyIn'] ?? null;
                         $pokerSiteId  = $input['pokerSiteId'] ?? null;
-                        $buyinId  = ($input['buyinId'] > 0) ? $input['buyinId'] : null;
-                        $position  = ($input['position'] > 0) ? $input['position'] : null;
+                        $buyinId  = $input['buyinId'] ? $input['buyinId'] : null;
+                        $position  = $input['position'] ?? null;
                         $finalTable  = $input['finalTable']  ?? null;
                         $dataPost = [
                             'buyinId' => $buyinId,
@@ -253,7 +255,7 @@ class Session extends BaseController
         } catch (APPException $exception) {
             return $this->exitSafe($exception->getHandledMessage(), 'home/index');
         }
-        return view('session/buyins/index', $this->dados);
+        $this->view->display('Session/BuyIns/index.twig', $this->dados);
     }
     public function meusBuyIns()
     {
@@ -291,5 +293,52 @@ class Session extends BaseController
             }
         }
         return $html;
+    }
+
+    public function encerrar()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            if ($this->request->getMethod() == 'post') {
+                $input = $this->getRequestInput($this->request);
+                if (!empty($input)) {
+                    $rules = [
+                        "endTime" => [
+                            "label" => "Hora do encerramento",
+                            "rules" => 'required'
+                        ],
+                        "endDate" => [
+                            "label" => "Data do encerramento",
+                            "rules" => 'required|valid_date'
+                        ],
+                        "description" => [
+                            "label" => "Descrição",
+                            "rules" => 'required'
+                        ], "sessionId" => [
+                            "label" => "Id da sessão",
+                            "rules" => 'required|greater_than[0]'
+                        ]
+                    ];
+                    if ($this->validate($rules)) {
+                        $dataPost = ['descricao' => $input['description'], 'data_fim' => $input['endDate'] . ' ' . $input['endTime']];
+                        $fechamento =  $pokerSessionProvider->encerrar($dataPost);
+                        if ($fechamento['statusCode'] == 200) {
+                            $this->session->remove("openedSession");
+                            $this->session->setFlashdata('sucessos', 'Sessão encerrada com sucesso.');
+                            $this->response->redirect('/home/index');
+                        } else {
+                            $this->dados['erros'] = APPException::handleMessage($fechamento['content']['erros']);
+                        }
+                    } else {
+                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                    }
+                } else {
+                    $this->dados['erros'] = "Dados não enviados.";
+                }
+            }
+        } catch (APPException $exception) {
+            return $this->exitSafe($exception->getHandledMessage(), 'home/index');
+        }
+        $this->view->display('Session/encerramento', $this->dados);
     }
 }

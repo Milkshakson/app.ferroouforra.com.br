@@ -38,4 +38,9 @@ class PokerSessionProvider extends APIFF
     {
         return $this->consumeEndpoint('GET', "/poker_session/meus_buyins", []);
     }
+
+    public function encerrar()
+    {
+        return $this->consumeEndpoint('POST', "/poker_session/fecha_sessao", []);
+    }
 }

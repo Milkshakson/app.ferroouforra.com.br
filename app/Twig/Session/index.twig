@@ -1,11 +1,16 @@
 {% extends 'templateBase.twig' %}
-{% set namespaceTime = 'CodeIgniter\\I18n\\Time' %}
+{% set openedSession = session('openedSession') %}
 {% block content %}
 <div class="pagetitle">
     <h1>Sessão</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Sessão atual</a></li>
+        {% if openedSession is not empty %}
+            <li class="breadcrumb-item"><a href="#">{{openedSession['description']}}</a></li>
+            <li class="breadcrumb-item"><a href="#">aberta desde {{ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i')}}</a></li>
+        {% else %}
+        <li class="breadcrumb-item"><a href="#">Nenhuma sessão aberta</a></li>
+        {% endif %}
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -33,7 +38,7 @@
                 {% include 'Session/Buyins/list-cards.twig' %}
                 </div>
             {% else %}
-                 {% include 'Session/form-abertura.php' %}
+                 {% include 'Session/form-abertura.twig' %}
             {% endif %}
         </div>
         <div class='col-lg-6'>

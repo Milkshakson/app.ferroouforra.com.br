@@ -39,9 +39,9 @@ function dolarFormat($money = 0)
 }
 function percent($number = 0)
 {
-        return number_format($number,2).'%';
+    return number_format($number, 2) . '%';
 }
-if (! function_exists('array_array')) {
+if (!function_exists('array_array')) {
 
     function array_array($array = [])
     {
@@ -53,12 +53,13 @@ if (! function_exists('array_array')) {
     }
 }
 
-function getSiteSrcImage($siteName=''){
+function getSiteSrcImage($siteName = '')
+{
     $sitesLogo = session('sitesLogo');
     $siteName = strtolower($siteName);
-    if(is_array($sitesLogo) && key_exists($siteName,$sitesLogo)){
-        return $sitesLogo[$siteName] ;
-    }else{
+    if (is_array($sitesLogo) && key_exists($siteName, $sitesLogo)) {
+        return $sitesLogo[$siteName];
+    } else {
         return '';
     }
 }
@@ -66,9 +67,22 @@ function getSiteSrcImage($siteName=''){
 if (!function_exists('boxBi')) {
     function boxBi($label, $value, $properties = '')
     {
-      return "<div $properties>" . //
-        "<div class='row bg-light  py-0'>$label</div>" . //
-        "<div class='row py-0'>$value</div>" . //
-        "</div>";
+        return "<div $properties>" . //
+            "<div class='row bg-light  py-0'>$label</div>" . //
+            "<div class='row py-0'>$value</div>" . //
+            "</div>";
     }
-  }
+}
+
+if (!function_exists('arrayIncrement')) {
+    function arrayIncrement($array, $chave, $valor = '')
+    {
+        $newArray = $array;
+        if (key_exists($chave, $newArray)) {
+            $newArray[$chave] += $valor;
+        } else {
+            $newArray[$chave] = $valor;
+        }
+         return $newArray;
+    }
+}

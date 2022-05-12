@@ -25,6 +25,7 @@ class View
                 $loader = new FilesystemLoader(APPPATH . 'Twig');
                 $twig = new \Twig\Environment($loader, [
                     'cache' => false,
+                    'autoescape'=>false
                 ]);
                 /*
                 helper('array');
@@ -36,20 +37,23 @@ class View
                 $twig->addFunction($function);
             }
             */
-            $twig->registerUndefinedFunctionCallback(function ($name) {
-                if (function_exists($name)) {
-                    return new \Twig\TwigFunction($name, $name);
+                $twig->registerUndefinedFunctionCallback(function ($name) {
+                    if (function_exists($name)) {
+                        return new \Twig\TwigFunction($name, $name);
+                    }
+
+                    return false;
+                });
+                $twig->registerUndefinedFilterCallback(function ($name) {
+                    if (function_exists($name)) {
+                        return new \Twig\TwigFunction($name, $name);
+                    }
+
+                    return false;
+                });
+                if (!str_ends_with($view, '.twig')) {
+                    $view .= '.twig';
                 }
-            
-                return false;
-            });
-            $twig->registerUndefinedFilterCallback(function ($name) {
-                if (function_exists($name)) {
-                    return new \Twig\TwigFunction($name, $name);
-                }
-            
-                return false;
-            });
                 return $twig->render($view, $dados);
                 break;
         }

@@ -1,0 +1,35 @@
+<div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dados do encerramento</h5>
+
+                        <!-- Multi Columns Form -->
+                        <form method="post" class="row g-3">
+                        <input type='hidden' name="sessionId" value="{{openedSession['id']}}">
+                            <div class="col-md-6">
+                                {{boxBi('Descrição',openedSession['description'])}}
+                            </div>
+                            <div class="col-md-6">
+                                {{boxBi('Abertura',ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i'))}}
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="description" class="form-label">Descrição</label>
+                                <input type="text" name="description" class="form-control" id="description" value="{{set_value('description',openedSession['description'])}}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label">Data do encerramento</label>
+                                <input type="date" name="endDate" class="form-control" id="endDate" value="{{set_value('endDate')}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endTime" class="form-label">Hora do encerramento</label>
+                                <input type="time" name="endTime" class="form-control" id="endTime" value="{{set_value('endTime')}}" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Confirmar o encerramento</button>
+                                <button type="reset" class="btn btn-secondary">Limpar</button>
+                            </div>
+                        </form><!-- End Multi Columns Form -->
+
+                    </div>
+                </div>

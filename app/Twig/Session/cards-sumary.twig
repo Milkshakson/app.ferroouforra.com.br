@@ -1,9 +1,13 @@
+ {% set buyInList =openedSession['buyInList'] %}
+ {% if sumary is empty %}
+  {% set sumary =openedSession['sumary'] %}
+{% endif %}
 <div class='row'>
-    <!-- Sales Card -->
+    <!-- Jogos Card -->
     <div class="col-xxl-6 col-md-6 col-lg-6">
         <div class="card info-card sales-card">
             <div class="card-body">
-                <h5 class="card-title">Torneios <span>|Nesta sessão</span></h5>
+                <h5 class="card-title">Jogos <span>|Nesta sessão</span></h5>
 
                 <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -17,8 +21,8 @@
             </div>
 
         </div>
-    </div><!-- End Sales Card -->
-    <!-- Revenue Card -->
+    </div><!-- End Jogos Card -->
+    <!-- Profit Card -->
     <div class="col-xxl-6 col-md-6 col-lg-6">
         <div class="card info-card revenue-card">
             <div class="card-body">
@@ -30,15 +34,35 @@
                     </div>
                     <div class="ps-3">
                         <h6 class="{{classTextProfit}}">{{dolarFormat(sumary['profit'])}}</h6>
+                        <span class="text-muted small pt-2 ps-1">Total de premiação:{{dolarFormat(sumary['totalPrize'])}} </span>
                     </div>
                 </div>
             </div>
 
         </div>
-    </div><!-- End Revenue Card -->
+    </div><!-- End Profit Card -->
+    <!-- ABI Card -->
+    <div class="col-xxl-6 col-md-6 col-lg-6">
+        <div class="card info-card revenue-card">
+            <div class="card-body">
+                <h5 class="card-title">ABI <span>|Nesta sessão</span></h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6 >{{dolarFormat(sumary['avgBuyIn'])}}</h6>
+                        <span class="text-muted small pt-2 ps-1">Total de buy in:{{dolarFormat(sumary['totalBuyIn'])}} </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- End ABI Card -->
 
     <!-- ROI Card -->
-    <div class="col-xxl-6 col-xl-12 col-lg-6">
+    <div class="col-xxl-6 col-md-6 col-lg-6">
 
         <div class="card info-card customers-card">
             <div class="card-body">
@@ -49,7 +73,7 @@
                         <i class="bi {{sumary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
                     </div>
                     <div class="ps-3">
-                        <h6>{{percent(sumary['percentageROI'])}}</h6>
+                        <h5>{{percent(sumary['percentageROI'])}}</h5>
                     </div>
                 </div>
 
