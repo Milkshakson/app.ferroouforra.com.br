@@ -1,13 +1,26 @@
-{{pre(yearlySumary)}}
-{{pre(year)}}
+{# {{pre(yearlySumary)}} #}
+{# {{pre(year)}} #}
 {% set labelMeses =[] %}
 {% set dataValues =[] %}
+{% set cores =[] %}
+{# [
+                         negativo 'rgba(255, 99, 132, 0.2)',
+
+                          positivo 'rgba(54, 162, 235, 0.2)',
+                        ] #}
 {% for mes in array_reverse(yearlySumary) %}
 {% set labelMeses = labelMeses|merge([mes['mesBuyin']]) %}
 {% set dataValues = dataValues|merge([mes['profit']]) %}
+{% if mes['profit']>0 %}
+{% set cores = cores|merge(['rgba(54, 162, 235, 0.2)']) %}
+{% else %}
+{% set cores = cores|merge(['rgba(255, 99, 132, 0.2)']) %}
+{% endif %}
+
 {% endfor %}
 {% set labelMeses = json_encode(labelMeses,1) %}
 {% set dataValues = json_encode(dataValues,1) %}
+{% set cores = json_encode(cores,1) %}
 <!-- Bar Chart -->
               <canvas id="barChart" style="max-height: 400px;"></canvas>
               <script>
@@ -19,9 +32,7 @@
                       datasets: [{
                         label: 'Bar Chart',
                         data: {{dataValues}},
-                        backgroundColor: [
-                          'rgba(54, 162, 235, 0.2)',
-                        ],
+                        backgroundColor: {{cores}},
                         borderColor: [                         
                             'rgb(54, 162, 235)',
                         ],
