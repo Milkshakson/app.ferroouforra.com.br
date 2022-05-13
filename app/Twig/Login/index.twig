@@ -1,5 +1,5 @@
-<?= $this->extend('loginLayout') ?>
-<?= $this->section('content') ?>
+{% extends 'templateBaseLogin.twig' %}
+{% block content %}
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -7,8 +7,8 @@
 
                 <div class="d-flex justify-content-center py-4">
                     <a href="/" class="logo d-flex align-items-center w-auto">
-                        <img src="/assets/templates/NiceAdmin/assets/img/logo.png" alt="Logo">
-                        <span class="d-none d-lg-block"><?= config('App')->appName ?></span>
+                        <img src="/assets/img/Logo.png" alt="Logo">
+                        <span class="d-none d-lg-block">{{config('App').appName}}</span>
                     </a>
                 </div><!-- End Logo -->
 
@@ -26,7 +26,7 @@
                                 <label for="usuario" class="form-label">E-mail</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text" id="inputGroupPrependEmail">@</span>
-                                    <input type="text" name="email" class="form-control" id="email" value="<?= set_value('email') ?>" required>
+                                    <input type="text" name="email" class="form-control" id="email" value="{{set_value('email')}}" required>
                                     <div class="invalid-feedback">Por favor, informe seu email!</div>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@
                                 <label for="senha" class="form-label">Senha</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text" id="inputGroupPrependsenha"><i class='bi bi-key'></i></span>
-                                    <input type="password" name="senha" class="form-control" id="senha" value="<?= set_value('senha') ?>" required>
+                                    <input type="password" name="senha" class="form-control" id="senha" value="{{set_value('senha')}}" required>
                                     <div class="invalid-feedback">Por favor, informe sua senha!</div>
                                 </div>
                             </div>
@@ -43,7 +43,13 @@
                                 <button class="btn btn-primary w-100" type="submit">Login</button>
                             </div>
                             <div class="col-12">
-                                <p class="small mb-0">Ainda não tem conta? <a href="cadastro">Cadastre-se</a></p>
+                                <p class="small mb-0">Ainda não tem conta? <a href="/registration/new">Cadastre-se</a></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="small mb-0">Precisa confirmar o email? <a href="/registration/email-confirmation-resend">Solicite o reenvio.</a></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="small mb-0">Recebeu um token para confirmação? <a href="/registration/email-confirm">Use aqui.</a></p>
                             </div>
                         </form>
 
@@ -62,4 +68,4 @@
         </div>
     </div>
 </section>
-<?= $this->endSection() ?>
+{% endblock %}

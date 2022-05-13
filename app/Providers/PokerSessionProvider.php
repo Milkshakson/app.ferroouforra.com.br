@@ -8,7 +8,7 @@ class PokerSessionProvider extends APIFF
 {
     public function getCurrentOpen()
     {
-        return $this->consumeEndpoint('GET', "/poker_session/current_open");
+        return $this->consumeEndpoint('GET', "/poker_session/current_open_v2");
     }
     public function open($dados = [])
     {
@@ -39,8 +39,13 @@ class PokerSessionProvider extends APIFF
         return $this->consumeEndpoint('GET', "/poker_session/meus_buyins", []);
     }
 
-    public function encerrar()
+    public function encerrar($dados)
     {
-        return $this->consumeEndpoint('POST', "/poker_session/fecha_sessao", []);
+        return $this->consumeEndpoint('POST', "/poker_session/fecha_sessao_v2", $dados);
+    }
+
+    public function getResumoAnual($year)
+    {
+        return $this->consumeEndpoint('GET', "/poker_session/resumo_anual_v2/?year=$year");
     }
 }

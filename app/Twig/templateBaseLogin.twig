@@ -1,0 +1,19 @@
+{% autoescape false %}
+	<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			{% include 'header.twig' %}
+		</head>
+		<body>
+			<main>
+				{% include 'topContentMain.twig' %}
+				{% block content %}{% endblock %}
+			</main>
+
+			{% include 'contentFooter.twig' %}
+			{% block scriptsFooter %}
+				{% include 'scriptsFooter.twig' %}
+			{% endblock %}
+		</body>
+	</html>
+{% endautoescape %}

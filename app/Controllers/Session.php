@@ -21,7 +21,7 @@ class Session extends BaseController
                     $rules = [
                         "descricao" => [
                             "label" => "Descrição",
-                            "rules" => 'required'
+                            "rules" => 'required|max_length[120]'
                         ],
                         'data' =>
                         [
@@ -51,7 +51,6 @@ class Session extends BaseController
                 }
             }
             $this->session->set('openedSession', $pokerSessionProvider->getCurrentOpen()['content']);
-            $this->dados['openedSession'] = $this->session->get('openedSession');
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
         }
@@ -311,18 +310,19 @@ class Session extends BaseController
                             "label" => "Data do encerramento",
                             "rules" => 'required|valid_date'
                         ],
-                        "description" => [
-                            "label" => "Descrição",
-                            "rules" => 'required'
-                        ], "sessionId" => [
+                        "sessionId" => [
                             "label" => "Id da sessão",
                             "rules" => 'required|greater_than[0]'
-                        ]
+                        ],
+                        "descriptionEnd" => [
+                            "label" => "Descrição encerramento",
+                            "rules" => 'required|max_length[120]'
+                        ],
                     ];
                     if ($this->validate($rules)) {
-                        $dataPost = ['descricao' => $input['description'], 'data_fim' => $input['endDate'] . ' ' . $input['endTime']];
+                        $dataPost = ['id'=>$input['sessionId'],'descriptionEnd' => $input['descriptionEnd'], 'endDate' => $input['endDate'] . ' ' . $input['endTime']];
                         $fechamento =  $pokerSessionProvider->encerrar($dataPost);
-                        if ($fechamento['statusCode'] == 200) {
+                        if ($fechamento['statusCode'] == 202) {
                             $this->session->remove("openedSession");
                             $this->session->setFlashdata('sucessos', 'Sessão encerrada com sucesso.');
                             $this->response->redirect('/home/index');
@@ -337,7 +337,7 @@ class Session extends BaseController
                 }
             }
         } catch (APPException $exception) {
-            return $this->exitSafe($exception->getHandledMessage(), 'home/index');
+            $this->dados['erros'] = $exception->getHandledMessage();
         }
         $this->view->display('Session/encerramento', $this->dados);
     }

@@ -60,33 +60,39 @@ class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $this->session = \Config\Services::session();
         $this->apiApp = new APIFF();
-        
-        $loader = new \Twig\Loader\FilesystemLoader(APPPATH.'Twig');
+
+        $loader = new \Twig\Loader\FilesystemLoader(APPPATH . 'Twig');
         $this->view = new View();
         $path = $this->request->getPath();
         helper(['url', 'form']);
-        $excecao = ['login/index', 'login/login', 'login/logout'];
+        $excecao = [
+            'login/index', 'login/login',
+            'login/logout', 'registration/new',
+            'registration/email-confirmation-resend',
+            'registration/email-confirm',
+        ];
+
         if (!in_array($path, $excecao)) {
             $this->checkToken();
         }
 
         $sitesLogo = [
-            "gg poker"=> "/assets/img/poker-sites/ggpoker.jpg",
-            "poker stars"=> "/assets/img/poker-sites/pokerstars.jpg",
-            "natural 8"=> "/assets/img/poker-sites/natural8.jpg",
-            "party poker"=> "/assets/img/poker-sites/partypoker.jpg",
-            "winamax"=> "/assets/img/poker-sites/winamax.jpg",
-            "888 poker"=> "/assets/img/poker-sites/888poker.jpg",
-            "americas cardroom"=> "/assets/img/poker-sites/americascardroom.png",
-            "poker king"=> "/assets/img/poker-sites/pokerking.png",
-            "bet fair"=> "/assets/img/poker-sites/betfair.png",
-            "bodog"=> "/assets/img/poker-sites/bodog.png",
-            "ya poker"=> "/assets/img/poker-sites/yapoker.jpg",
-            "sportingbet"=> "/assets/img/poker-sites/sportingbet.jpg",
-            "tiger gaming"=> "/assets/img/poker-sites/tigergaming.png",
-            "poker stars.es"=> "/assets/img/poker-sites/pokerstars.es.png",
+            "gg poker" => "/assets/img/poker-sites/ggpoker.jpg",
+            "poker stars" => "/assets/img/poker-sites/pokerstars.jpg",
+            "natural 8" => "/assets/img/poker-sites/natural8.jpg",
+            "party poker" => "/assets/img/poker-sites/partypoker.jpg",
+            "winamax" => "/assets/img/poker-sites/winamax.jpg",
+            "888 poker" => "/assets/img/poker-sites/888poker.jpg",
+            "americas cardroom" => "/assets/img/poker-sites/americascardroom.png",
+            "poker king" => "/assets/img/poker-sites/pokerking.png",
+            "bet fair" => "/assets/img/poker-sites/betfair.png",
+            "bodog" => "/assets/img/poker-sites/bodog.png",
+            "ya poker" => "/assets/img/poker-sites/yapoker.jpg",
+            "sportingbet" => "/assets/img/poker-sites/sportingbet.jpg",
+            "tiger gaming" => "/assets/img/poker-sites/tigergaming.png",
+            "poker stars.es" => "/assets/img/poker-sites/pokerstars.es.png",
         ];
-          $this->session->set('sitesLogo',$sitesLogo);
+        $this->session->set('sitesLogo', $sitesLogo);
     }
     protected function checkToken()
     {
@@ -133,9 +139,9 @@ class BaseController extends Controller
     {
         $this->session->setFlashdata('erros', $msg);
         helper('url');
-       return $this->response->redirect(base_url($route));
-       return redirect()->to(base_url($route));
-       return redirect(base_url($route), 'refresh');
+        return $this->response->redirect(base_url($route));
+        return redirect()->to(base_url($route));
+        return redirect(base_url($route), 'refresh');
         exit;
     }
     public function getResponse(

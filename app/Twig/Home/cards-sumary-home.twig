@@ -1,4 +1,4 @@
-{% set buyInList =openedSession['buyInList'] %}
+{% set buyInList =session('openedSession')['buyInList'] %}
 {% if buyInList is empty %}
 	{% set buyInList = [] %}
 {% endif %}

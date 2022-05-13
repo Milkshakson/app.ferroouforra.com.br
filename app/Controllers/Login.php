@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\APPException;
+use App\Providers\PokerSessionProvider;
 use App\Providers\UsuarioProvider;
 
 class Login extends BaseController
@@ -32,6 +33,12 @@ class Login extends BaseController
                         if ($login['statusCode'] == 202) {
                             $token = $login['content']['idToken'];
                             $this->session->set('tokenAcesso', $token);
+                            $pokerSessionProvider = new PokerSessionProvider();
+                            $openedSession = $pokerSessionProvider->getCurrentOpen();
+                            if($openedSession['statusCode']==202){
+                                $this->session->set('openedSession', $openedSession['content']);
+                            }
+                            
                             $this->response->redirect('/home/index');
                         } else {
                             $this->dados['erros'] = 'Falha ao efetuar Login';
@@ -46,7 +53,7 @@ class Login extends BaseController
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage(); //'Erro ao efetuar Login.';
         }
-        return view('login/index', $this->dados);
+        $this->view->display('login/index', $this->dados);
     }
 
     public function logout(){

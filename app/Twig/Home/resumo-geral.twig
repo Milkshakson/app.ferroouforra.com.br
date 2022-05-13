@@ -1,0 +1,41 @@
+{{pre(yearlySumary)}}
+{{pre(year)}}
+{% set labelMeses =[] %}
+{% set dataValues =[] %}
+{% for mes in array_reverse(yearlySumary) %}
+{% set labelMeses = labelMeses|merge([mes['mesBuyin']]) %}
+{% set dataValues = dataValues|merge([mes['profit']]) %}
+{% endfor %}
+{% set labelMeses = json_encode(labelMeses,1) %}
+{% set dataValues = json_encode(dataValues,1) %}
+<!-- Bar Chart -->
+              <canvas id="barChart" style="max-height: 400px;"></canvas>
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart'), {
+                    type: 'bar',
+                    data: {
+                      labels: {{labelMeses}},
+                      datasets: [{
+                        label: 'Bar Chart',
+                        data: {{dataValues}},
+                        backgroundColor: [
+                          'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [                         
+                            'rgb(54, 162, 235)',
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              <!-- End Bar CHart -->

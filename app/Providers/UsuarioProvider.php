@@ -13,4 +13,18 @@ class UsuarioProvider extends APIFF
             'senha' => $senha
         ]);
     }
+    public function register($dados = [])
+    {
+        return $this->consumeEndpoint('POST', "signup", $dados);
+    }
+
+    public function resendConfirmationEmail($email)
+    {
+        return $this->consumeEndpoint('POST', "auth/resend_confirmation_email", ['email' => $email]);
+    }
+
+    public function confirmEmail($token, $email)
+    {
+        return $this->consumeEndpoint('POST', "auth/confirm_email", ['token' => $token, 'email' => $email]);
+    }
 }

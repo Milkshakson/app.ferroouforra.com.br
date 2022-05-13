@@ -12,11 +12,6 @@
                                 {{boxBi('Abertura',ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i'))}}
                             </div>
 
-                            <div class="col-md-12">
-                                <label for="description" class="form-label">Descrição</label>
-                                <input type="text" name="description" class="form-control" id="description" value="{{set_value('description',openedSession['description'])}}" required>
-                            </div>
-
                             <div class="col-md-6">
                                 <label for="endDate" class="form-label">Data do encerramento</label>
                                 <input type="date" name="endDate" class="form-control" id="endDate" value="{{set_value('endDate')}}" required>
@@ -25,6 +20,13 @@
                                 <label for="endTime" class="form-label">Hora do encerramento</label>
                                 <input type="time" name="endTime" class="form-control" id="endTime" value="{{set_value('endTime')}}" required>
                             </div>
+                            
+
+                            <div class="col-md-12">
+                                <label for="descriptionEnd" class="form-label">Descrição encerramento</label>
+                                <input type="text" name="descriptionEnd" class="form-control" id="description" value="{{set_value('descriptionEnd',openedSession['descriptionEnd'])}}" required>
+                            </div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Confirmar o encerramento</button>
                                 <button type="reset" class="btn btn-secondary">Limpar</button>
