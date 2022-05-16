@@ -71,11 +71,9 @@ class BaseController extends Controller
             'registration/email-confirmation-resend',
             'registration/email-confirm',
         ];
-
         if (!in_array($path, $excecao)) {
-            $this->checkToken();
+           return $this->checkToken();
         }
-
         $sitesLogo = [
             "gg poker" => "/assets/img/poker-sites/ggpoker.jpg",
             "poker stars" => "/assets/img/poker-sites/pokerstars.jpg",
@@ -102,7 +100,7 @@ class BaseController extends Controller
             // verifica se existe um token armazenado
             $stringTokenAcesso = trim($this->session->get('tokenAcesso'));
             if (empty($stringTokenAcesso)) {
-                $this->exitSafe('Esta área do sistema requer autenticação.');
+                return $this->exitSafe('Esta área do sistema requer autenticação.');
             } else {
                 // checa o payload
                 $this->dados['is_valid_token'] = false;
@@ -124,7 +122,7 @@ class BaseController extends Controller
                     if ($falhas > 0) {
                         $this->session->set('isValidTokenAcesso', false);
                         $this->session->set('usuarioTokenAcesso', null);
-                        $this->exitSafe('Token de acesso inválido.');
+                        return $this->exitSafe('Token de acesso inválido.');
                     } else {
                         $this->session->set('isValidTokenAcesso', true);
                         $this->session->Set('usuarioTokenAcesso', $payload);
@@ -132,16 +130,14 @@ class BaseController extends Controller
                 }
             }
         } catch (Exception $e) {
-            $this->exitSafe('Esta área do sistema requer autenticação.');
+           return $this->exitSafe('Esta área do sistema requer autenticação.');
         }
     }
     protected function exitSafe($msg = '', $route = 'login/index')
     {
         $this->session->setFlashdata('erros', $msg);
-        helper('url');
-        return $this->response->redirect(base_url($route));
-        return redirect()->to(base_url($route));
-        return redirect(base_url($route), 'refresh');
+        $redirect = site_url($route);
+        header("location: $redirect",1);
         exit;
     }
     public function getResponse(
