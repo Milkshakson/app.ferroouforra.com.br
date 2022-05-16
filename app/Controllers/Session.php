@@ -136,7 +136,7 @@ class Session extends BaseController
                                     'label' => "Posição",
                                     'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
                                 ];
-                        } 
+                        }
                         $rules['fieldSize'] =
                             [
                                 'label' => "Tamanho do field",
@@ -313,7 +313,7 @@ class Session extends BaseController
                         ],
                     ];
                     if ($this->validate($rules)) {
-                        $dataPost = ['id'=>$input['sessionId'],'descriptionEnd' => $input['descriptionEnd'], 'endDate' => $input['endDate'] . ' ' . $input['endTime']];
+                        $dataPost = ['id' => $input['sessionId'], 'descriptionEnd' => $input['descriptionEnd'], 'endDate' => $input['endDate'] . ' ' . $input['endTime']];
                         $fechamento =  $pokerSessionProvider->encerrar($dataPost);
                         if ($fechamento['statusCode'] == 202) {
                             $this->session->remove("openedSession");
@@ -333,5 +333,33 @@ class Session extends BaseController
             $this->dados['erros'] = $exception->getHandledMessage();
         }
         $this->view->display('Session/encerramento', $this->dados);
+    }
+    public function component($componente = 'cards')
+    {
+        $retorno = '';
+        switch ($componente) {
+            case 'cards':
+                $retorno = $this->view->render('Home/Includes/cards-sumary-home.twig', $this->dados);
+                break;
+            case 'graficos-pizza':
+                $retorno = $this->view->render('Home/Includes/charts.twig');
+                break;
+            case 'graficos-barra':
+                try {
+                    $this->dados['colorsRand'] = $hex = array_merge(range(0, 9), range('A', 'F'));
+                    $this->dados['colorsRand'] = sprintf('#06x', random_int(0, 0xFFFFFF));
+                    $year = date('Y');
+                    $pokerSessionProvider = new PokerSessionProvider();
+                    $yearlySumary = $pokerSessionProvider->getResumoAnual($year);
+                    if ($yearlySumary['statusCode'] == 202) {
+                        $this->dados['yearlySumary'] = $yearlySumary['content'];
+                    }
+                } catch (APPException $e) {
+                    $this->dados['erros'] = $e->getHandledMessage($e->getMessage());
+                }
+                $retorno = $this->view->render('Home/Includes/graficos-sumary-home.twig',$this->dados);
+                break;
+        }
+        return $retorno;
     }
 }

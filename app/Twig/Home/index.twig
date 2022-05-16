@@ -64,26 +64,49 @@
 	{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"]" %}
 	<section class="section dashboard">
 		<div class="row">
-			<div class="col-lg-12">
-				<div class="row">
-					{% include 'Home/cards-sumary-home.twig' %}
-				</div>
-			</div>
-			<!-- Left side columns -->
-			<div class="col-lg-6">
-				<div class='row'>
-					{% include 'Home/charts.twig' %}
-				</div>
-			</div>
-			<!-- End Left side -->
-			<!-- Right side columns -->
-			<div class="col-lg-6">
-				<div class='row'>
-					{% include 'Home/resumo-geral.twig' %}
-				</div>
-			</div>
-			<!--End right side columns -->
-
+			{% include 'Home/tabs-home.twig' %}
 		</div>
 	</section>
+{% endblock %}
+{% block scriptsFooter %}
+	{{parent()}}
+	<script>
+		$(document).ready(function () {
+var activeTabHome = getCookie('activeTabHome');
+var tabsHome = $('#tabsHome');
+$(document).on('click', '#tabsHome>li>button', function () {
+setCookie('activeTabHome', $(this).attr('id'));
+});
+$(document).on('click', '#tabsHome>li>button', function () {
+var sender = $(this);
+let loadedAt = moment(sender.data('loaded-at'));
+var target = sender.data('bs-target');
+let component = sender.data('component');
+if (!(sender.hasClass('loaded') && loadedAt.isValid() && (moment().diff(loadedAt, 'seconds') <= 30))) {
+sender.addClass('loaded').data('loaded-at', moment());
+
+$.ajax({
+url: '/session/component/' + component,
+beforeSend: function () {
+waitingDialog.show();
+},
+success: function (html) {
+ $(target).html(html);
+},
+}).always(function () {
+	setTimeout(function(){
+		waitingDialog.hide();
+	},300);
+}).fail(function () {
+alert('Erro ao carregar a aba');
+});
+}
+});
+if (activeTabHome != 'undefined' && activeTabHome != '') {
+tabsHome.find('#' + activeTabHome).trigger('click');
+} else {
+tabsHome.find('li').eq(0).find('button').trigger('click');
+}
+});
+	</script>
 {% endblock %}

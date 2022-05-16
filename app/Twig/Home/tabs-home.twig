@@ -1,0 +1,28 @@
+<!-- Default Tabs -->
+<ul class="nav nav-tabs d-flex" id="tabsHome" role="tablist">
+	<li class="nav-item flex-fill" role="presentation">
+		<button class="nav-link w-100" id="cards-home-tab" data-bs-toggle="tab" data-bs-target="#cards-home-content" 
+        data-component="cards" type="button" role="tab" aria-controls="cards-home" aria-selected="true">Cards</button>
+	</li>
+	<li class="nav-item flex-fill" role="presentation">
+		<button class="nav-link w-100" id="graficos-home-tab" data-bs-toggle="tab" data-bs-target="#graficos-home-content" 
+        data-component="graficos-pizza" type="button" role="tab" aria-controls="graficos-home" aria-selected="false">Gráficos</button>
+	</li>
+	<li class="nav-item flex-fill" role="presentation">
+		<button class="nav-link w-100" id="graficos-home-barra-tab" data-bs-toggle="tab" data-bs-target="#graficos-home-barras-content" 
+        data-component="graficos-barra" type="button" role="tab" aria-controls="graficos-home-barra" aria-selected="false">Distribuição</button>
+	</li>
+</ul>
+<div class="tab-content pt-2" id="myTabjustifiedContent">
+	<div class="tab-pane fade" id="cards-home-content" role="tabpanel" aria-labelledby="cards-home-tab">
+		{# {% include 'Home/Includes/cards-sumary-home.twig' %} #}
+	</div>
+	<div class="tab-pane fade" id="graficos-home-content" role="tabpanel" aria-labelledby="graficos-home-tab">
+		
+			{# {% include 'Home/Includes/charts.twig' %} #}
+	</div>
+	<div class="tab-pane fade" id="graficos-home-barras-content" role="tabpanel" aria-labelledby="graficos-home-barra-tab">
+        {# {% include 'Home/Includes/graficos-sumary-home.twig' %} #}
+	</div>
+</div>
+<!-- End Default Tabs -->
