@@ -32,19 +32,23 @@
                     data: {
                       labels: {{labelMeses}},
                       datasets: [{
-                        label: 'Bar Chart',
+                        label: 'Lucro ou prejuízo',
                         data: {{dataValues}},
                         backgroundColor: {{cores}},
-                        borderColor: [                         
-                            'rgb(54, 162, 235)',
-                        ],
+                        borderColor: {{cores}},
                         borderWidth: 1
                       }]
                     },
                     options: {
                       scales: {
                         y: {
-                          beginAtZero: true
+                          beginAtZero: true,
+                           ticks: {
+                                  // Include a dollar sign in the ticks
+                                  callback: function(value, index, ticks) {
+                                      return '$' + value;
+                                  }
+                              }
                         }
                       }
                     }

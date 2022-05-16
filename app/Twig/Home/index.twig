@@ -77,31 +77,6 @@ var tabsHome = $('#tabsHome');
 $(document).on('click', '#tabsHome>li>button', function () {
 setCookie('activeTabHome', $(this).attr('id'));
 });
-$(document).on('click', '#tabsHome>li>button', function () {
-var sender = $(this);
-let loadedAt = moment(sender.data('loaded-at'));
-var target = sender.data('bs-target');
-let component = sender.data('component');
-if (!(sender.hasClass('loaded') && loadedAt.isValid() && (moment().diff(loadedAt, 'seconds') <= 30))) {
-sender.addClass('loaded').data('loaded-at', moment());
-
-$.ajax({
-url: '/session/component/' + component,
-beforeSend: function () {
-waitingDialog.show();
-},
-success: function (html) {
- $(target).html(html);
-},
-}).always(function () {
-	setTimeout(function(){
-		waitingDialog.hide();
-	},300);
-}).fail(function () {
-alert('Erro ao carregar a aba');
-});
-}
-});
 if (activeTabHome != 'undefined' && activeTabHome != '') {
 tabsHome.find('#' + activeTabHome).trigger('click');
 } else {

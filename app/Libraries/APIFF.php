@@ -78,7 +78,7 @@ class APIFF extends Curl
 
     protected function getGenericResponse()
     {
-        $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null];
+        $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null,'raw'=>$this->__tostring()];
         try {
             $jsonString = $this->__tostring();
             $content = json_decode($jsonString, 1);
