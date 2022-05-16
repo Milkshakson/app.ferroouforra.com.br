@@ -1,5 +1,6 @@
 {% extends 'templateBase.twig' %}
 {% set openedSession = session('openedSession') %}
+{% set buyInList =[] %}
 {% block content %}
 <div class="pagetitle">
     <h1>Sessão</h1>
@@ -35,7 +36,7 @@
                     {% set classTextProfit = 'text-danger'%}
                 {% endif %}               
                 <div class='row'>
-                {% include 'Session/Buyins/list-cards.twig' %}
+                {% include 'Session/BuyIns/list-cards.twig' %}
                 </div>
             {% else %}
                  {% include 'Session/form-abertura.twig' %}
@@ -43,10 +44,10 @@
         </div>
         <div class='col-lg-6'>
             <div class='row'>
-                {% include 'session/cards-sumary.twig' %}
+                {% include 'Session/cards-sumary.twig' %}
             </div>
             <div class='row'>
-                 {% include 'common/faq.twig' %}
+                 {% include 'Common/faq.twig' %}
             </div>
         </div>
     </div>

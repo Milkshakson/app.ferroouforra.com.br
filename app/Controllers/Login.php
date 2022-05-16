@@ -53,7 +53,7 @@ class Login extends BaseController
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage(); //'Erro ao efetuar Login.';
         }
-        $this->view->display('login/index', $this->dados);
+        $this->view->display('Login/index', $this->dados);
     }
 
     public function logout(){

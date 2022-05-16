@@ -8,6 +8,7 @@
 
                           positivo 'rgba(54, 162, 235, 0.2)',
                         ] #}
+{% if yearlySumary %}
 {% for mes in array_reverse(yearlySumary) %}
 {% set labelMeses = labelMeses|merge([mes['mesBuyin']]) %}
 {% set dataValues = dataValues|merge([mes['profit']]) %}
@@ -18,6 +19,7 @@
 {% endif %}
 
 {% endfor %}
+{% endif %}
 {% set labelMeses = json_encode(labelMeses,1) %}
 {% set dataValues = json_encode(dataValues,1) %}
 {% set cores = json_encode(cores,1) %}

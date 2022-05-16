@@ -26,7 +26,8 @@
                                 <label for="usuario" class="form-label">E-mail</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text" id="inputGroupPrependEmail">@</span>
-                                    <input type="text" name="email" class="form-control" id="email" value="{{set_value('email')}}" required>
+                                    <input type="text" name="email" class="form-control" id="email" 
+                                    value="{{set_value('email')}}" autocomplete="off" required>
                                     <div class="invalid-feedback">Por favor, informe seu email!</div>
                                 </div>
                             </div>
@@ -35,7 +36,8 @@
                                 <label for="senha" class="form-label">Senha</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text" id="inputGroupPrependsenha"><i class='bi bi-key'></i></span>
-                                    <input type="password" name="senha" class="form-control" id="senha" value="{{set_value('senha')}}" required>
+                                    <input type="password" name="senha" class="form-control" id="senha" 
+                                    value="{{set_value('senha')}}" autocomplete="off"  required>
                                     <div class="invalid-feedback">Por favor, informe sua senha!</div>
                                 </div>
                             </div>

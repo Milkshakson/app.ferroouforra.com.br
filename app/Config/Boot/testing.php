@@ -4,23 +4,11 @@
  |--------------------------------------------------------------------------
  | ERROR DISPLAY
  |--------------------------------------------------------------------------
- | In development, we want to show as many errors as possible to help
- | make sure they don't make it to production. And save us hours of
- | painful debugging.
+ | Don't show ANY in production environments. Instead, let the system catch
+ | it and display a generic error message.
  */
-error_reporting(-1);
-ini_set('display_errors', '1');
-
-/*
- |--------------------------------------------------------------------------
- | DEBUG BACKTRACES
- |--------------------------------------------------------------------------
- | If true, this constant will tell the error screens to display debug
- | backtraces along with the other error information. If you would
- | prefer to not see this, set this value to false.
- */
-defined('SHOW_DEBUG_BACKTRACE') || define('SHOW_DEBUG_BACKTRACE', true);
-
+ini_set('display_errors', '');
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
 /*
  |--------------------------------------------------------------------------
  | DEBUG MODE
@@ -29,4 +17,4 @@ defined('SHOW_DEBUG_BACKTRACE') || define('SHOW_DEBUG_BACKTRACE', true);
  | the system. It's not widely used currently, and may not survive
  | release of the framework.
  */
-defined('CI_DEBUG') || define('CI_DEBUG', true);
+defined('CI_DEBUG') || define('CI_DEBUG', false);

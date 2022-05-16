@@ -1,7 +1,4 @@
- {% set buyInList =openedSession['buyInList'] %}
- {% if sumary is empty %}
-  {% set sumary =openedSession['sumary'] %}
-{% endif %}
+ {% set buyInList =openedSession['buyInList'] ?? [] %}
 <div class='row'>
     <!-- Jogos Card -->
     <div class="col-xxl-6 col-md-6 col-lg-6">

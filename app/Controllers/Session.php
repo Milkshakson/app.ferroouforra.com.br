@@ -136,14 +136,7 @@ class Session extends BaseController
                                     'label' => "Posição",
                                     'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
                                 ];
-                        } else {
-
-                            $rules['position'] =
-                                [
-                                    'label' => "Posição",
-                                    'rules' => 'required'
-                                ];
-                        }
+                        } 
                         $rules['fieldSize'] =
                             [
                                 'label' => "Tamanho do field",
@@ -229,7 +222,7 @@ class Session extends BaseController
                 }
             }
             $openedSession = $pokerSessionProvider->getCurrentOpen();
-            if ($openedSession['statusCode'] != 200) {
+            if ($openedSession['statusCode'] != 202) {
                 throw new APPException("Erro ao recuperar a sessão aberta");
             }
             $this->dados['openedSession'] = $openedSession['content'];
