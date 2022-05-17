@@ -11,19 +11,14 @@ desenvolvimento/testes
 		<i class="bi bi-list toggle-sidebar-btn"></i>
 	</div>
 	<!-- End Logo -->
-	{% if (is_array(session('openedSession'))) %}
 		<!--  Searchbar -->
 		<h5 class="card-title">
-			{% if (is_array(session('openedSession'))) %}
-				<span>{{session('openedSession')['description']}}</span>
-			{% else %}
-				<span>Não há nenhuma sessão aberta no momento</span>
-			{% endif %}
+				<span>{{config('app').appName}}</span>
 		</h5>
 		<!-- End Search Bar -->
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
-				{% if (session('isValidToken')) %}
+				{% if (session('isValidTokenAcesso')) %}
 					<li class="nav-item dropdown">
 						<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
 							<i class="bi bi-time-left-token bi-clock"></i>
@@ -145,7 +140,7 @@ desenvolvimento/testes
 							</li>
 							<li class="message-item">
 								<a href="#">
-									<img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+									<img src="/assets/img/messages-3.jpg" alt="" class="rounded-circle">
 									<div>
 										<h4>David Muldon</h4>
 										<p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -219,6 +214,5 @@ desenvolvimento/testes
 				{% endif %}
 			</ul>
 		</nav>
-	{% endif %}
 	<!-- End Icons Navigation -->
 </header>

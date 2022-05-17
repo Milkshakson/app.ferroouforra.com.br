@@ -1,0 +1,105 @@
+<section class="section faq">
+	<div class="row">
+		<div class="col-lg-12">
+
+			<div class="card basic">
+				<div class="card-body">
+					<h5 class="card-title">Questões básicas</h5>
+
+					<div>
+						<h6>1. O que é o {{config('app').appName}}?</h6>
+						<p>{{ucfirst(config('app').appName)}} é o aplicativo desenvolvido pelo Milkshakson para controle de registros de jogos de poker 
+						e controle de banca de forma manual.</p>
+					</div>
+
+					<div class="pt-2">
+						<h6>2. Qual é o objetivo do aplicativo?</h6>
+						<p>Fornecer uma ferramenta de fácil acesso para a comunidade do Poker que está começando, ou em processo de transição de recreativo para 
+						profissional, e que não possui o suporte de controle de outras plataformas.</p>
+					</div>
+
+					<div class="pt-2">
+						<h6>3. Tenho que pagar para usar?</h6>
+						<p>O {{config('app').appName}} terá vários planos, incluindo um plano gratuito. Você pagará apenas por features ou planos adicionais, caso queira.
+						Subs do canal da Twitch <i class='bi bi-twitch'></i> do <a href='https://twitch.tv/milkshakson'>Milkshakson</a> terão um plano próprio.</p>
+					</div>
+
+					<div class="pt-2">
+						<h6>4. Quais ferramentas o aplicativo fornecerá?</h6>
+						<p>O {{config('app').appName}} terá vários ferramentas, iniciando pelo registro de buy ins. Uma vez registrados, eles fornecerão dados para geração de estatísticas,
+						gráficos e relatórios. Com o passar do tempo, a própria comunidade poderá sugerir ferramentas para serem adicionadas.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- F.A.Q Group 1 -->
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Outras dúvidas</h5>
+
+					<div class="accordion accordion-flush" id="faq-group-1">
+
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" data-bs-target="#faqsOne-1" type="button" data-bs-toggle="collapse">
+									Tenho que registrar todos os jogos?
+								</button>
+							</h2>
+							<div id="faqsOne-1" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+								<div class="accordion-body">
+									Sim, caso queira relatórios com valores corretos. O sistema calcula por jogos.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" data-bs-target="#faqsOne-2" type="button" data-bs-toggle="collapse">
+									Posso importar a grade dos outros dias?
+								</button>
+							</h2>
+							<div id="faqsOne-2" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+								<div class="accordion-body">
+									Sim. Haverá ferramentas para importação da grade para quem é regular.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" data-bs-target="#faqsOne-3" type="button" data-bs-toggle="collapse">
+									Posso importar do Shark ou direto dos sites de Poker?
+								</button>
+							</h2>
+							<div id="faqsOne-3" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+								<div class="accordion-body">
+									Não. As importações de sistemas de terceiros dependem de uso de APIs que não possuo acesso no momento. Futuramente pretendo conversar com as empresas
+                  quando esta aplicação crescer.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" data-bs-target="#faqsOne-4" type="button" data-bs-toggle="collapse">
+									Posso usar no celular?
+								</button>
+							</h2>
+							<div id="faqsOne-4" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+								<div class="accordion-body">
+									O {{config('app').appName}} surgiu como um App para android, mas o fato de tirar o foco das telas do poker para efetuar o registro 
+									fez com que fosse transformado em uma aplicação web. Assim, você poderá abrir uma aba do navegador e registrar sem perder o foco da tela.
+									Entretanto, a ideia é que ele seja responsivo, com boa usabilidade tanto numa tela de computador quanto no celular (exceto para ferramentas que demandem recursos exclusivos).
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- End F.A.Q Group 1 -->
+
+		</div>
+	</div>
+
+</div></section>

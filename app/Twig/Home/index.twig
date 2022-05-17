@@ -1,24 +1,5 @@
 {% extends 'templateBase.twig' %}
 {% block content %}
-	{% set openedSession = session('openedSession') %}
-	{% set sumary = session('openedSession')['sumary'] %}
-	{% set buyInList = session('openedSession')['buyInList'] %}
-	{% set sitesJogados = [] %}
-	{% for bi  in buyInList %}
-		{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
-	{% endfor %}
-	{% set sitesJogados = array_unique(sitesJogados) %}
-	{% set distinctSites = count(sitesJogados) %}
-	{% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
-	{% set sumary = openedSession['sumary'] %}
-	{% if (sumary['profit'] > 0) %}
-		{% set classTextProfit = 'text-success' %}
-	{% elseif (openedSession['sumary']['profit'] == 0) %}
-		{% set classTextProfit = 'text-primary' %}
-	{% else %}
-		{% set classTextProfit = 'text-danger'%}
-	{% endif %}
-
 	<div class="pagetitle">
 		<h1>Início</h1>
 		<nav>
@@ -26,48 +7,74 @@
 				<li class="breadcrumb-item">
 					<a href="/">Home</a>
 				</li>
-				<li class="breadcrumb-item active">Dashboard</li>
 			</ol>
 		</nav>
 	</div>
 	<!-- End Page Title -->
-	{% set colorsPrejuizo = json_encode(['#AA0000','#FF0000','#BB0000','#8B0000','#FF0000']) %}
-	{% set colorsLucro = json_encode(['#2E8B57','#43CD80','#7CCD7C','#9AFF9A','#00FF9A']) %}
-	{% set somaBuyIns = [] %}
-	{% set somaLucro = [] %}
-	{% for bi in buyInList %}
-		{% set somaBuyIns = arrayIncrement(somaBuyIns,bi['pokerSiteName'],bi['totalBuyIn']) %}
-		{% if bi['isClosed'] %}
-			{% set somaLucro = arrayIncrement(somaLucro,bi['pokerSiteName'],bi['profit']) %}
-		{% endif %}
-	{% endfor %}
-
-	{% set dataDistribuicaoBanca = "[" %}
-	{% for site,valor in somaBuyIns %}
-		{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
-	{% endfor %}
-	{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"]" %}
-
-
-	{% set dataDistribuicaoLucro = "[" %}
-	{% set dataDistribuicaoPrejuizo = "[" %}
-	{% for site,valor in somaLucro  %}
-		{% if valor>0 %}
-			{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
+	{% if(session('isValidTokenAcesso')) %}
+		{% set openedSession = session('openedSession') %}
+		{% set sumary = session('openedSession')['sumary'] %}
+		{% set buyInList = session('openedSession')['buyInList'] %}
+		{% set sitesJogados = [] %}
+		{% for bi  in buyInList %}
+			{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
+		{% endfor %}
+		{% set sitesJogados = array_unique(sitesJogados) %}
+		{% set distinctSites = count(sitesJogados) %}
+		{% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
+		{% set sumary = openedSession['sumary'] %}
+		{% if (sumary['profit'] > 0) %}
+			{% set classTextProfit = 'text-success' %}
+		{% elseif (openedSession['sumary']['profit'] == 0) %}
+			{% set classTextProfit = 'text-primary' %}
+		{% else %}
+			{% set classTextProfit = 'text-danger'%}
 		{% endif %}
 
-		{% if valor<0 %}
-			{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"{value:"~(valor*-1)~", name: '"~site~"', formatedValue:'"~dolarFormat(valor*-1)~"'}," %}
-		{% endif %}
-	{% endfor %}
-	{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"]" %}
-	{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"]" %}
-	<section class="section dashboard">
+		{% set colorsPrejuizo = json_encode(['#AA0000','#FF0000','#BB0000','#8B0000','#FF0000']) %}
+		{% set colorsLucro = json_encode(['#2E8B57','#43CD80','#7CCD7C','#9AFF9A','#00FF9A']) %}
+		{% set somaBuyIns = [] %}
+		{% set somaLucro = [] %}
+		{% for bi in buyInList %}
+			{% set somaBuyIns = arrayIncrement(somaBuyIns,bi['pokerSiteName'],bi['totalBuyIn']) %}
+			{% if bi['isClosed'] %}
+				{% set somaLucro = arrayIncrement(somaLucro,bi['pokerSiteName'],bi['profit']) %}
+			{% endif %}
+		{% endfor %}
+
+		{% set dataDistribuicaoBanca = "[" %}
+		{% for site,valor in somaBuyIns %}
+			{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
+		{% endfor %}
+		{% set dataDistribuicaoBanca = dataDistribuicaoBanca~"]" %}
+
+
+		{% set dataDistribuicaoLucro = "[" %}
+		{% set dataDistribuicaoPrejuizo = "[" %}
+		{% for site,valor in somaLucro  %}
+			{% if valor>0 %}
+				{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"{value:"~valor~", name: '"~site~"', formatedValue:'"~dolarFormat(valor)~"'}," %}
+			{% endif %}
+
+			{% if valor<0 %}
+				{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"{value:"~(valor*-1)~", name: '"~site~"', formatedValue:'"~dolarFormat(valor*-1)~"'}," %}
+			{% endif %}
+		{% endfor %}
+		{% set dataDistribuicaoLucro = dataDistribuicaoLucro~"]" %}
+		{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"]" %}
+		<section class="section dashboard">
+			<div class="row">
+				{% include 'Home/tabs-home.twig' %}
+			</div>
+		</section>
+	{% else %}
 		<div class="row">
-			{% include 'Home/tabs-home.twig' %}
+			{% include 'Home/not-logged.twig' %}
 		</div>
-	</section>
+	{% endif %}
 {% endblock %}
+
+
 {% block scriptsFooter %}
 	{{parent()}}
 	<script>

@@ -66,13 +66,14 @@ class BaseController extends Controller
         $path = $this->request->getPath();
         helper(['url', 'form']);
         $excecao = [
+            'home/index','home/index/1','/',
             'login/index', 'login/login',
             'login/logout', 'registration/new',
             'registration/email-confirmation-resend',
             'registration/email-confirm',
         ];
         if (!in_array($path, $excecao)) {
-           return $this->checkToken();
+            return $this->checkToken();
         }
         $sitesLogo = [
             "gg poker" => "/assets/img/poker-sites/ggpoker.jpg",
@@ -130,14 +131,14 @@ class BaseController extends Controller
                 }
             }
         } catch (Exception $e) {
-           return $this->exitSafe('Esta área do sistema requer autenticação.');
+            return $this->exitSafe('Esta área do sistema requer autenticação.');
         }
     }
     protected function exitSafe($msg = '', $route = 'login/index')
     {
         $this->session->setFlashdata('erros', $msg);
         $redirect = site_url($route);
-        header("location: $redirect",1);
+        header("location: $redirect", 1);
         exit;
     }
     public function getResponse(

@@ -33,12 +33,12 @@ class Login extends BaseController
                         if ($login['statusCode'] == 202) {
                             $token = $login['content']['idToken'];
                             $this->session->set('tokenAcesso', $token);
+                            $this->session->set('isValidTokenAcesso', true);
                             $pokerSessionProvider = new PokerSessionProvider();
                             $openedSession = $pokerSessionProvider->getCurrentOpen();
                             if($openedSession['statusCode']==202){
                                 $this->session->set('openedSession', $openedSession['content']);
                             }
-                            
                             $this->response->redirect('/home/index');
                         } else {
                             $this->dados['erros'] = 'Falha ao efetuar Login';
@@ -58,6 +58,8 @@ class Login extends BaseController
 
     public function logout(){
         $this->session->destroy();
-        return $this->exitSafe('Você saiu do sistema.');
+        $redirect = site_url('home/index/1');
+        header("location: $redirect");
+        exit;
     }
 }
