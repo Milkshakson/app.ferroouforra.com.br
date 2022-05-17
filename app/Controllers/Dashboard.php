@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
+use CodeIgniter\I18n\Time;
 
 class Dashboard extends BaseController
 {
@@ -56,9 +57,9 @@ class Dashboard extends BaseController
             $month = $month ?? $month = date('m');
             $this->dados['year'] = $year;
             $this->dados['month'] = $month;
+            $this->dados['CIMesResumo'] = Time::createFromFormat('m/Y',"$month/$year");
             $pokerSessionProvider = new PokerSessionProvider();
             $monthlySumary = $pokerSessionProvider->getResumoMensal($month,$year);
-            pre($monthlySumary,1);
             if ($monthlySumary['statusCode'] == 202) {
                 $monthlySumary = $monthlySumary['content'];
                 $this->dados['monthlySumary'] = $monthlySumary;

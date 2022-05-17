@@ -1,160 +1,41 @@
 {% extends 'templateBase.twig' %}
 {% block content %}
 	<div class='row'>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/yearly/{{year-1}}'>
+		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/monthly/{{CIMesResumo.subMonths(1).format('m/Y')}}'>
 			<i style="font-size:50px;" class='bx bx-skip-previous-circle'></i>
 		</a>
 		<h4 class='card-title text-center col-10 col-sm-10 col-md-10 col-lg-10 col-xxl-10'>Resumo do mês
 			{{month}}/{{year}}</h4>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo ano" href='/dashboard/yearly/{{year+1}}'>
+		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo mês" href='/dashboard/monthly/{{CIMesResumo.addMonths(1).format('m/Y')}}'>
 			<i style="font-size:50px;" class='bx bx-skip-next-circle'></i>
 		</a>
 	</div>
 	<div class='row'>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
-			<canvas id="barChartLucro" style="max-height: 400px;"></canvas>
-		</div>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
-			<canvas id="barChartBuyIn" style="max-height: 400px;"></canvas>
-		</div>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
-			<canvas id="barChartCotas" style="max-height: 400px;"></canvas>
-		</div>
+		{% for dia in monthlySumary %}
+			<!-- Jogos Card -->
+            {% set classTextProfit = (dia['countBuyIns']>0)? (dia['profit']>0?'text-success':'text-danger'):'' %}
+			<div class="col-xxl-2 col-md-3 col-lg-3">
+				<div class="card info-card sales-card">
+					<div class="card-body">
+						<h5 class="card-title  {{classTextProfit}}">Dia
+							{{dia['day']}}<br />
+							<span>						
+								{{dia['dayWeekString']}}</span>
+						</h5>
+						<div class='row p-1'>
+                        {% if dia['countBuyIns']>0 %}
+							{{boxBI('Registros',dia['countBuyIns'],'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
+							{{boxBI('Lucro',dolarFormat(dia['profit']),'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
+                        {% else %}
+                        {{boxBI('Registros',dia['countBuyIns'],'class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
+                        {{boxBI('','','class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
+                        {% endif %}
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- End Jogos Card -->
+		{% endfor %}
 	</div>
-	<div class='row'>
-		<table class='table'>
-			<thead>
-				<tr>
-					<th>Mês</th>
-					<th>Contagem de buy ins</th>
-					<th>Total de buy ins</th>
-					<th>Retorno de cotas</th>
-					<th>Total de premiação</th>
-					<th>Total de Lucro</th>
-				</tr>
-			</thead>
-			{% for mes in yearlySumary %}
-				{% if mes['profit'] > 0 %}
-					{% set classTextProfit ='text-success' %}
-				{% elseif mes['profit'] < 0 %}
-					{% set classTextProfit ='text-danger' %}
-				{% else %}
-					{% set classTextProfit ='text-light' %}
-				{% endif %}
-				<tr class='{{classTextProfit}}'>
-					<td>{{mes['mesBuyin']}}</td>
-					<td>{{mes['countBuyIns']}}</td>
-					<td>{{dolarFormat(mes['totalBuyIn'])}}</td>
-					<td>{{dolarFormat(mes['stakingReturn'])}}</td>
-					<td>{{dolarFormat(mes['totalPrize'])}}</td>
-					<td>{{dolarFormat(mes['profit'])}}</td>
-				</tr>
-			{% endfor %}
-		</table>
-	</div>
-	<script>
-		// variáveis do gráfico
-var barChartLucro = {{ barChartLucro }};
-var barChartBuyIn = {{ barChartBuyIn }};
-var barChartCotas = {{ barChartCotas }};
-	</script>
-{% endblock %}
-
-
-{% block scriptsFooter %}
-	{{ parent() }}
-	<!-- Bar Chart -->
-	<script>
-		// document.addEventListener("DOMContentLoaded", () => {
-$(document).ready(function () {
-        new Chart(document.querySelector('#barChartLucro'), {
-            type: 'bar',
-            data: {
-                labels: barChartLucro['labels'],
-                datasets: [
-                {
-                    label: 'Gráfico de Lucro ou prejuízo',
-                    data: barChartLucro['dataValues'],
-                    backgroundColor: barChartLucro['cores'],
-                    borderColor:barChartLucro['cores'],
-                    borderWidth: 1
-                }
-            ]
-            },
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { // Include a dollar sign in the ticks
-                        callback: function (value, index, ticks) {
-                            return '$' + value;
-                        }
-                    }
-                }
-            }
-            }
-        });
-
-
-        new Chart(document.querySelector('#barChartBuyIn'), {
-            type: 'bar',
-            data: {
-                labels: barChartBuyIn['labels'],
-                datasets: [
-                {
-                    label: 'Gráfico de Buy in',
-                    data: barChartBuyIn['dataValues'],
-                    backgroundColor: barChartBuyIn['cores'],
-                    borderColor: barChartBuyIn['cores'],
-                    borderWidth: 1
-                }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { // Include a dollar sign in the ticks
-                            callback: function (value, index, ticks) {
-                                return '$' + value;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-
-
-
-    new Chart(document.querySelector('#barChartCotas'), {
-        type: 'bar',
-        data: {
-            labels: barChartCotas['labels'],
-            datasets: [
-                {
-                    label: 'Gráfico de Cotas',
-                    data: barChartCotas['dataValues'],
-                    backgroundColor: barChartCotas['cores'],
-                    borderColor: barChartCotas['cores'],
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true,
-                ticks: { // Include a dollar sign in the ticks
-                    callback: function (value, index, ticks) {
-                    return '$' + value;
-                    }
-                }
-                }
-            }
-        }
-    });
-});
-	</script>
-	<!-- End Bar CHart -->
 {% endblock %}
