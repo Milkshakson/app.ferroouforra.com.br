@@ -36,8 +36,7 @@
                     {% set classTextProfit = 'text-danger'%}
                 {% endif %}               
                 <div class='row'>
-               {#  {% include 'Session/BuyIns/list-cards.twig' %} #}
-                {% include 'Session/BuyIns/list-cards-vue.twig' %}
+                {% include 'Session/BuyIns/list-cards.twig' %}
                 </div>
             {% else %}
                  {% include 'Session/form-abertura.twig' %}
@@ -45,9 +44,6 @@
         </div>
         <div class='col-lg-6'>
             <div class='row'>
-            <ul>
-  <li v-for="livro in livros" v-html="livro">{{livro}}</li>
-</ul>
                 {% include 'Session/cards-sumary.twig' %}
             </div>
             <div class='row'>
