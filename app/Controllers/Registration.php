@@ -64,6 +64,41 @@ class Registration extends BaseController
         $this->view->display('Registration/new', $this->dados);
     }
 
+    public function passwordRecovery()
+    {
+        try {
+            if ($this->request->getMethod() == 'post') {
+                $input = $this->getRequestInput($this->request);
+                if (!empty($input)) {
+                    $rules = [
+                        "email" => [
+                            "label" => "Email",
+                            "rules" => 'required|valid_email'
+                        ],
+                    ];
+                    if ($this->validate($rules)) {
+                        $usuarioProvider = new UsuarioProvider();
+                        $forgotPassword = $usuarioProvider->passwordRecovery(strtolower($input['email']));//jeferson_cta@hotmail.com
+                        if ($forgotPassword['statusCode'] == 202) {
+                            $this->session->setFlashdata('sucessos', 'Caso seu email esteja cadastrado, as instruções para nova senha serão enviadas. Verifique sua caixa de mensagens para continuar!');
+                            return $this->response->redirect('/login/index');
+                        }else{
+                            pre($forgotPassword,1);
+                            $this->dados['erros'] = 'Ocorreu um erro ao recuperar a senha.';
+                        }
+                    } else {
+                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                    }
+                } else {
+                    $this->dados['erros'] = 'Dados não enviados.';
+                }
+            }
+        } catch (APPException $exception) {
+            $this->dados['erro'] = $exception->getHandledMessage();
+        }
+        $this->view->display('Registration/password-recovery', $this->dados);
+    }
+
     public function confirmEmail()
     {
         try {
