@@ -1,26 +1,27 @@
 {% autoescape false %}
-<!DOCTYPE html>
-<html lang="pt-br">
-	<head>
-		{% include 'header.twig' %}
-	</head>
-	<body>
-		<!-- ======= Header ======= -->
-		{% include 'contentHeader.twig' %}
-		<!-- End Header -->
-		<!-- ======= Sidebar ======= -->
-		{% include 'sidebarLeft.twig' %}
-		<!-- End Sidebar-->
-			<main id="main" class="main"> 
-            {% include 'topContentMain.twig' %}
-			{% block content %}{% endblock %}
-		</main>
+	<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			{% include 'header.twig' %}
+		</head>
+		<body>
+			<main
+				id="main" class="main">
+				<!-- ======= Header ======= -->
+				{% include 'contentHeader.twig' %}
+				<!-- End Header -->
+				<!-- ======= Sidebar ======= -->
+				{% include 'sidebarLeft.twig' %}
+				<!-- End Sidebar-->
+				{% include 'topContentMain.twig' %}{% block content %}
+				{% endblock %}
 
-		{% include 'contentFooter.twig' %}
-		{% block scriptsFooter %}
-		{% include 'scriptsFooter.twig' %}
+			{% include 'contentFooter.twig' %}
+			</main>
+				{% block scriptsFooter %}
+			{% include 'scriptsFooter.twig' %}
+			{% endblock %}{% block vue %}
 		{% endblock %}
 	</body>
 
-</html>
-{% endautoescape %}
+</html>{% endautoescape %}

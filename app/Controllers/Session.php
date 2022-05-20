@@ -36,11 +36,13 @@ class Session extends BaseController
                     ];
                     if ($this->validate($rules)) {
                         $dataPost = ['descricao' => $input['descricao'], 'data_inicio' => $input['data'] . ' ' . $input['hora']];
+                        pre($dataPost);
                         $open = $pokerSessionProvider->open($dataPost);
                         if ($open['statusCode'] == 201) {
                             $this->session->setFlashdata('sucessos', 'Sessão aberta com sucesso.');
                             $this->response->redirect('/session/current');
                         } else {
+                            pre($open ,1);
                             $this->dados['erros'] = 'Falha ao criar a sessão.';
                         }
                     } else {

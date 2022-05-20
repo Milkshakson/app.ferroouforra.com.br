@@ -12,7 +12,7 @@ class PokerSessionProvider extends APIFF
     }
     public function open($dados = [])
     {
-        return $this->consumeEndpoint('POST', "/poker_session/create", $dados);
+        return $this->consumeEndpoint('POST', "/poker_session/create_v2", $dados);
     }
     public function removeBuyIn($dados = [])
     {
