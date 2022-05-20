@@ -70,6 +70,7 @@ class BaseController extends Controller
             'login/index', 'login/login',
             'login/logout', 'registration/new',
             'registration/email-confirmation-resend',
+            'registration/password-recovery',
             'registration/email-confirm',
         ];
         if (!in_array($path, $excecao)) {

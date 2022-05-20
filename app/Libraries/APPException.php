@@ -30,7 +30,8 @@ class APPException extends Exception
             "EMAIL_NOT_CONFIRMED"=> "Seu email não foi confirmado.",
             "EMAIL_NOT_FOUND"=> "Email não encontrado.",
             'EMAIL_EXISTS'=>'Este email já está cadastrado no sistema.',
-            'OPENED_GAMES_IN_SESSION_CLOSE'=>'É preciso encerrar os torneios abertos antes de encerrar a sessão.'
+            'OPENED_GAMES_IN_SESSION_CLOSE'=>'É preciso encerrar os torneios abertos antes de encerrar a sessão.',
+            'TOO_MANY_RECOVERY'=>'Já existe uma recuperação em andamento.',
         ];
         $messages = array_unique($APIMessages+$genericMessages);
         if (key_exists($message, $messages)) {

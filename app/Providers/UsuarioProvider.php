@@ -27,4 +27,14 @@ class UsuarioProvider extends APIFF
     {
         return $this->consumeEndpoint('POST', "auth/confirm_email", ['token' => $token, 'email' => $email]);
     }
+
+    public function changePassword($token, $email)
+    {
+        return $this->consumeEndpoint('POST', "auth/change_password", ['token' => $token, 'email' => $email]);
+    }
+
+    public function passwordRecovery($email)
+    {
+        return $this->consumeEndpoint('GET', "auth/password_recovery_v2?email=$email");
+    }
 }

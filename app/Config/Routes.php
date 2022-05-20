@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->add('registration/email-confirmation-resend','Registration::resendConfirmationEmail');
 $routes->add('registration/email-confirm','Registration::confirmEmail');
+$routes->add('registration/password-recovery','Registration::passwordRecovery');
 
 /*
  * --------------------------------------------------------------------
