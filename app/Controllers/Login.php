@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
 use App\Providers\UsuarioProvider;
+use Exception;
 
 class Login extends BaseController
 {
