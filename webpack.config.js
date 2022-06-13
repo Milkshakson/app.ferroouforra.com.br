@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
@@ -6,6 +7,13 @@ module.exports = {
   output: {
     path: __dirname + '/public/dist',
     filename: 'bundle.js'
+  },
+  devServer: {
+    port: 9090,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -35,9 +43,12 @@ module.exports = {
         ],
       }
       , {
-        test: /\.woff|.woff2|.ttf|.eot|.svg|.png|.jpg*.*$/,
+        test: /\.png|.jpg*.*$/,
         use: 'file-loader'
-      }, {
+      },
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+      use: 'url-loader?limit=100000' }
+      , {
         test: /\.css$/,
         use: [
           {
@@ -48,7 +59,7 @@ module.exports = {
               publicPath: __dirname + '/public/dist',
             },
           },
-          "css-loader"
+          'css-loader'
         ],
       },
     ]
