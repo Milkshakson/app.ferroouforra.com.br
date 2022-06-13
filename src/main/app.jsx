@@ -14,6 +14,6 @@ export default props => (
             {props.children}
         </div>
         <Footer />
-        <Messages />
+        {/* <Messages /> */}
     </div>
 )

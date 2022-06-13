@@ -1,16 +1,23 @@
 import React from 'react'
-import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router'
+import {
+    BrowserRouter, 
+    Routes,
+    Route
+} from 'react-router-dom'
 
 import App from './app'
-import Dashboard from '../dashboard/dashboard'
-import BillingCycle from '../billingCycle/billingCycle'
-
+import NotFound from '../pages/NotFound';
+// import Dashboard from '../dashboard/dashboard'
+// import BillingCycle from '../billingCycle/billingCycle'
 export default props => (
-    <Router history={hashHistory}>
-        <Route path='/' component={App}>
-            <IndexRoute component={Dashboard} />
-            <Route path='billingCycles' component={BillingCycle} />
-        </Route>
-        <Redirect from='*' to='/' />
-    </Router>
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' component={App} />
+            <Route path='/react' component={NotFound} />
+            <Route path='react/' component={NotFound} />
+            <Route path='react' component={NotFound} />
+            {/* <Redirect from='*' to='/' /> */}
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    </BrowserRouter>
 )
