@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Usando React</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" type="image/png" href="/favicon.ico" />
-<!-- Vendor CSS Files -->
-<link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+  <link rel='stylesheet' href='./dist/main.css'>
+  <!-- Vendor CSS Files -->
+  <!-- <link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="/assets/templates/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 <link href="/assets/templates/NiceAdmin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="/assets/templates/NiceAdmin/assets/css/style.css" rel="stylesheet">
-<link href="/assets/templates/NiceAdmin/assets/css/custom-style.css" rel="stylesheet">
+<link href="/assets/templates/NiceAdmin/assets/css/custom-style.css" rel="stylesheet"> -->
 </head>
-<body>
-  <div id="app">
-  </div> 
+
+<body class='skin-blue fixed sidebar-mini'>
+  <div id="app" class="wrapper"></div>
   <script type="module" src="./dist/bundle.js"></script>
   <!-- Vendor JS Files -->
-<script src="/assets/templates/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="/assets/templates/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/templates/NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="/assets/templates/NiceAdmin/assets/vendor/chart.js/chart.min.js"></script>
 <script src="/assets/templates/NiceAdmin/assets/vendor/echarts/echarts.min.js"></script>
@@ -33,7 +35,8 @@
 <script src="/assets/scripts/cookie.js"></script>
 <script src="/assets/templates/NiceAdmin/assets/js/main.js"></script>
 <!-- Template Main JS File -->
-<script src="/assets/plugins/moment/moment-with-locales.js"></script>
-<script src="/assets/plugins/jquery-mask/jquery.mask.js"></script>
+  <!-- <script src="/assets/plugins/moment/moment-with-locales.js"></script>
+<script src="/assets/plugins/jquery-mask/jquery.mask.js"></script> -->
 </body>
+
 </html>
