@@ -1,19 +1,21 @@
-import '../common/template/dependencies'
 import React from 'react'
 
-import Header from '../common/template/header'
 import SideBar from '../common/template/sideBar'
 import Footer from '../common/template/footer'
 import Messages from '../common/msg/messages'
+import Header from '../common/template/header'
 
 export default props => (
-    <div className='wrapper'>
-        <Header />
+    <>
+        <Header isValidTokenAcesso={0} appName={'Meu nome'} usuarioTokenAcesso ={{
+            sub:'ual',
+            environment: 'production'
+        }} />
         <SideBar />
-        <div className='content-wrapper'> 
+        <main id="main" class="main">
             {props.children}
-        </div>
+        </main>
         <Footer />
         {/* <Messages /> */}
-    </div>
+        </>
 )

@@ -19,8 +19,6 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       modules: __dirname + '/node_modules',
-      jquery: 'modules/admin-lte/plugins/jquery/jquery.min.js',
-      bootstrap: 'modules/admin-lte/plugins/bootstrap/js/bootstrap.min.js'
     }
   },
   module: {
@@ -34,10 +32,9 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // fallback to style-loader in development
-          // process.env.NODE_ENV !== "production"
-          //   ? "style-loader"
-          //   : MiniCssExtractPlugin.loader,
-          "style-loader",
+          process.env.NODE_ENV !== "production"
+            ? "style-loader"
+            : MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader",
         ],
@@ -46,8 +43,20 @@ module.exports = {
         test: /\.png|.jpg*.*$/,
         use: 'file-loader'
       },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
-      use: 'url-loader?limit=100000' }
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        loader: "file-loader",
+        options: {
+        //  outputPath: "../fonts",
+        }
+      },
+      {
+        test: /\.svg/,
+        use: {
+          loader: "svg-url-loader",
+          options: {},
+        },
+      }
       , {
         test: /\.css$/,
         use: [

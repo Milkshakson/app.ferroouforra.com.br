@@ -1,10 +1,16 @@
 import React from 'react'
 
 export default props => (
-    <footer className='main-footer'> 
-        <strong> 
-            Copyright &copy; 2017
-            <a href='http://cod3r.com.br' target='_blank'> Cod3r</a>.
-        </strong>
-    </footer>
+    <>
+        <footer id="footer" className="footer">
+            <div class="copyright">
+                &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+            </div>
+            <div className="credits">
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+        </footer>
+
+        <a href="#" className="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    </>
 )

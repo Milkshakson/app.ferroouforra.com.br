@@ -1,10 +1,10 @@
 import React from 'react'
 import Menu from './menu'
+import Visibility from './visibility'
 
 export default props => (
-    <aside className='main-sidebar'>
-        <section className='sidebar'>
+    <aside id="sidebar" className="sidebar">
             <Menu />
-        </section>
+        <Visibility condition={props.mostrarPropaganda}></Visibility>
     </aside>
 )
