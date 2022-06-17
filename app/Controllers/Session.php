@@ -139,11 +139,11 @@ class Session extends BaseController
                                     'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
                                 ];
                         }
-                        $rules['fieldSize'] =
+                 /*        $rules['fieldSize'] =
                             [
                                 'label' => "Tamanho do field",
                                 'rules' => 'required'
-                            ];
+                            ]; */
                     }
 
                     if (key_exists('stakingSellingCheck', $input) && $input['stakingSellingCheck'] > 0) {
@@ -334,7 +334,7 @@ class Session extends BaseController
         } catch (APPException $exception) {
             $this->dados['erros'] = $exception->getHandledMessage();
         }
-        $this->view->display('Session/encerramento', $this->dados);
+        $this->view->display('Session/encerramento.twig', $this->dados);
     }
     public function component($componente = 'cards')
     {
