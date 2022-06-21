@@ -28,11 +28,11 @@ $(function () {
     $('.money-dolar').mask('000000000000000.00', {
         reverse: true
     });
-    $('.markup').mask('?.?', {
+    $('.markup').mask('?.??', {
         reverse: true,
         translation: {
             '?': {
-                pattern: /[0-9]/,
+                pattern: /[0-9]+([\.][0-9]{0,2})?/,
                 optional: true
             }
         }
