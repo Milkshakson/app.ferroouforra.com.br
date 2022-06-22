@@ -1,4 +1,8 @@
 import React from 'react';
+import SideBar from '../common/template/sideBar';
 export default () => (
-<div>NOT FOUND</div>
+    <>
+        <SideBar />
+        <div>NOT FOUND!!</div>
+    </>
 )

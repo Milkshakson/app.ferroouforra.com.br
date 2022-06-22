@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
-import numerosReducer from './reducers/numeros'
+import appReducer from './reducers/appReducer'
 
 const reducer = combineReducers({
-    numeros: numerosReducer,
+    app: appReducer,
 })
 
 function configStore() {

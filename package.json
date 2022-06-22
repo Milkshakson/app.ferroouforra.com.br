@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch --mode development",
-    "build": "webpack --mode production",
-    "hot-prod": "webpack --watch --mode production",
-    "dev": "webpack-dev-server --progress --hot  --no-client-overlay-warnings"
+    "start": "webpack --watch --progress --mode development",
+    "build": "webpack  --watch --progress --mode production",
+    "hot-prod": "webpack --watch --progress --mode production",
+    "dev": "webpack-dev-server --mode development --progress --hot  --no-client-overlay-warnings"
   },
   "keywords": [],
   "author": "",

@@ -4,7 +4,6 @@ import SideBar from '../common/template/sideBar'
 import Footer from '../common/template/footer'
 import Messages from '../common/msg/messages'
 import Header from '../common/template/header'
-
 export default props => (
     <>
         <Header isValidTokenAcesso={0} appName={'Meu nome'} usuarioTokenAcesso ={{
@@ -12,7 +11,7 @@ export default props => (
             environment: 'production'
         }} />
         <SideBar />
-        <main id="main" class="main">
+        <main id="main" className="main">
             {props.children}
         </main>
         <Footer />
