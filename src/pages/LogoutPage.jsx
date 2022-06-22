@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useStore } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import Visibility from '../common/template/visibility';
+import Visibility from 'common/template/visibility';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 

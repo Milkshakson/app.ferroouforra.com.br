@@ -21,6 +21,10 @@ module.exports = {
     alias: {
       modules: __dirname + '/node_modules',
       store: __dirname + '/src/store',
+      pages: __dirname + '/src/pages',
+      main: __dirname + '/src/main',
+      routes: __dirname + '/src/routes',
+      common: __dirname + '/src/common',
     }
   },
   module: {

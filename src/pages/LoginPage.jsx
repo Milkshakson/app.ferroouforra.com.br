@@ -14,7 +14,6 @@ const LoginPage = function (props) {
     const storedSenha = localStorage.getItem("senhalogin")
     const [email, setEmail] = useState(storedEmail || '')
     const [senha, setSenha] = useState(storedSenha || '')
-    const [isLoading, setIsLogging] = useState(false)
     const [redirect, setRedirect] = useState(false)
     useEffect(() => {
         if (redirect) {
