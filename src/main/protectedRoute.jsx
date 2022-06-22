@@ -5,7 +5,7 @@ const ProtectedRoute = ({ user, children }) => {
 
     const { isValidToken, appName } = useStore().getState().app
     if (!isValidToken) {
-        return <Navigate to="/login/logout" />;
+        return <Navigate to="/login" />;
     }
 
     return children;

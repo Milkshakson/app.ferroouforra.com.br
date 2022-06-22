@@ -18,8 +18,8 @@ export default props => (
       <Route path="" element={<App />} />
      <Route path="/session/current" element={<NotFound />} />
      {/*       <Route path="invoices" element={<Invoices />} /> */}
-      <Route path="/login" element={<LoginPage />} />
       <Route path="/login/logout" element={<LogoutPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
