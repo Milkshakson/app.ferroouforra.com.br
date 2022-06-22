@@ -22,11 +22,24 @@ const LogoutPage = function (props) {
         props.logout()
         setRedirectLogin(true)
         toast.warning("Você optou por NÃO continuar logado!")
+
     }
     return (
         redirectHome?<Navigate to="/" replace />:
         redirectLogin?<Navigate to="/login" replace />:
         <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+
+            <ToastContainer
+                position="top-right"
+                autoClose={50000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -37,7 +50,6 @@ const LogoutPage = function (props) {
                                 <span className="d-none d-lg-block">APP: {appName}</span>
                             </a>
                         </div>
-
                         <div className="card mb-3">
 
                             <div className="card-body">
