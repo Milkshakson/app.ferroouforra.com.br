@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../main/api'
 import { useStore } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import Visibility, { Replacement } from '../common/template/visibility';
+import Visibility from '../common/template/visibility';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
