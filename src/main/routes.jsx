@@ -8,6 +8,7 @@ import ProtectedRoute from '../main/protectedRoute'
 import App from './app'
 import NotFound from '../pages/NotFound';
 import LoginPage from '../pages/LoginPage';
+import LogoutPage from '../pages/LogoutPage';
 // import Dashboard from '../dashboard/dashboard'
 // import BillingCycle from '../billingCycle/billingCycle'
 export default props => (
@@ -18,7 +19,7 @@ export default props => (
      <Route path="/session/current" element={<NotFound />} />
      {/*       <Route path="invoices" element={<Invoices />} /> */}
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/login/logout" element={<LoginPage />} />
+      <Route path="/login/logout" element={<LogoutPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

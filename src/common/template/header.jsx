@@ -1,8 +1,11 @@
 import React from 'react'
+import { useStore } from 'react-redux'
 import Visibility from './visibility'
 
 function Header(props) {
-    const { isValidTokenAcesso, appName,usuarioTokenAcesso } = props;
+	const store = useStore()
+	console.log(decodedToken)
+    const { isValidToken, appName, decodedToken } = store.getState().app
     return (
     <header id="header" className="header fixed-top d-flex align-items-center">
 	<div className="d-flex align-items-center justify-content-between">
@@ -16,7 +19,7 @@ function Header(props) {
 		</h5>
 		<nav className="header-nav ms-auto">
 			<ul className="d-flex align-items-center">
-                <Visibility condition={isValidTokenAcesso}>
+                <Visibility condition={isValidToken}>
 					<li className="nav-item dropdown">
 						<a className="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
 							<i className="bi bi-time-left-token bi-clock"></i>
@@ -33,14 +36,14 @@ function Header(props) {
 						<a className="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 							<i className="bi bi-person"></i>
 							<span className="d-none d-md-block dropdown-toggle ps-2">
-								{usuarioTokenAcesso.sub }</span>
+								{decodedToken.sub }</span>
 						</a>
 						<ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 							<li className="dropdown-header">
 								<h6>
-                                {usuarioTokenAcesso.sub }
+                                {decodedToken.sub }
 								</h6>
-								<span>{usuarioTokenAcesso.environment }</span>
+								<span>{decodedToken.environment }</span>
 							</li>
 							<li>
 								<hr className="dropdown-divider" />
