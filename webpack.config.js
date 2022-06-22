@@ -20,6 +20,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       modules: __dirname + '/node_modules',
+      store: __dirname + '/src/store',
     }
   },
   module: {

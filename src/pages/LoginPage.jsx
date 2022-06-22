@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import api from '../main/api'
-import { useStore } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useStore } from 'react-redux'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { login } from 'store/actions/appActions'
 const LoginPage = function (props) {
     const store = useStore()
     const { appName } = store.getState().app
@@ -11,6 +16,11 @@ const LoginPage = function (props) {
     const [senha, setSenha] = useState(storedSenha || '')
     const [isLoading, setIsLogging] = useState(false)
     const [redirect, setRedirect] = useState(false)
+    useEffect(() => {
+        if (redirect) {
+            return <Navigate to="/" replace />
+        }
+    }, [redirect])
     useEffect(() => {
         localStorage.setItem("emailLogin", email)
         localStorage.setItem("senhalogin", senha)
@@ -35,10 +45,12 @@ const LoginPage = function (props) {
                 config)
             .then((response) => {
                 localStorage.setItem('tokenJwt', response.data.idToken)
+                props.login(response.data.idToken)
+                toast.success("Login efetuado com sucesso!")
                 setRedirect(true)
             })
             .catch((err) => {
-                alert("ops! ocorreu um erro" + err)
+                toast.error("ops! ocorreu um erro" + err)
             });
     }
     if (redirect) {
@@ -115,4 +127,6 @@ const LoginPage = function (props) {
         </section>
     )
 }
-export default LoginPage
+const mapStateToProps = state => ({ app: state.app })
+const mapDispatchToProps = dispatch => bindActionCreators({ login }, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

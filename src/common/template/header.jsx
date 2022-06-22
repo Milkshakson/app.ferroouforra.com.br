@@ -4,7 +4,6 @@ import Visibility from './visibility'
 
 function Header(props) {
 	const store = useStore()
-	console.log(decodedToken)
     const { isValidToken, appName, decodedToken } = store.getState().app
     return (
     <header id="header" className="header fixed-top d-flex align-items-center">
