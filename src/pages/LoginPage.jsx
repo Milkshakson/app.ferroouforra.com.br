@@ -1,13 +1,48 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../main/api'
 import { useStore } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 const LoginPage = function (props) {
-    const { appName } = useStore().getState('app')
-    const [senha, setSenha] = useState("")
-    const [email, setEmail] = useState("")
-    function submitLogin(e){
+    const store = useStore()
+    const { appName } = store.getState().app
+    const storedEmail = localStorage.getItem("emailLogin")
+    const storedSenha = localStorage.getItem("senhalogin")
+    const [email, setEmail] = useState(storedEmail || '')
+    const [senha, setSenha] = useState(storedSenha || '')
+    const [isLoading, setIsLogging] = useState(false)
+    const [redirect, setRedirect] = useState(false)
+    useEffect(() => {
+        localStorage.setItem("emailLogin", email)
+        localStorage.setItem("senhalogin", senha)
+    }, [email, senha])
+
+    function changeEmail(email) {
+        setEmail(email)
+    }
+    function submitLogin(e) {
         e.preventDefault();
-        console.log(email)
-        console.log(senha)
+
+        const config = {
+            headers: {
+                'Content-Type': "application/json",
+                'App-Version': "50"
+            }
+        }
+        api
+            .post("/login", {
+                email, senha
+            },
+                config)
+            .then((response) => {
+                localStorage.setItem('tokenJwt', response.data.idToken)
+                setRedirect(true)
+            })
+            .catch((err) => {
+                alert("ops! ocorreu um erro" + err)
+            });
+    }
+    if (redirect) {
+        return <Navigate to="/" replace />
     }
     return (
         <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -18,7 +53,7 @@ const LoginPage = function (props) {
                         <div className="d-flex justify-content-center py-4">
                             <a href="/" className="logo d-flex align-items-center w-auto">
                                 <img src="/assets/img/Logo.png" alt="Logo" />
-                                <span className="d-none d-lg-block">{appName}</span>
+                                <span className="d-none d-lg-block">APP: {appName}</span>
                             </a>
                         </div>
 
@@ -30,13 +65,13 @@ const LoginPage = function (props) {
                                     <p className="text-center small">Informe email e senha para acessar!</p>
                                 </div>
 
-                                <form onSubmit={e=>submitLogin(e)} className="row g-3 needs-validation" method="post" noValidate>
+                                <form onSubmit={e => submitLogin(e)} className="row g-3 needs-validation" method="post" noValidate>
 
                                     <div className="col-12">
                                         <label htmlFor="usuario" className="form-label">E-mail</label>
                                         <div className="input-group has-validation">
                                             <span className="input-group-text" id="inputGroupPrependEmail">@</span>
-                                            <input type="text" onChange={e=>setEmail(e.target.value)} className="form-control" id="email"
+                                            <input type="text" onChange={e => changeEmail(e.target.value)} className="form-control" id="email"
                                                 value={email} autoComplete="off" required />
                                             <div className="invalid-feedback">Por favor, informe seu email!</div>
                                         </div>
@@ -46,7 +81,7 @@ const LoginPage = function (props) {
                                         <label htmlFor="senha" className="form-label">Senha</label>
                                         <div className="input-group has-validation">
                                             <span className="input-group-text" id="inputGroupPrependsenha"><i className='bi bi-key'></i></span>
-                                            <input type="password" onChange={e=>setSenha(e.target.value)} className="form-control" id="senha"
+                                            <input type="password" onChange={e => setSenha(e.target.value)} className="form-control" id="senha"
                                                 value={senha} autoComplete="off" required />
                                             <div className="invalid-feedback">Por favor, informe sua senha!</div>
                                         </div>

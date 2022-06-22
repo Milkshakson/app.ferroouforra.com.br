@@ -16,6 +16,7 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
+    "@reduxjs/toolkit": "^1.8.2",
     "babel-loader": "^8.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^6.7.1",
@@ -23,8 +24,12 @@
     "hoist-non-react-statics": "^3.3.2",
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^2.6.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.0.0",
     "react-redux-toastr": "^7.6.8",
     "react-router-dom": "^6.3.0",
+    "redux": "^4.2.0",
     "sass": "^1.52.3",
     "sass-loader": "^13.0.0",
     "svg-url-loader": "^7.1.1",
@@ -32,11 +37,10 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^4.9.2",    
-    "@reduxjs/toolkit": "^1.8.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.0.0",
-    "redux": "^4.2.0"
+    "webpack-dev-server": "^4.9.2"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "react-jwt": "^1.1.6"
   }
 }
