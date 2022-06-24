@@ -6,6 +6,7 @@ import {
 } from 'store/actions/actionTypes'
 const initialState = {
     appName: 'Ferro ou Forra',
+    encodedToken: storedToken,
     decodedToken: decodeToken(storedToken),
     isValidToken: !isExpired(storedToken),
 }

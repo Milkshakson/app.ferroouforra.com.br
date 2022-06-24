@@ -15,7 +15,7 @@ const LogoutPage = function (props) {
     const [redirectHome, setRedirectHome] = useState(false)
   
     function toHome() {
-        toast.sucess("Você optou por continuar logado!")
+        toast.success("Você optou por continuar logado!")
         setRedirectHome(true)
     }
     function logout() {
@@ -28,18 +28,6 @@ const LogoutPage = function (props) {
         redirectHome?<Navigate to="/" replace />:
         redirectLogin?<Navigate to="/login" replace />:
         <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-
-            <ToastContainer
-                position="top-right"
-                autoClose={50000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">

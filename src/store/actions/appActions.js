@@ -9,6 +9,7 @@ export function login(token) {
         type: LOGIN,
         payload: {
             decodedToken: decodeToken(token),
+            encodedToken: token,
             isValidToken: !isExpired(token)
         }
     }
@@ -21,7 +22,8 @@ export function logout() {
         type: LOGOUT,
         payload: {
             decodedToken: {},
-            isValidToken: false
+            isValidToken: false,
+            encodedToken: ''
         }
     }
 }
