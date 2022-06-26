@@ -37,7 +37,7 @@ function GraficoLucro() {
             })
             .catch((err) => {
                 setLoadingSumary(false)
-                toast.error("ops! ocorreu um erro" + err + 'Token: ' + encodedToken)
+                toast.error("ops! ocorreu um erro!")
             });
     }
     useEffect(() => {
@@ -45,13 +45,14 @@ function GraficoLucro() {
     }, [])
 
     useEffect(() => {
+
         setUserData({
-            labels: sumary.map((data) => data.mesBuyin),
+            labels: sumary.reverse().map((data) => data.mesBuyin),
             datasets: [
                 {
                     label: "Lucro",
                     data: sumary.map((data) => data.profit),
-                    backgroundColor: sumary.map((data) => (data.profit>0)?'green':'red'),
+                    backgroundColor: sumary.reverse().map((data) => (data.profit>0)?'green':'red'),
                     borderColor: "black",
                     borderWidth: 2,
                 },
@@ -68,8 +69,7 @@ function GraficoLucro() {
                         <BarChart chartData={userData} /></div>
                     <div style={{ width: '33%' }}><LineChart chartData={userData} /></div>
                     <ResumoAnual sumary={sumary} />
-                    <span>{JSON.stringify(sumary)}</span>
-                </> : <div className='d-flex col-lg-5  col-md-5'>
+                </> : <div className='d-flex flex-column align-items-center justify-content-center py-4'>
                     <CircularProgressbar text='Aguarde' />
                 </div>
             }
