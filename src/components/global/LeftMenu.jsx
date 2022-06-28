@@ -1,9 +1,9 @@
 import React from 'react'
-import BiIcon from './bi-icon'
-import BxIcon from './bx-icon'
-import MenuItem from './MenuItem'
-import NavHeading from './nav-heading'
-import Visibility from './visibility'
+import BiIcon from 'components/global/BiIcon'
+import BxIcon from 'components/global/BxIcon'
+import MenuItem from 'components/global/MenuItem'
+import NavHeading from 'components/global/NavHeading'
+import Visibility from 'components/global/Visibility'
 
 export default props => (
     <ul className="sidebar-nav" id="sidebar-nav">

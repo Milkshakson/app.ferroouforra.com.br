@@ -5,7 +5,7 @@ import {
   Route
 } from 'react-router-dom'
 import ProtectedRoute from 'main/protectedRoute'
-import HomePage from 'pages/HomePage'
+import HomeSistag from 'pages/HomeSistag'
 import NotFoundPage from 'pages/NotFoundPage';
 import LoginPage from 'pages/LoginPage';
 import LogoutPage from 'pages/LogoutPage';
@@ -32,8 +32,8 @@ export default props => (
         <Route path="/session/current" element={<NotFoundPage />} />
         <Route path="/login/logout" element={<LogoutPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="" element={<ProtectedRoute> <HomePage /></ProtectedRoute>} />
-        <Route path="/" element={<ProtectedRoute> <HomePage /></ProtectedRoute>} />
+        <Route path="" element={<ProtectedRoute> <HomeSistag /></ProtectedRoute>} />
+        <Route path="/" element={<ProtectedRoute> <HomeSistag /></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

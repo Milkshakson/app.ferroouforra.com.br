@@ -25,6 +25,8 @@ module.exports = {
       main: __dirname + '/src/main',
       routes: __dirname + '/src/routes',
       common: __dirname + '/src/common',
+      components: __dirname + '/src/components',
+      utils: __dirname + '/src/common/utils'
     }
   },
   module: {
