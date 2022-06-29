@@ -7,7 +7,7 @@
     "start": "webpack --watch --progress --mode development",
     "build": "webpack  --watch --progress --mode production",
     "hot-prod": "webpack --watch --progress --mode production",
-    "dev": "webpack-dev-server --mode development --progress --hot  --no-client-overlay-warnings"
+    "dev": "webpack-dev-server --mode development --progress --no-client-overlay-warnings"
   },
   "keywords": [],
   "author": "",

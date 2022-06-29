@@ -45,7 +45,7 @@ const LoginPage = function (props) {
             .then((response) => {
                 localStorage.setItem('tokenJwt', response.data.idToken)
                 props.login(response.data.idToken)
-                toast.success("Login efetuado com sucesso!")
+                toast.success("Login efetuado com sucesso!",{autoClose:3500})
                 setRedirect(true)
             })
             .catch((err) => {

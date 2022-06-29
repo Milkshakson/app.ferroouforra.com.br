@@ -4,22 +4,28 @@ import BxIcon from 'components/global/BxIcon'
 import MenuItem from 'components/global/MenuItem'
 import NavHeading from 'components/global/NavHeading'
 import Visibility from 'components/global/Visibility'
+import { useStore } from 'react-redux'
 
-export default props => (
-    <ul className="sidebar-nav" id="sidebar-nav">
-        <NavHeading>Geral</NavHeading>
-        <MenuItem path='/' label='Home' icon={<BiIcon name="home" />} />
-        <Visibility condition={true}>
-            <MenuItem path='/session/current' label='Minha Sessão' icon={<BiIcon name="currency-dollar" />} />
-            <MenuItem path='/dashboard/yearly' label='Resumo anual' icon={<BiIcon name="calendar" />} />
-            <MenuItem path='/dashboard/monthly' label='Resumo mensal' icon={<BiIcon name="calendar" />} />
-            <MenuItem path='/login/logout' label='Sair' icon={<BxIcon name="exit" />} />
-        </Visibility>
-        <Visibility condition={false}>
-            <MenuItem path='/login/index' label='Login' icon={<BiIcon name="key" />} />
-            <MenuItem path='/registration/new' label='Cadastre-se' icon={<BxIcon name="registered" />} />
-        </Visibility>
-        <NavHeading>Externos</NavHeading>
-        <MenuItem path='https://twitch.tv/milkshakson' type="external" target="_blank" label='Twitch do Milk' icon={<BiIcon name="twitch" />} />
-    </ul>
-)
+export default props => {
+const store = useStore()
+const {app} = store.getState()
+    return (
+        <ul className="sidebar-nav" id="sidebar-nav">
+            <NavHeading>Geral</NavHeading>
+            <MenuItem path='/' ><BiIcon name="home" />Home</MenuItem>
+            <Visibility condition={app.isValidToken} replacement={
+                <>
+                    <MenuItem path='/login/index'><BiIcon name="key" />Login</MenuItem>
+                    <MenuItem path='/registration/new'><BxIcon name="registered" />Cadastre-se</MenuItem>
+                </>
+            }>
+                <MenuItem path='/session/current' ><BiIcon name="currency-dollar" />Minha Sessão</MenuItem>
+                <MenuItem path='/dashboard/yearly'><BiIcon name="calendar" />Resumo anual</MenuItem>
+                <MenuItem path='/dashboard/monthly'><BiIcon name="calendar" />Resumo mensal</MenuItem>
+                <MenuItem path='/login/logout'><BxIcon name="exit" />Sair</MenuItem>
+            </Visibility>
+            <NavHeading>Externos</NavHeading>
+            <MenuItem path='https://twitch.tv/milkshakson' type="external" target="_blank" label='Twitch do Milk' icon={<BiIcon name="twitch" />} />
+        </ul>
+    )
+}

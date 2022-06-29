@@ -1,15 +1,25 @@
 import React from 'react'
-
-import SideBar from 'common/template/sideBar'
-import Footer from 'common/template/footer'
-import Header from 'common/template/header'
-export default props => (
-    <>
-        <Header />
-        <SideBar />
-        <main id="main" className="main">
-         <div>PAGE NOT FOUND</div>
-        </main>
-        <Footer />
-        </>
-)
+import GraficoLucro from '../components/grafico/GraficoLucro'
+import SideBarLeft from 'components/global/SidebarLeft';
+import BodyBootstrap from 'components/global/BodyBootstrap';
+import Content from 'components/global/Content';
+import Footer from 'components/global/Footer';
+import Header from 'components/global/header';
+import CountdownTimer from 'components/global/CountdownTimer';
+import { useStore } from 'react-redux';
+import moment from 'moment'
+const IndexPage = () => {
+    const { app } = useStore().getState()
+    const { exp } = app.decodedToken
+    return (
+        <BodyBootstrap>
+            <Header showLeftMenu />
+            <SideBarLeft />
+            <Content >
+               PAGE NOT FOUND!!!!
+            </Content>
+            <Footer />
+        </BodyBootstrap>
+    )
+}
+export default IndexPage

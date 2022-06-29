@@ -22,7 +22,6 @@ function Header(props) {
 		<header id="header" className="header fixed-top d-flex align-items-center">
 			<div className="d-flex align-items-baseline justify-content-start">
 				<a href="/" className="logo d-flex align-items-center">
-				<img src="/assets/img/Logo.png"/>  
 				<img src={Logo}/>  
 				</a>
 
@@ -56,7 +55,7 @@ function Header(props) {
 								<li>
 									<hr className="dropdown-divider" />
 								</li>
-								<MenuItem className="dropdown-item d-flex align-items-center" path='/modulo1/login/logout'>
+								<MenuItem className="dropdown-item d-flex align-items-center" path='/login/logout'>
 									<i className="bi bi-box-arrow-right"></i>
 									<span> Sair</span>
 								</MenuItem>
