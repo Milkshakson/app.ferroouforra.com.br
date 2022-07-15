@@ -45,6 +45,8 @@ const LoginPage = function (props) {
             .then((response) => {
                 localStorage.setItem('tokenJwt', response.data.idToken)
                 props.login(response.data.idToken)
+                const audio = new Audio("./assets/sounds/login.mp3")
+                audio.play()
                 toast.success("Login efetuado com sucesso!",{autoClose:3500})
                 setRedirect(true)
             })

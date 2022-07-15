@@ -11,6 +11,7 @@ import LoginPage from 'pages/LoginPage';
 import LogoutPage from 'pages/LogoutPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SessionPage from '../pages/SessionPage';
 // import Dashboard from '../dashboard/dashboard'
 // import BillingCycle from '../billingCycle/billingCycle'
 export default props => (
@@ -29,9 +30,9 @@ export default props => (
     />
     <BrowserRouter>
       <Routes>
-        <Route path="/session/current" element={<NotFoundPage />} />
         <Route path="/login/logout" element={<LogoutPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/session/current" element={<SessionPage />} />
         <Route path="" element={<ProtectedRoute> <HomePage /></ProtectedRoute>} />
         <Route path="/" element={<ProtectedRoute> <HomePage /></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />

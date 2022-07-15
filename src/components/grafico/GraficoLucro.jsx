@@ -1,7 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useRef, useState } from 'react';
 import BarChart from '../../common/chart/BarChart';
-import PieChart from '../../common/chart/PieChart';
-import LineChart from '../../common/chart/LineChart';
 import { toast } from 'react-toastify'
 import { useStore } from 'react-redux';
 import api from '../../main/api';
@@ -13,9 +11,16 @@ function GraficoLucro() {
     const store = useStore()
     const { encodedToken } = store.getState().app
     const [sumary, setSumary] = useState([])
+    const [year, setYear] = useState(new Date().getFullYear())
     const [loadingSumary, setLoadingSumary] = useState(true)
+    const isScreenMounted = useRef(true)
+    
+    useEffect(() => {
+        return () =>  isScreenMounted.current = false
+    },[])
 
     function getSumary() {
+        if(!isScreenMounted.current) return;
         setLoadingSumary(true)
         const config = {
             headers: {
@@ -25,7 +30,7 @@ function GraficoLucro() {
             }
         }
         api
-            .get("/poker_session/resumo_anual_v2/?year=2022",
+            .get(`/poker_session/resumo_anual_v2/?year=${year}`,
                 config)
             .then((response) => {
                 setLoadingSumary(false)
@@ -36,19 +41,20 @@ function GraficoLucro() {
                 toast.error("ops! ocorreu um erro!")
             });
     }
+
     useEffect(() => {
         getSumary()
-    }, [])
+    }, [year])
 
     useEffect(() => {
-
+        const reverseSumary = sumary.reverse()
         setUserData({
-            labels: sumary.reverse().map((data) => data.mesBuyin),
+            labels: reverseSumary.map((data) => data.mesBuyin),
             datasets: [
                 {
                     label: "Lucro",
-                    data: sumary.map((data) => data.profit),
-                    backgroundColor: sumary.reverse().map((data) => (data.profit > 0) ? 'green' : 'red'),
+                    data: reverseSumary.map((data) => data.profit),
+                    backgroundColor: reverseSumary.map((data) => (parseFloat(data.profit) > 0) ? 'green' : 'red'),
                     borderColor: "black",
                     borderWidth: 2,
                 },
@@ -59,16 +65,16 @@ function GraficoLucro() {
     return (
         typeof (userData) !== 'undefined' && !loadingSumary ?
             <>
-                <div style={{ marginTop: 0, marginLeft: 0, position: 'relative', width: '120px' }} className='row d-flex aalign-items-start justify-content-start'>
-                    <button onClick={() => getSumary()} className="btn btn-primary">Atualizar</button>
+                <div className='container-fluid d-flex justify-content-between' style={{ margin: 0, padding: '10px 0' }}>
+                    <button style={{ cursor: 'pointer' }} className="btn btn-primary" onClick={() => setYear(year - 1)}>Anterior</button>
+                    <button onClick={() => getSumary()} className="btn btn-primary">Ano: {year} Atualizar</button>
+                    <button style={{ cursor: 'pointer' }} className="btn btn-primary" onClick={() => setYear(year + 1)}>Seguinte</button>
                 </div>
                 <div className='row d-flex align-items-center justify-content-center'>
-                    <div style={{ width: '33%' }}>
-                        <BarChart chartData={userData} /></div>
-                    <div style={{ width: '33%' }}><LineChart chartData={userData} /></div>
+                    <div style={{ width: '50%' }}><BarChart title='Movimentação anual' chartData={userData} /></div>
                     <ResumoAnual sumary={sumary} />
                 </div>
-            </> : <div style={{display:'flex',flexGrow:'1',flexDirection:'column'}} className='d-flex flex-column align-items-center justify-content-center py-4'>
+            </> : <div style={{ display: 'flex', flexGrow: '1', flexDirection: 'column' }} className='d-flex flex-column align-items-center justify-content-center py-4'>
                 <CircularProgress />
             </div>
     );

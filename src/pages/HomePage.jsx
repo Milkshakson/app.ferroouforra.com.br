@@ -10,14 +10,12 @@ import { useStore } from 'react-redux';
 import moment from 'moment'
 import ContentMain from '../components/global/ContentMain';
 const IndexPage = () => {
-    const { app } = useStore().getState()
-    const { exp } = app.decodedToken
     return (
         <BodyBootstrap>
             <Header showLeftMenu />
             <SideBarLeft />
             <ContentMain >
-              <div className="d-flex flex-column align-items-center justify-content-center p-6"  style={{height:'100%'}}>
+              <div className="d-flex flex-column align-items-center"  style={{height:'100%'}}>
                 <GraficoLucro />
               </div>
             </ContentMain>

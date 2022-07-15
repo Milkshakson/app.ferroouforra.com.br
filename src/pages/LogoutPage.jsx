@@ -20,6 +20,8 @@ const LogoutPage = function (props) {
     }
     function logout() {
         props.logout()
+        const audio = new Audio("./assets/sounds/logout.mp3")
+        audio.play()
         setRedirectLogin(true)
         toast.warning("Você optou por NÃO continuar logado!",{autoClose:1500})
 

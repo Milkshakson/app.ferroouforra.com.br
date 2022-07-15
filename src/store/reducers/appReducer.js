@@ -10,7 +10,8 @@ const initialState = {
     encodedToken: storedToken,
     decodedToken: decodeToken(storedToken),
     isValidToken: !isExpired(storedToken),
-    showSidebar: localStorage.getItem('showSidebar') === 'true'
+    showSidebar: localStorage.getItem('showSidebar') === 'true',
+    version:50
 }
 
 const appReducer = function (state = initialState, action) {

@@ -11,7 +11,7 @@ import ClockSession from './ClockSession';
 
 function Header(props) {
 	const { showLeftMenu, app } = props
-	const { sistemaSigla, sistemaNome } = app
+	const { appName } = app
 	const { isValidToken, decodedToken } = app ;
 	const [isVisibleSidebar, setIsVisibleSidebar] = useState(app.showSidebar)
 	useEffect(() => {
@@ -32,7 +32,7 @@ function Header(props) {
 				</Visibility>
 			</div>
 			<h5 className="card-title">
-				<span>{sistemaSigla}-{sistemaNome}</span>
+				<span>{appName}</span>
 			</h5>
 			<nav className="header-nav ms-auto">
 				<ul className="d-flex align-items-center">
@@ -50,10 +50,6 @@ function Header(props) {
 									<h6>
 										{decodedToken.nomeUsuario}
 									</h6>
-									<span>{decodedToken.environment}</span>
-								</li>
-								<li>
-									<hr className="dropdown-divider" />
 								</li>
 								<MenuItem className="dropdown-item d-flex align-items-center" path='/login/logout'>
 									<i className="bi bi-box-arrow-right"></i>
