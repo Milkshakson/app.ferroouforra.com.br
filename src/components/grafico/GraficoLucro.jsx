@@ -71,7 +71,7 @@ function GraficoLucro() {
                     <button style={{ cursor: 'pointer' }} className="btn btn-primary" onClick={() => setYear(year + 1)}>Seguinte</button>
                 </div>
                 <div className='row d-flex align-items-center justify-content-center'>
-                    <div style={{ width: '50%' }}><BarChart title='Movimentação anual' chartData={userData} /></div>
+                    <div className="col-md-10 col-lg-7"><BarChart title='Movimentação anual' chartData={userData} /></div>
                     <ResumoAnual sumary={sumary} />
                 </div>
             </> : <div style={{ display: 'flex', flexGrow: '1', flexDirection: 'column' }} className='d-flex flex-column align-items-center justify-content-center py-4'>
