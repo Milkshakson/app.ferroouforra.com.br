@@ -1,30 +1,37 @@
 import React from 'react';
+import { dolarFormat } from '../utils/moneyUtils';
 
 function ResumoAnual(props) {
     const { sumary } = props
-    const classTextProfit = ''
     const linhas = sumary.map(mes => {
-        /*
+        let classTextProfit = ''
         if (mes['profit'] > 0)
-            let classTextProfit = 'text-success'
+            classTextProfit = 'text-success'
         else if (mes['profit'] < 0)
-        let classTextProfit = 'text-danger'
+            classTextProfit = 'text-danger'
         else
-        let classTextProfit = 'text-light'
-*/
+            classTextProfit = 'text-light'
+
         return (<tr className={classTextProfit} key={mes.mesBuyin}>
             <td>{mes.mesBuyin}</td>
             <td>{mes['countBuyIns']}</td>
-            <td>{mes['totalBuyIn']}</td>
-            <td>{mes['stakingReturn']}</td>
-            <td>{mes['totalPrize']}</td>
-            <td>{mes['profit']}</td>
+            <td>{dolarFormat(mes['totalBuyIn'])}</td>
+            <td>{dolarFormat(mes['stakingReturn'])}</td>
+            <td>{dolarFormat(mes['totalPrize'])}</td>
+            <td>{dolarFormat(mes['profit'])}</td>
         </tr>
         )
     })
     return (
         <table className='table'>
             <thead>
+                <tr>
+                    <th colSpan={6}>
+                        Lucro do ano: {dolarFormat(sumary.reduce((total, mes) => {
+                            return total + parseFloat(mes['profit'])
+                        }, 0))}
+                    </th>
+                </tr>
                 <tr>
                     <th>Mês</th>
                     <th>Contagem de buy ins</th>

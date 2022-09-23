@@ -15,13 +15,15 @@ const LogoutPage = function (props) {
     const [redirectHome, setRedirectHome] = useState(false)
   
     function toHome() {
-        toast.success("Você optou por continuar logado!")
+        toast.success("Você optou por continuar logado!",{autoClose:1500})
         setRedirectHome(true)
     }
     function logout() {
         props.logout()
+        const audio = new Audio("./assets/sounds/logout.mp3")
+        audio.play()
         setRedirectLogin(true)
-        toast.warning("Você optou por NÃO continuar logado!")
+        toast.warning("Você optou por NÃO continuar logado!",{autoClose:1500})
 
     }
     return (
