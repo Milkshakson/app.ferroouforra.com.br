@@ -42,7 +42,7 @@ class Session extends BaseController
                             $this->session->setFlashdata('sucessos', 'Sessão aberta com sucesso.');
                             $this->response->redirect('/session/current');
                         } else {
-                            pre($open ,1);
+                            pre($open, 1);
                             $this->dados['erros'] = 'Falha ao criar a sessão.';
                         }
                     } else {
@@ -79,6 +79,7 @@ class Session extends BaseController
             $pokerSessionProvider = new PokerSessionProvider();
             if ($this->request->getMethod() == 'post') {
                 $input = $this->getRequestInput($this->request);
+                // pre($input, 1);
                 if (!empty($input)) {
                     $rules = [
                         "buyinValue" => [
@@ -139,7 +140,7 @@ class Session extends BaseController
                                     'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
                                 ];
                         }
-                 /*        $rules['fieldSize'] =
+                        /*        $rules['fieldSize'] =
                             [
                                 'label' => "Tamanho do field",
                                 'rules' => 'required'
@@ -245,6 +246,7 @@ class Session extends BaseController
             if ($pokerSites['statusCode'] != 200) {
                 throw new APPException("Erro ao recuperar a lista de sites");
             }
+
             $this->dados['pokerSites'] = $pokerSites['content'];
         } catch (APPException $exception) {
             return $this->exitSafe($exception->getHandledMessage(), 'home/index');
@@ -359,7 +361,7 @@ class Session extends BaseController
                 } catch (APPException $e) {
                     $this->dados['erros'] = $e->getHandledMessage($e->getMessage());
                 }
-                $retorno = $this->view->render('Home/Includes/graficos-sumary-home.twig',$this->dados);
+                $retorno = $this->view->render('Home/Includes/graficos-sumary-home.twig', $this->dados);
                 break;
         }
         return $retorno;

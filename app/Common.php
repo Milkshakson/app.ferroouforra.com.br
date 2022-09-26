@@ -34,6 +34,8 @@ function coalesce($var, $replace = '')
 
 function dolarFormat($money = 0)
 {
+    if (is_null($money))
+        $money = 0;
     $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
     return $fmt->formatCurrency($money, 'usd');
 }
@@ -83,6 +85,6 @@ if (!function_exists('arrayIncrement')) {
         } else {
             $newArray[$chave] = $valor;
         }
-         return $newArray;
+        return $newArray;
     }
 }
