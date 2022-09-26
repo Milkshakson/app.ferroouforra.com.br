@@ -18,9 +18,9 @@
     $startDate = new Time($bi['startDate']);
     $endDate = new Time($bi['endDate']);
     if ($bi['isClosed']) {
-      $cardTime = boxBi('Encerrado', $endDate->humanize(), "title='" . $startDate->format('d/m/Y H:i') . "' class='col-lg-3 col-md-6 col-xs-6 col-6'");
+      $cardTime = box_bi('Encerrado', $endDate->humanize(), "title='" . $startDate->format('d/m/Y H:i') . "' class='col-lg-3 col-md-6 col-xs-6 col-6'");
     } else {
-      $cardTime = boxBi('Início', $startDate->humanize(), "title='" . $startDate->format('d/m/Y H:i') . "' class='col-lg-3 col-md-6 col-xs-6 col-6'");
+      $cardTime = box_bi('Início', $startDate->humanize(), "title='" . $startDate->format('d/m/Y H:i') . "' class='col-lg-3 col-md-6 col-xs-6 col-6'");
     }
   ?>
     <div class="card mb-1 py-2 px-1">
@@ -48,9 +48,9 @@
               </ul>
             </div>
             <div class='row text-muted small '>
-              <?= boxBi('Total buy in', dolarFormat($bi['totalBuyIn']), 'class="col-lg-3 col-md-6 col-sm-6  col-xs-6 col-6"') ?>
-              <?= boxBi('Total prize', dolarFormat($bi['totalPrize']), 'class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-6"') ?>
-              <?= boxBi('Lucro', dolarFormat($bi['profit']), "class='col-lg-3 col-md-3 col-xs-6 col-6 $classLucro'") ?>
+              <?= box_bi('Total buy in', dolarFormat($bi['totalBuyIn']), 'class="col-lg-3 col-md-6 col-sm-6  col-xs-6 col-6"') ?>
+              <?= box_bi('Total prize', dolarFormat($bi['totalPrize']), 'class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-6"') ?>
+              <?= box_bi('Lucro', dolarFormat($bi['profit']), "class='col-lg-3 col-md-3 col-xs-6 col-6 $classLucro'") ?>
               <?= $cardTime ?>
             </div>
             <div class="accordion accordion-flush" id="accordion<?= $bi['buyinId'] ?>">
@@ -65,18 +65,18 @@
                     <hr class='divider' />
                     <?php if ($bi['stakingSold'] > 0) { ?>
                       <div class='row'>
-                        <?= boxBi('Cota oferecida', percent($bi['stakingSelling']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
-                        <?= boxBi('Markup', ($bi['markup']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
-                        <?= boxBi('Cota vendida', percent($bi['stakingSold']), 'class="col-md-4 col-lg-4 col-xs-4 col-4 "') ?>
-                        <?= boxBi('Patrocinadores pagaram', dolarFormat($bi['stakingReturn']), 'class="col-md-4 col-lg-4 col-xs-6 col-4"') ?>
-                        <?= boxBi('Patrocinadores receberam', dolarFormat($bi['totalPrizeStakers']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
+                        <?= box_bi('Cota oferecida', percent($bi['stakingSelling']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
+                        <?= box_bi('Markup', ($bi['markup']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
+                        <?= box_bi('Cota vendida', percent($bi['stakingSold']), 'class="col-md-4 col-lg-4 col-xs-4 col-4 "') ?>
+                        <?= box_bi('Patrocinadores pagaram', dolarFormat($bi['stakingReturn']), 'class="col-md-4 col-lg-4 col-xs-6 col-4"') ?>
+                        <?= box_bi('Patrocinadores receberam', dolarFormat($bi['totalPrizeStakers']), 'class="col-md-4 col-lg-4 col-xs-4 col-4"') ?>
                       </div>
                     <?php } ?>
                     <div class='row'>
-                      <?= boxBi('Valor reentrada', dolarFormat($bi['reentryBuyIn']), 'class="col-md-3 col-xs-6 col-6 "') ?>
-                      <?= boxBi('Prêmio reentrada', dolarFormat($bi['prizeReentry']), 'class="col-md-3 col-xs-6 col-6 "') ?>
-                      <?= boxBi('Tamanho do field', ($bi['fieldSize']), 'class="col-md-3 col-xs-6 col-6 "') ?>
-                      <?= boxBi('Posição final', ($bi['position'] . 'º'), 'class="col-md-3 col-xs-6 col-6 "') ?>
+                      <?= box_bi('Valor reentrada', dolarFormat($bi['reentryBuyIn']), 'class="col-md-3 col-xs-6 col-6 "') ?>
+                      <?= box_bi('Prêmio reentrada', dolarFormat($bi['prizeReentry']), 'class="col-md-3 col-xs-6 col-6 "') ?>
+                      <?= box_bi('Tamanho do field', ($bi['fieldSize']), 'class="col-md-3 col-xs-6 col-6 "') ?>
+                      <?= box_bi('Posição final', ($bi['position'] . 'º'), 'class="col-md-3 col-xs-6 col-6 "') ?>
                     </div>
                     <hr class='divider' />
                   </div>

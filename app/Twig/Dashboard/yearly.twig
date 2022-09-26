@@ -1,53 +1,100 @@
 {% extends 'templateBase.twig' %}
 {% block content %}
-	<div class='row'>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/yearly/{{year-1}}'>
-			<i style="font-size:50px;" class='bx bx-skip-previous-circle'></i>
+	<div class="row">
+		<a class="col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1" title="Ano anterior" href="/dashboard/yearly/{{ year - 1 }}">
+			<i style="font-size:50px;" class="bx bx-skip-previous-circle"></i>
 		</a>
-		<h4 class='card-title text-center col-10 col-sm-10 col-md-10 col-lg-10 col-xxl-10'>Resumo do ano
-			{{year}}</h4>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo ano" href='/dashboard/yearly/{{year+1}}'>
-			<i style="font-size:50px;" class='bx bx-skip-next-circle'></i>
+		<h4 class="card-title text-center col-10 col-sm-10 col-md-10 col-lg-10 col-xxl-10">
+			Resumo do ano
+			{{ year }}
+		</h4>
+		<a class="col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1" title="Próximo ano" href="/dashboard/yearly/{{ year + 1 }}">
+			<i style="font-size:50px;" class="bx bx-skip-next-circle"></i>
 		</a>
 	</div>
-	<div class='row'>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
+	<div class="row">
+		<div class="col-lg-4 col-xxl-4 col-md-4">
 			<canvas id="barChartLucro" style="max-height: 400px;"></canvas>
 		</div>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
+		<div class="col-lg-4 col-xxl-4 col-md-4">
 			<canvas id="barChartBuyIn" style="max-height: 400px;"></canvas>
 		</div>
-		<div class='col-lg-4 col-xxl-4 col-md-4'>
+		<div class="col-lg-4 col-xxl-4 col-md-4">
 			<canvas id="barChartCotas" style="max-height: 400px;"></canvas>
 		</div>
 	</div>
-	<div class='row'>
-		<table class='table'>
+	<div class="row">
+		{% set totalProfitYear = array_sum(array_column(yearlySumary, 'profit')) %}
+		{% set countBuyIns = array_sum(array_column(yearlySumary, 'countBuyIns')) %}
+		{% set totalBuyIn = array_sum(array_column(yearlySumary, 'totalBuyIn')) %}
+		{% set totalITM = array_sum(array_column(yearlySumary, 'countITM')) %}
+		{% set sumAbi = array_sum(array_column(yearlySumary, 'avgBuyIn')) %}
+		{% if count(yearlySumary) > 0%}
+			{% set  ABI = sumAbi / count(yearlySumary) %}
+		{% else %}
+			{% set ABI = 0 %}
+		{% endif %}
+
+		{% if totalProfitYear > 0 %}
+			{% set classTextProfit = 'text-success' %}
+		{% elseif totalProfitYear < 0 %}
+			{% set classTextProfit = 'text-danger' %}
+		{% else %}
+			{% set classTextProfit = 'text-light' %}
+		{% endif %}
+		<small>* O ITM neste cenário leva em conta a premiação com bounty. Por exemplo: se você não entrou na faixa de ITM do torneio, mas pegou um bounty
+							e registrou como prêmio, o sistema irá considerar ITM.</small>
+		<div class="bg-light rounded-circle p-4 d-flex flex-row justify-content-end">
+			<div class="p-2">Registros:
+				{{ countBuyIns }}</div>
+			<div class="p-2">ABI:
+				{{ dolarFormat(ABI) }}</div>
+			<div class="p-2">ITM:
+				{{ (totalITM) }}</div>
+			<div class="p-2">% ITM:
+				{{ percent((totalITM / countBuyIns )*100) }}</div>
+			<div class="p-2">Total $ buy-ins:
+				{{ dolarFormat(totalBuyIn) }}</div>
+			<div class="p-2">Retorno $ de Cotas:
+				{{ dolarFormat(array_sum(array_column(yearlySumary, 'stakingReturn'))) }}</div>
+			<div class="p-2">Total premiação:
+				{{ dolarFormat(array_sum(array_column(yearlySumary, 'totalPrize'))) }}</div>
+
+			<div class="p-2 {{ classTextProfit }}">Lucro ano:
+				{{ dolarFormat(totalProfitYear) }}</div>
+		</div>
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Mês</th>
-					<th>Contagem de buy ins</th>
-					<th>Total de buy ins</th>
+					<th>Registros</th>
+					<th>ABI</th>
+					<th>$ Buy ins</th>
+					<th>ITM</th>
+					<th>% ITM</th>
 					<th>Retorno de cotas</th>
-					<th>Total de premiação</th>
-					<th>Total de Lucro</th>
+					<th>Premiação</th>
+					<th>$ Lucro</th>
 				</tr>
 			</thead>
 			{% for mes in yearlySumary %}
 				{% if mes['profit'] > 0 %}
-					{% set classTextProfit ='text-success' %}
+					{% set classTextProfit = 'text-success' %}
 				{% elseif mes['profit'] < 0 %}
-					{% set classTextProfit ='text-danger' %}
+					{% set classTextProfit = 'text-danger' %}
 				{% else %}
-					{% set classTextProfit ='text-light' %}
+					{% set classTextProfit = 'text-light' %}
 				{% endif %}
-				<tr class='{{classTextProfit}}'>
-					<td>{{mes['mesBuyin']}}</td>
-					<td>{{mes['countBuyIns']}}</td>
-					<td>{{dolarFormat(mes['totalBuyIn'])}}</td>
-					<td>{{dolarFormat(mes['stakingReturn'])}}</td>
-					<td>{{dolarFormat(mes['totalPrize'])}}</td>
-					<td>{{dolarFormat(mes['profit'])}}</td>
+				<tr class="{{ classTextProfit }}">
+					<td>{{ mes.mesBuyin }}</td>
+					<td>{{ mes.countBuyIns }}</td>
+					<td>{{ dolarFormat(mes.avgBuyIn) }}</td>
+					<td>{{ dolarFormat(mes.totalBuyIn) }}</td>
+					<td>{{ mes.countITM }}</td>
+					<td>{{ percent(mes.percentageITM) }}</td>
+					<td>{{ dolarFormat(mes.stakingReturn) }}</td>
+					<td>{{ dolarFormat(mes.totalPrize) }}</td>
+					<td>{{ dolarFormat(mes.profit) }}</td>
 				</tr>
 			{% endfor %}
 		</table>
@@ -60,100 +107,97 @@ var barChartCotas = {{ barChartCotas }};
 	</script>
 {% endblock %}
 
-
 {% block scriptsFooter %}
 	{{ parent() }}
 	<!-- Bar Chart -->
 	<script>
 		// document.addEventListener("DOMContentLoaded", () => {
 $(document).ready(function () {
-        new Chart(document.querySelector('#barChartLucro'), {
-            type: 'bar',
-            data: {
-                labels: barChartLucro['labels'],
-                datasets: [
-                {
-                    label: 'Gráfico de Lucro ou prejuízo',
-                    data: barChartLucro['dataValues'],
-                    backgroundColor: barChartLucro['cores'],
-                    borderColor:barChartLucro['cores'],
-                    borderWidth: 1
-                }
-            ]
-            },
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { // Include a dollar sign in the ticks
-                        callback: function (value, index, ticks) {
-                            return '$' + value;
-                        }
-                    }
-                }
-            }
-            }
-        });
+new Chart(document.querySelector("#barChartLucro"), {
+type: "bar",
+data: {
+labels: barChartLucro["labels"],
+datasets: [
+{
+label: "Gráfico de Lucro ou prejuízo",
+data: barChartLucro["dataValues"],
+backgroundColor: barChartLucro["cores"],
+borderColor: barChartLucro["cores"],
+borderWidth: 1
+}
+]
+},
+options: {
+scales: {
+y: {
+beginAtZero: true,
+ticks: { // Include a dollar sign in the ticks
+callback: function (value, index, ticks) {
+return "$" + value;
+}
+}
+}
+}
+}
+});
 
 
-        new Chart(document.querySelector('#barChartBuyIn'), {
-            type: 'bar',
-            data: {
-                labels: barChartBuyIn['labels'],
-                datasets: [
-                {
-                    label: 'Gráfico de Buy in',
-                    data: barChartBuyIn['dataValues'],
-                    backgroundColor: barChartBuyIn['cores'],
-                    borderColor: barChartBuyIn['cores'],
-                    borderWidth: 1
-                }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { // Include a dollar sign in the ticks
-                            callback: function (value, index, ticks) {
-                                return '$' + value;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+new Chart(document.querySelector("#barChartBuyIn"), {
+type: "bar",
+data: {
+labels: barChartBuyIn["labels"],
+datasets: [
+{
+label: "Gráfico de Buy in",
+data: barChartBuyIn["dataValues"],
+backgroundColor: barChartBuyIn["cores"],
+borderColor: barChartBuyIn["cores"],
+borderWidth: 1
+}
+]
+},
+options: {
+scales: {
+y: {
+beginAtZero: true,
+ticks: { // Include a dollar sign in the ticks
+callback: function (value, index, ticks) {
+return "$" + value;
+}
+}
+}
+}
+}
+});
 
 
-
-
-    new Chart(document.querySelector('#barChartCotas'), {
-        type: 'bar',
-        data: {
-            labels: barChartCotas['labels'],
-            datasets: [
-                {
-                    label: 'Gráfico de Cotas',
-                    data: barChartCotas['dataValues'],
-                    backgroundColor: barChartCotas['cores'],
-                    borderColor: barChartCotas['cores'],
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true,
-                ticks: { // Include a dollar sign in the ticks
-                    callback: function (value, index, ticks) {
-                    return '$' + value;
-                    }
-                }
-                }
-            }
-        }
-    });
+new Chart(document.querySelector("#barChartCotas"), {
+type: "bar",
+data: {
+labels: barChartCotas["labels"],
+datasets: [
+{
+label: "Gráfico de Cotas",
+data: barChartCotas["dataValues"],
+backgroundColor: barChartCotas["cores"],
+borderColor: barChartCotas["cores"],
+borderWidth: 1
+}
+]
+},
+options: {
+scales: {
+y: {
+beginAtZero: true,
+ticks: { // Include a dollar sign in the ticks
+callback: function (value, index, ticks) {
+return "$" + value;
+}
+}
+}
+}
+}
+});
 });
 	</script>
 	<!-- End Bar CHart -->

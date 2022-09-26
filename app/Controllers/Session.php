@@ -281,10 +281,14 @@ class Session extends BaseController
                     $gameName = $bi['gameName'];
                     $pokerSiteId = $bi['pokerSiteId'];
                     $tipoBuyIn = $bi['tipoBuyIn'];
-                    $game = boxBi('Jogo', $gameName, 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                    $game .= boxBi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                    $game .= boxBi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                    $html .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$game</div></a>";
+                    $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-3 col-lg-4"');
+                    $gameInfo .= box_bi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                    $gameInfo .= box_bi('&nbsp;', ($bi['tipoBuyInName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                    $html .= "<div class='border border-secondary rounded ps-3 pe-3 mb-1 ms-0'>";
+                    $html .= "<div class='row'>$gameInfo</div>";
+                    $html .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$gameName</div></a>";
+                    $html .= '</div>';
+                    // $html .= json_encode($bi);
                 }
             }
         }

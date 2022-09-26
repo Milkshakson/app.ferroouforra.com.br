@@ -34,10 +34,19 @@ function coalesce($var, $replace = '')
 
 function dolarFormat($money = 0)
 {
+    defined('MIL') or define('MIL', 1000);
+    defined('MILHAO') or define('MILHAO', MIL * MIL);
     if (is_null($money))
         $money = 0;
+
     $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-    return $fmt->formatCurrency($money, 'usd');
+    if ($money >= MILHAO) {
+        return $fmt->formatCurrency($money / MILHAO, 'usd') . 'M';
+    } else if ($money >= MIL) {
+        return $fmt->formatCurrency($money / MIL, 'usd') . 'K';
+    } else {
+        return $fmt->formatCurrency($money, 'usd');
+    }
 }
 function percent($number = 0)
 {
@@ -66,8 +75,8 @@ function getSiteSrcImage($siteName = '')
     }
 }
 
-if (!function_exists('boxBi')) {
-    function boxBi($label, $value, $properties = '')
+if (!function_exists('box_bi')) {
+    function box_bi($label, $value, $properties = '')
     {
         return "<div $properties>" . //
             "<div class='row bg-light  py-0'>$label</div>" . //

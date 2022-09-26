@@ -1,35 +1,35 @@
 {% extends 'templateBase.twig' %}
 {% block content %}
 	<div class='row'>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/monthly/{{CIMesResumo.subMonths(1).format('m/Y')}}'>
+		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/monthly/{{CIMesResumo.subMonths(1).format(' m/y')}}'>
 			<i style="font-size:50px;" class='bx bx-skip-previous-circle'></i>
 		</a>
 		<h4 class='card-title text-center col-10 col-sm-10 col-md-10 col-lg-10 col-xxl-10'>Resumo do mês
 			{{month}}/{{year}}</h4>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo mês" href='/dashboard/monthly/{{CIMesResumo.addMonths(1).format('m/Y')}}'>
+		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo mês" href='/dashboard/monthly/{{CIMesResumo.addMonths(1).format(' m/y')}}'>
 			<i style="font-size:50px;" class='bx bx-skip-next-circle'></i>
 		</a>
 	</div>
 	<div class='row'>
 		{% for dia in monthlySumary %}
 			<!-- Jogos Card -->
-            {% set classTextProfit = (dia['countBuyIns']>0)? (dia['profit']>0?'text-success':'text-danger'):'' %}
+			{% set classTextProfit = (dia['countBuyIns']>0)? (dia['profit']>0?'text-success':'text-danger'):'' %}
 			<div class="col-xxl-2 col-md-3 col-lg-3">
 				<div class="card info-card sales-card">
 					<div class="card-body">
 						<h5 class="card-title  {{classTextProfit}}">Dia
-							{{dia['day']}}<br />
-							<span>						
+							{{dia['day']}}<br/>
+							<span>
 								{{dia['dayWeekString']}}</span>
 						</h5>
 						<div class='row p-1'>
-                        {% if dia['countBuyIns']>0 %}
-							{{boxBI('Registros',dia['countBuyIns'],'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
-							{{boxBI('Lucro',dolarFormat(dia['profit']),'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
-                        {% else %}
-                        {{boxBI('Registros',dia['countBuyIns'],'class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
-                        {{boxBI('','','class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
-                        {% endif %}
+							{% if dia['countBuyIns']>0 %}
+								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
+								{{box_bi('Lucro',dolarFormat(dia['profit']),'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
+							{% else %}
+								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
+								{{box_bi('','','class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
+							{% endif %}
 						</div>
 					</div>
 

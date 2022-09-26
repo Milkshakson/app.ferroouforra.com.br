@@ -25,7 +25,7 @@ class Dashboard extends BaseController
                 $this->dados['yearlySumary'] = $yearlySumary;
                 foreach ($yearlySumary as $mes) {
                     /*Lucro*/
-                    $barChartLucro['cores'][] =  $mes['profit']>=0?'rgba(54, 162, 235, 0.2)':'rgba(255, 99, 132, 0.2)';
+                    $barChartLucro['cores'][] =  $mes['profit'] >= 0 ? 'rgba(54, 162, 235, 0.2)' : 'rgba(255, 99, 132, 0.2)';
                     $barChartLucro['labels'][] = $mes['mesBuyin'];
                     $barChartLucro['dataValues'][] = $mes['profit'];
                     /*BuyIns */
@@ -48,7 +48,8 @@ class Dashboard extends BaseController
         $this->view->display('Dashboard/yearly', $this->dados);
     }
 
-    public function monthly($month=null,$year=null){
+    public function monthly($month = null, $year = null)
+    {
 
         try {
             $this->dados['colorsRand'] = $hex = array_merge(range(0, 9), range('A', 'F'));
@@ -57,14 +58,13 @@ class Dashboard extends BaseController
             $month = $month ?? $month = date('m');
             $this->dados['year'] = $year;
             $this->dados['month'] = $month;
-            $this->dados['CIMesResumo'] = Time::createFromFormat('m/Y',"$month/$year");
+            $this->dados['CIMesResumo'] = Time::createFromFormat('m/Y', "$month/$year");
             $pokerSessionProvider = new PokerSessionProvider();
-            $monthlySumary = $pokerSessionProvider->getResumoMensal($month,$year);
+            $monthlySumary = $pokerSessionProvider->getResumoMensal($month, $year);
             if ($monthlySumary['statusCode'] == 202) {
                 $monthlySumary = $monthlySumary['content'];
                 $this->dados['monthlySumary'] = $monthlySumary;
             }
-
         } catch (APPException $e) {
             $this->dados['erros'] = $e->getHandledMessage($e->getMessage());
         }
