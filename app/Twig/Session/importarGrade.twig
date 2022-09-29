@@ -1,0 +1,33 @@
+{% extends 'templateBase.twig' %}
+{% set openedSession = session('openedSession') %}
+{% block css %}
+	{{parent()}}
+	<link href="/assets/css/importa-grade.css?version={{versionScripts}}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+	<div class="pagetitle">
+		<h1>Sessão</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Importação de grade</a>
+				</li>
+			</ol>
+		</nav>
+	</div>
+	<!-- End Page Title -->
+	{% if openedSession is not empty %}
+		<div class='grid-selecao-importa'>
+			<div>Importar da última Sessão</div>
+			<div>Importar da última Segunda</div>
+			<div>Importar da última Terça</div>
+			<div>Importar da última quarta</div>
+			<div>Importar da última Quinta</div>
+			<div>Importar da última Sexta</div>
+			<div>Importar do último Sábado</div>
+			<div>Importar do último Domingo</div>
+		</div>
+	{% else %}
+		<h2>Sessão não aberta</h2>
+	{% endif %}
+{% endblock %}

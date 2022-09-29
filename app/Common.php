@@ -50,6 +50,7 @@ function dolarFormat($money = 0)
 }
 function percent($number = 0)
 {
+    $number = is_null($number) ? 0 : $number;
     return number_format($number, 2) . '%';
 }
 if (!function_exists('array_array')) {

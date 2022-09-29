@@ -1,0 +1,4 @@
+.grid-selecao-importa {
+    display: grid !important;
+    grid-template-columns: repeat(4 1fr);
+}

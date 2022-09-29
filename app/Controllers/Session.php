@@ -295,6 +295,17 @@ class Session extends BaseController
         return $html;
     }
 
+    public function importarGrade()
+    {
+        $pokerSessionProvider = new PokerSessionProvider();
+        $openedSession = $pokerSessionProvider->getCurrentOpen();
+        if ($openedSession['statusCode'] != 202) {
+            throw new APPException("Erro ao recuperar a sessão aberta");
+        }
+        $this->dados['openedSession'] = $openedSession['content'];
+        $this->view->display('Session/importarGrade.twig', $this->dados);
+    }
+
     public function encerrar()
     {
         try {
