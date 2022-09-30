@@ -1,9 +1,9 @@
 {% extends 'templateBase.twig' %}
-{% set openedSession = session('openedSession') %}
 {% block css %}
 	{{parent()}}
 	<link href="/assets/css/importa-grade.css?version={{versionScripts}}" rel="stylesheet">
 {% endblock %}
+{% set openedSession = session('openedSession') %}
 {% block content %}
 	<div class="pagetitle">
 		<h1>Sessão</h1>
@@ -18,14 +18,65 @@
 	<!-- End Page Title -->
 	{% if openedSession is not empty %}
 		<div class='grid-selecao-importa'>
-			<div>Importar da última Sessão</div>
-			<div>Importar da última Segunda</div>
-			<div>Importar da última Terça</div>
-			<div>Importar da última quarta</div>
-			<div>Importar da última Quinta</div>
-			<div>Importar da última Sexta</div>
-			<div>Importar do último Sábado</div>
-			<div>Importar do último Domingo</div>
+			<div class='card'>
+				<div class='card-header'>
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>
+						Importar da última Sessão
+					</button>
+				</div>
+				<div class='card-body'></div>
+
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar da última Segunda</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar da última Terça</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar da última Quarta</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar da última Quinta</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar da última Sexta</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar do último sábado</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
+			<div class='card'>
+				<div class="card-header flex flex-row nowrap">
+					<button class='btn'>
+						<i class="ri-24-hours-line"></i>Importar do último domingo</button>
+				</div>
+				<div class='card-body'></div>
+			</div>
 		</div>
 	{% else %}
 		<h2>Sessão não aberta</h2>

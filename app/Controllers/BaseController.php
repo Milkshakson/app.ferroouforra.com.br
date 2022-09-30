@@ -156,7 +156,7 @@ class BaseController extends Controller
         $input = $request->getPost();
         if (empty($input)) {
             //convert request body to associative array
-            $input = json_decode($request->getBody(), true);
+            $input = $request->getBody() ? json_decode($request->getBody(), true) : null;
         }
         return $input;
     }

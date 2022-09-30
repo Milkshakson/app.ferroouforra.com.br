@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
+use Exception;
 
 class Session extends BaseController
 {
@@ -36,13 +37,11 @@ class Session extends BaseController
                     ];
                     if ($this->validate($rules)) {
                         $dataPost = ['descricao' => $input['descricao'], 'data_inicio' => $input['data'] . ' ' . $input['hora']];
-                        pre($dataPost);
                         $open = $pokerSessionProvider->open($dataPost);
                         if ($open['statusCode'] == 201) {
                             $this->session->setFlashdata('sucessos', 'Sessão aberta com sucesso.');
                             $this->response->redirect('/session/current');
                         } else {
-                            pre($open, 1);
                             $this->dados['erros'] = 'Falha ao criar a sessão.';
                         }
                     } else {
@@ -295,6 +294,52 @@ class Session extends BaseController
         return $html;
     }
 
+    public function createBuyInBatch()
+    {
+        try {
+            if ($this->request->getMethod() == 'post') {
+                $input = $this->getRequestInput($this->request);
+                $pokerSessionProvider = new PokerSessionProvider();
+                $openedSession = $pokerSessionProvider->getCurrentOpen();
+                if ($openedSession['statusCode'] != 202) {
+                    throw new APPException("Erro ao recuperar a sessão aberta");
+                }
+                $buyInListSession = $pokerSessionProvider->consumeEndpoint('get', '/poker_session/buyins_session?id=' . $input['sessionId'])['content'];
+                $buyInListPost = $input['buyInList'];
+                $buyInListToSave = array_map(
+                    function ($bi) {
+                        $newBi = [
+                            "buyinValue" => $bi['buyinValue'],
+                            "moeda" => $bi['currencyName'],
+                            "poker_jogos_id" => $bi['gameId'],
+                            "cota_oferecida" => null,
+                            "markup" => null,
+                            "inicio" => $bi['startDate'],
+                            "poker_site_id" => $bi['pokerSiteId'],
+                            "tamanho_field" => null,
+                            "posicao_final" => null
+                        ];
+
+                        return $newBi;
+                    },
+                    array_filter($buyInListSession, function ($bi) use ($buyInListPost) {
+                        return in_array($bi['buyinId'], $buyInListPost);
+                    })
+                );
+
+                $data = [
+                    'batch' => json_encode($buyInListToSave),
+                    'idPokerSession' => $openedSession['content']['id']
+                ];
+                $create =  $pokerSessionProvider->consumeEndpoint('post', '/poker_session/create_buyin_batch', $data);
+                pre($create);
+            } else {
+                throw new APPException("Dados não enviados");
+            }
+        } catch (APPException $exception) {
+            pre($exception);
+        }
+    }
     public function importarGrade()
     {
         $pokerSessionProvider = new PokerSessionProvider();
@@ -306,6 +351,18 @@ class Session extends BaseController
         $this->view->display('Session/importarGrade.twig', $this->dados);
     }
 
+    public function importLastClosed()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $last =  $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed');
+            $this->dados['sessionToImport'] = $last['content'];
+            $this->dados['tituloImportacao'] = "Importação da última sessão";
+        } catch (APPException $exception) {
+            $this->dados['erros'] = $exception->getHandledMessage();
+        }
+        $this->view->display('Session\Import\importador.twig', $this->dados);
+    }
     public function encerrar()
     {
         try {

@@ -1,4 +1,24 @@
 .grid-selecao-importa {
     display: grid !important;
-    grid-template-columns: repeat(4 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-selecao-importa>div {
+    margin: 1px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-selecao-importa div button i {
+    padding-right: 3px;
+}
+
+.grid-selecao-importa div button {
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-selecao-importa>div button {
+    color: 012970;
 }
