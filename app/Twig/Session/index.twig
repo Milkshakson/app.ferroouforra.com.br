@@ -1,72 +1,90 @@
 {% extends 'templateBase.twig' %}
+{% block css %}
+	{{parent()}}
+	<link rel="stylesheet" href="\assets\css\session.css">
+{% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList =[] %}
 {% block content %}
-<div class="pagetitle">
-    <h1>Sessão</h1>
-    <nav>
-        <ol class="breadcrumb">
-        {% if openedSession is not empty %}
-            <li class="breadcrumb-item"><a href="#">{{openedSession['description']}}</a></li>
-            <li class="breadcrumb-item"><a href="#">aberta desde {{ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i')}}</a></li>
-        {% else %}
-        <li class="breadcrumb-item"><a href="#">Nenhuma sessão aberta</a></li>
-        {% endif %}
-        </ol>
-    </nav>
-</div><!-- End Page Title -->
-<section class="section dashboard">
-    <div class="row">
-        <div class='col-lg-6'>
-            {% if (is_array(openedSession) and not openedSession is empty) %}
-            {% set buyInList =openedSession['buyInList'] %}
-                {% set sitesJogados = [] %}
-                {% for bi  in buyInList %}
-                    {% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
-                {% endfor %}
-                {% set sitesJogados = array_unique(sitesJogados) %}
-                {% set distinctSites = count(sitesJogados) %}
-                {% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
-                {% set sumary = openedSession['sumary'] %}
-                {% if (sumary['profit'] > 0) %}
-                    {% set classTextProfit = 'text-success' %}
-                {% elseif (openedSession['sumary']['profit'] == 0) %}
-                    {% set classTextProfit = 'text-primary' %}
-                {% else %}
-                    {% set classTextProfit = 'text-danger'%}
-                {% endif %}               
-                <div class='row'>
-                {% include 'Session/BuyIns/list-cards.twig' %}
-                </div>
-            {% else %}
-                 {% include 'Session/form-abertura.twig' %}
-            {% endif %}
-        </div>
-        <div class='col-lg-6'>
-            <div class='row'>
-                {% include 'Session/cards-sumary.twig' %}
-            </div>
-            <div class='row'>
-                 {% include 'Common/faq.twig' %}
-            </div>
-        </div>
-    </div>
-</section>
+	<div class="pagetitle">
+		<h1>Sessão</h1>
+		<nav>
+			<ol class="breadcrumb">
+				{% if openedSession is not empty %}
+					<li class="breadcrumb-item">
+						<a href="#">{{openedSession['description']}}</a>
+					</li>
+					<li class="breadcrumb-item">
+						<a href="#">aberta desde
+							{{ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i')}}</a>
+					</li>
+				{% else %}
+					<li class="breadcrumb-item">
+						<a href="#">Nenhuma sessão aberta</a>
+					</li>
+				{% endif %}
+			</ol>
+		</nav>
+	</div>
+	<!-- End Page Title -->
+	<section class="section dashboard">
+		<div class="row">
+			<div class='col-lg-6'>
+				{% if (is_array(openedSession) and not openedSession is empty) %}
+					{% set buyInList =openedSession['buyInList'] %}
+					{% set sitesJogados = [] %}
+					{% for bi  in buyInList %}
+						{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
+					{% endfor %}
+					{% set sitesJogados = array_unique(sitesJogados) %}
+					{% set distinctSites = count(sitesJogados) %}
+					{% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
+					{% set sumary = openedSession['sumary'] %}
+					{% if (sumary['profit'] > 0) %}
+						{% set classTextProfit = 'text-success' %}
+					{% elseif (openedSession['sumary']['profit'] == 0) %}
+						{% set classTextProfit = 'text-primary' %}
+					{% else %}
+						{% set classTextProfit = 'text-danger'%}
+					{% endif %}
+					<div class='row'>
+						{% include 'Session/BuyIns/list-cards.twig' %}
+					</div>
+				{% else %}
+					{% include 'Session/form-abertura.twig' %}
+				{% endif %}
+			</div>
+			<div class='col-lg-6'>
+				<div class='row'>
+					{% include 'Session/cards-sumary.twig' %}
+				</div>
+				<div class='row'>
+					{% include 'Common/faq.twig' %}
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}
 
 {%  block vue %}
-<script>
-    var data = {
-            livros: ['Orange is The New Black - Piper Kerman', 'A Origem das Espécies - Charles Darwin'],
-            titulo: 'Livros 2',
-            buyInListVue: {{json_encode(session('openedSession').buyInList,1)}}
-          };
-    document.addEventListener("DOMContentLoaded", () => {
-        new Vue({
-            el: '#main',
-            data: data,
-            methods:{teste(){return moment();}}
-        });
-    });
-    </script>
+	<script>
+		var data = {
+livros: [
+'Orange is The New Black - Piper Kerman', 'A Origem das Espécies - Charles Darwin'
+],
+titulo: 'Livros 2',
+buyInListVue: {{ json_encode(session('openedSession').buyInList,1) }}
+};
+document.addEventListener("DOMContentLoaded", () => {
+new Vue({
+el: '#main',
+data: data,
+methods: {
+teste() {
+return moment();
+}
+}
+});
+});
+	</script>
 {%  endblock %}

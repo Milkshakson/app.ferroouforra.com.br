@@ -13,7 +13,14 @@ $(document).ready(() => {
                 url: '/session/createBuyInBatch',
                 method: "POST",
                 data: { sessionId, buyInList },
-                success: (retorno) => alert(retorno),
+                dataType: 'json',
+                success: (retorno) => {
+                    if (retorno.retorno) {
+                        successAlert(retorno.msg, () => location.href = '/session/current');
+                    } else {
+                        errorAlert(retorno.msg);
+                    }
+                },
                 beforeSend: () => waitingDialog.show('Aguarde')
             })
                 .always(() => waitingDialog.hide())

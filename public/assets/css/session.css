@@ -1,0 +1,12 @@
+.grid-container-cards-session {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-container-cards-session>div {
+    padding: 5px;
+}
+
+.grid-container-cards-session .card {
+    height: 100%;
+}

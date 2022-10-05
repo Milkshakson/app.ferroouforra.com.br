@@ -1,0 +1,12 @@
+.grid-container-cards-home {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-container-cards-home>div {
+    padding: 5px;
+}
+
+.grid-container-cards-home .card {
+    height: 100%;
+}

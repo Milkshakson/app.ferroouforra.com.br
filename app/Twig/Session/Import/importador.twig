@@ -16,12 +16,12 @@
 	{% if sessionToImport %}
 		<div class='p-3 bg-secondary text-light d-flex justify-content-between align-items-center'>
 			<div>
-				<span id='count-registros'>{{count(sessionToImport.buyInList)}}</span>
+				<span id='count-registros'>{{is_array(sessionToImport.buyInList)?count(sessionToImport.buyInList):0}}</span>
 				registro(s) para importar
 			</div>
 			<button data-session-id="{{sessionToImport.id}}" id='btn-importar' class='btn btn-success'>Importar</button>
 		</div>
-		{% if count(sessionToImport.buyInList) %}
+		{% if sessionToImport.buyInList and count(sessionToImport.buyInList) %}
 			{% for bi in sessionToImport.buyInList %}
 				{% set classLucro = bi['isClosed'] ?  (bi['profit'] > 0 ? 'text-success' : ((bi['profit'] < 0) ? 'text-danger' : '')) : '' %}
 				{% set startDate = ci_time(bi['startDate']) %}

@@ -17,13 +17,14 @@
 {% else %}
 	{% set classTextProfit = 'text-danger'%}
 {% endif %}
-<div class='row mt-3 pt-3'>
+<div
+	class='grid-container-cards-home mt-3 pt-3'>
 	<!-- Jogos Card -->
-	<div class="col-xxl-3 col-md-6 col-lg-3">
+	<div class="">
 		<div class="card info-card sales-card">
 			<div class="card-body">
 				<h5 class="card-title">Jogos
-					
+
 				</h5>
 
 				<div class="d-flex align-items-center">
@@ -41,11 +42,11 @@
 	</div>
 	<!-- End Jogos Card -->
 	<!-- Profit Card -->
-	<div class="col-xxl-3 col-md-6 col-lg-3">
+	<div class="">
 		<div class="card info-card revenue-card">
 			<div class="card-body">
 				<h5 class="card-title">Lucro
-					
+
 				</h5>
 
 				<div class="d-flex align-items-center">
@@ -63,13 +64,13 @@
 		</div>
 	</div>
 	<!-- End Profit Card -->
-	
+
 	<!-- Prizes Card -->
-	<div class="col-xxl-3 col-md-6 col-lg-3">
+	<div class="">
 		<div class="card info-card revenue-card">
 			<div class="card-body">
 				<h5 class="card-title">Premiações
-					
+
 				</h5>
 
 				<div class="d-flex align-items-center">
@@ -78,21 +79,138 @@
 					</div>
 					<div class="ps-3">
 						<h6>{{dolarFormat(sumary['totalPrize'])}}</h6>
-						</span>
-					</div>
+					</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- End Prizes Card -->
+
+<!-- ABI Card -->
+<div class="">
+	<div class="card info-card revenue-card">
+		<div class="card-body">
+			<h5 class="card-title">ABI
+
+			</h5>
+
+			<div class="d-flex align-items-center">
+				<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+					<i class="bi bi-currency-dollar"></i>
+				</div>
+				<div class="ps-3">
+					<h6>{{dolarFormat(sumary['avgBuyIn'])}}</h6>
+					<span class="text-muted small pt-2 ps-1">Total de buy in:{{dolarFormat(sumary['totalBuyIn'])}}
+					</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- End ABI Card -->
+
+<!-- ROI Card -->
+<div class="">
+
+	<div class="card info-card customers-card">
+		<div class="card-body">
+			<h5 class="card-title">ROI
+
+			</h5>
+
+			<div class="d-flex align-items-center">
+				<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+					<i class="bi {{sumary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
+				</div>
+				<div class="ps-3">
+					<h6>{{percent(sumary['percentageROI'])}}</h6>
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<!-- End Prizes Card -->
 
-	<!-- ABI Card -->
-	<div class="col-xxl-3 col-md-6 col-lg-3">
-		<div class="card info-card revenue-card">
+</div>
+<!-- End ROI Card -->
+
+<!-- ROI Card -->
+<div class="">
+
+	<div class="card info-card customers-card">
+		<div class="card-body">
+			<h5 class="card-title">ITM
+			</h5>
+
+			<div class="d-flex align-items-center">
+				<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+					<i class="bi {{sumary['percentageITM'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
+				</div>
+				<div class="ps-3">
+					<h5>{{percent(sumary['percentageITM'])}}</h5>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+<!-- End ROI Card -->
+<!-- Total de buyin Card -->
+<div class="">
+
+	<div class="card info-card customers-card">
+		<div class="card-body">
+			<h5 class="card-title">Total de buyin
+			</h5>
+
+			<div class="d-flex align-items-center">
+				<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+					<i class="bi bi-currency-dollar"></i>
+				</div>
+				<div class="ps-3">
+					<h5>{{dolarFormat(sumary['totalBuyIn'])}}</h5>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+<!-- End Total Buy in Card -->
+
+<!-- Investidores Card -->
+<div class="">
+
+	<div class="card info-card customers-card">
+		<div class="card-body">
+			<h5 class="card-title">Cotas vendidas
+			</h5>
+
+			<div class="d-flex align-items-center">
+				<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+					<i class="bi bi-currency-dollar"></i>
+				</div>
+				<div class="ps-3">
+					<h5>{{dolarFormat(sumary['stakingReturn'])}}</h5>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+<!-- End Retorno investidores Card -->
+
+{% if sumary['stakingReturn']>0 %}
+	<!-- Investidores Card -->
+	<div class="">
+
+		<div class="card info-card customers-card">
 			<div class="card-body">
-				<h5 class="card-title">ABI
-					
+				<h5 class="card-title">Buy in - Cotas vendidas
 				</h5>
 
 				<div class="d-flex align-items-center">
@@ -100,32 +218,28 @@
 						<i class="bi bi-currency-dollar"></i>
 					</div>
 					<div class="ps-3">
-						<h6>{{dolarFormat(sumary['avgBuyIn'])}}</h6>
-						<span class="text-muted small pt-2 ps-1">Total de buy in:{{dolarFormat(sumary['totalBuyIn'])}}
-						</span>
+						<h5>{{dolarFormat(sumary['buyInWithStakingSold'])}}</h5>
 					</div>
 				</div>
+
 			</div>
-
 		</div>
-	</div>
-	<!-- End ABI Card -->
 
-	<!-- ROI Card -->
-	<div class="col-xxl-3 col-md-6 col-lg-3">
+	</div>
+	<!-- End Retorno investidores Card -->
+	<!-- Investidores Card -->
+	<div class="">
 
 		<div class="card info-card customers-card">
 			<div class="card-body">
-				<h5 class="card-title">ROI
-					
-				</h5>
+				<h5 class="card-title">Retorno aos investidores</h5>
 
 				<div class="d-flex align-items-center">
 					<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-						<i class="bi {{sumary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
+						<i class="bi bi-currency-dollar"></i>
 					</div>
 					<div class="ps-3">
-						<h6>{{percent(sumary['percentageROI'])}}</h6>
+						<h5>{{dolarFormat(sumary['totalPrizeStakers'])}}</h5>
 					</div>
 				</div>
 
@@ -133,111 +247,6 @@
 		</div>
 
 	</div>
-	<!-- End ROI Card -->
-    
-    <!-- ROI Card -->
-    <div class="col-xxl-3 col-md-6 col-lg-3">
-
-        <div class="card info-card customers-card">
-            <div class="card-body">
-                <h5 class="card-title">ITM </h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi {{sumary['percentageITM'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
-                    </div>
-                    <div class="ps-3">
-                        <h5>{{percent(sumary['percentageITM'])}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div><!-- End ROI Card -->
-    <!-- Total de buyin Card -->
-    <div class="col-xxl-3 col-md-6 col-lg-3">
-
-        <div class="card info-card customers-card">
-            <div class="card-body">
-                <h5 class="card-title">Total de buyin </h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                        <h5>{{dolarFormat(sumary['totalBuyIn'])}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div><!-- End Total Buy in Card -->
-
-	    <!-- Investidores Card -->
-    <div class="col-xxl-3 col-md-6 col-lg-3">
-
-        <div class="card info-card customers-card">
-            <div class="card-body">
-                <h5 class="card-title">Cotas vendidas </h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                        <h5>{{dolarFormat(sumary['stakingReturn'])}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div><!-- End Retorno investidores Card -->
-
-	{% if sumary['stakingReturn']>0 %}
-	    <!-- Investidores Card -->
-    <div class="col-xxl-3 col-md-6 col-lg-3">
-
-        <div class="card info-card customers-card">
-            <div class="card-body">
-                <h5 class="card-title">Buy in - Cotas vendidas </h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                        <h5>{{dolarFormat(sumary['buyInWithStakingSold'])}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div><!-- End Retorno investidores Card -->
-	    <!-- Investidores Card -->
-    <div class="col-xxl-3 col-md-6 col-lg-3">
-
-        <div class="card info-card customers-card">
-            <div class="card-body">
-                <h5 class="card-title">Retorno aos investidores</h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                        <h5>{{dolarFormat(sumary['totalPrizeStakers'])}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div><!-- End Retorno investidores Card -->
-	{% endif %}
-	{# {{pre(sumary)}} #}
-</div>
+	<!-- End Retorno investidores Card -->
+{% endif %}
+{# {{pre(sumary)}} #}</div>

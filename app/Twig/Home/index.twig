@@ -1,4 +1,8 @@
 {% extends 'templateBase.twig' %}
+{% block css %}
+	{{parent()}}
+	<link rel="stylesheet" href="\assets\css\home.css">
+{% endblock %}
 {% block content %}
 	<div class="pagetitle">
 		<h1>In&iacute;cio</h1>
@@ -15,7 +19,6 @@
 		{% set openedSession = session('openedSession') %}
 		{% if openedSession %}
 			{% set sumary = session('openedSession')['sumary'] %}
-			{% set buyInList = session('openedSession')['buyInList'] %}
 			{% set sitesJogados = [] %}
 			{% for bi  in buyInList %}
 				{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}

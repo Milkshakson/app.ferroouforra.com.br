@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
 use Exception;
+use IntlCalendar;
 
 class Session extends BaseController
 {
@@ -55,6 +56,15 @@ class Session extends BaseController
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
         }
+        $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
+        $this->dados['countAbertos'] = count(array_filter($buyInList, function ($bi) {
+            return $bi['endDate'] == null;
+        }));
+
+        $this->dados['countFuturo']  = count(array_filter($buyInList, function ($bi) {
+            return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
+        }));
+        $this->dados['sitesJogados'] = array_unique(array_column($buyInList, 'siteName'));
         $this->view->display('Session/index.twig', $this->dados);
     }
 
@@ -307,17 +317,25 @@ class Session extends BaseController
                 $buyInListSession = $pokerSessionProvider->consumeEndpoint('get', '/poker_session/buyins_session?id=' . $input['sessionId'])['content'];
                 $buyInListPost = $input['buyInList'];
                 $buyInListToSave = array_map(
-                    function ($bi) {
+                    function ($bi) use ($openedSession) {
+                        // pre($bi);
+                        // pre($openedSession, 1);
+                        $startDate = ci_time($bi['startDate']);
+                        $startDateSession = ci_time($openedSession['content']['startDate']);
+                        $newStartDate = $startDate;
+
+                        pre($startDateSession);
+                        pre($startDate, 1);
                         $newBi = [
                             "buyinValue" => $bi['buyinValue'],
-                            "moeda" => $bi['currencyName'],
-                            "poker_jogos_id" => $bi['gameId'],
-                            "cota_oferecida" => null,
+                            "currencyName" => $bi['currencyName'],
+                            "gameId" => $bi['gameId'],
+                            "stakingSelling" => null,
                             "markup" => null,
-                            "inicio" => $bi['startDate'],
-                            "poker_site_id" => $bi['pokerSiteId'],
-                            "tamanho_field" => null,
-                            "posicao_final" => null
+                            "startDate" => $newStartDate->format('Y-m-d H:i:s'),
+                            "pokerSiteId" => $bi['pokerSiteId'],
+                            "fieldSize" => null,
+                            "positiom" => null
                         ];
 
                         return $newBi;
@@ -332,12 +350,17 @@ class Session extends BaseController
                     'idPokerSession' => $openedSession['content']['id']
                 ];
                 $create =  $pokerSessionProvider->consumeEndpoint('post', '/poker_session/create_buyin_batch', $data);
-                pre($create);
+                $importados = $create['content']['countInsert'];
+                $this->jsonRetorno['retorno'] = true;
+                $this->jsonRetorno['msg'] = "Importação de $importados registro(s) realizada com sucesso.";
+                echo json_encode($this->jsonRetorno);
             } else {
                 throw new APPException("Dados não enviados");
             }
         } catch (APPException $exception) {
-            pre($exception);
+            $this->jsonRetorno['retorno'] = false;
+            $this->jsonRetorno['msg'] = $exception->getMessage();
+            echo json_encode($this->jsonRetorno);
         }
     }
     public function importarGrade()
@@ -351,13 +374,23 @@ class Session extends BaseController
         $this->view->display('Session/importarGrade.twig', $this->dados);
     }
 
-    public function importLastClosed()
+    public function importaSessao($tipo = null)
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
-            $last =  $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed');
+            if (strtolower($tipo) == 'last') {
+                $last =  $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed');
+                $this->dados['tituloImportacao'] = "Importação da última sessão";
+            } else if (is_numeric($tipo)) {
+                $tipo = intval($tipo);
+                $dayName = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'][$tipo];
+                $buyInList =  $pokerSessionProvider->consumeEndpoint('get', "/poker_session/last_by_day_week?dayWeek=$tipo");
+                $idSession = $buyInList['content'][0]['sessionPokerid'];
+                $last =  $pokerSessionProvider->consumeEndpoint('get', "/poker_session/fetch_by_code/$idSession");
+                $last['content']['buyInList'] = $buyInList['content'];
+                $this->dados['tituloImportacao'] = "Importação da última $dayName";
+            }
             $this->dados['sessionToImport'] = $last['content'];
-            $this->dados['tituloImportacao'] = "Importação da última sessão";
         } catch (APPException $exception) {
             $this->dados['erros'] = $exception->getHandledMessage();
         }
