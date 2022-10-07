@@ -314,25 +314,42 @@ class Session extends BaseController
                 if ($openedSession['statusCode'] != 202) {
                     throw new APPException("Erro ao recuperar a sessão aberta");
                 }
-                $buyInListSession = $pokerSessionProvider->consumeEndpoint('get', '/poker_session/buyins_session?id=' . $input['sessionId'])['content'];
+                $idSession = intval($input['sessionId']);
+                $sessionToImport =  $pokerSessionProvider->consumeEndpoint('get', "/poker_session/fetch_by_code/$idSession");
+                $buyInListSession = $sessionToImport['content']['buyInList'];
                 $buyInListPost = $input['buyInList'];
+                $startDateSessionImport = ci_time($sessionToImport['content']['startDate']);
+                $referenceDate = $startDateSessionImport;
+                //muda o dia mês e ano para referência para a data de hoje
+                $referenceDate = $referenceDate->setDay(date('d'));
+                $referenceDate = $referenceDate->setMonth(date('m'));
+                $referenceDate = $referenceDate->setYear(date('Y'));
                 $buyInListToSave = array_map(
-                    function ($bi) use ($openedSession) {
-                        // pre($bi);
-                        // pre($openedSession, 1);
-                        $startDate = ci_time($bi['startDate']);
-                        $startDateSession = ci_time($openedSession['content']['startDate']);
-                        $newStartDate = $startDate;
+                    function ($bi) use ($referenceDate, $startDateSessionImport) {
+                        /**
+                         * É encessário ajustar para pegar os registros e setar as datas da forma correta
+                         * Ex: A sessão importada é do dia 15/08.
+                         * O primeiro registro foi 19:00, mas teve um registro depois da meia noite, 01:00
+                         * Ao importar no dia 01/11 , o primeiro registro deve ser 01/11 19:00, e o registro depois da meia noite 02/11 01:00
+                         */
 
-                        pre($startDateSession);
-                        pre($startDate, 1);
+                        $startDateBi = ci_time($bi['startDate']);
+                        //Pega a diferença entre o inicio do torneio e o início da sessão que será importada
+                        $diffBI = $startDateSessionImport->diff($startDateBi);
+                        //Pega configura a data de referência como a data de importação
+                        //define como início do registro para importação como o registro da sessão que está sendo importada
+                        $newStartDateBi = $referenceDate;
+                        //Agora aplica a diferença da importação também na sessão atual, mantendo as horas corretas
+                        $newStartDateBi = $newStartDateBi->addDays($diffBI->d);
+                        $newStartDateBi = $newStartDateBi->addHours($diffBI->h);
+                        $newStartDateBi = $newStartDateBi->addMinutes($diffBI->i);
                         $newBi = [
                             "buyinValue" => $bi['buyinValue'],
                             "currencyName" => $bi['currencyName'],
                             "gameId" => $bi['gameId'],
                             "stakingSelling" => null,
                             "markup" => null,
-                            "startDate" => $newStartDate->format('Y-m-d H:i:s'),
+                            "startDate" => $newStartDateBi->format('Y-m-d H:i:s'),
                             "pokerSiteId" => $bi['pokerSiteId'],
                             "fieldSize" => null,
                             "positiom" => null
