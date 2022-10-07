@@ -1,13 +1,11 @@
 <div class="card">
 	<div class="card-body">
 		<h5 class='card-title'>Lista de jogos<span>
-				|
+				| Total:
 				{{count(buyInList)}}
-				Total |
+				| Em andamento:
 				{{countAbertos}}
-				em andamento
-								Para começar |
-				{{countFuturo}}
+				| Para começar:{{countFuturo}}
 			</span>
 		</h5>
 
@@ -83,7 +81,7 @@
 								</li>
 								<li>
 									<a class="dropdown-item text-primary" href="/session/salvaBuyIn/{{bi['buyinId']}}">
-										<i class='bi bi-pencil'></i>Editar</a>
+										<i class='bi bi-pencil'></i>Editar ou finalizar</a>
 								</li>
 							</ul>
 						</div>
@@ -116,7 +114,7 @@
 									</div>
 								{% endif %}
 								<div class='row p-3'>
-									{{box_bi('Buy in inicial', dolarFormat(bi['buyInValue']), 'class="col-lg-6 col-md-6 col-sm-6  col-xs-6 col-6"') }}
+									{{box_bi('Buy in inicial', dolarFormat(bi['buyinValue']), 'class="col-lg-6 col-md-6 col-sm-6  col-xs-6 col-6"') }}
 									{{box_bi('Buy in reentrada', dolarFormat(bi['reentryBuyIn']), 'class="col-md-6 col-md-6  col-xs-6 col-6 "')  }}
 									{% if bi['isClosed'] %}
 										{{box_bi('Prêmio reentrada', dolarFormat(bi['prizeReentry']), 'class="col-md-4 col-xs-4 col-4 "')  }}

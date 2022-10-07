@@ -58,7 +58,7 @@ class Session extends BaseController
         }
         $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
         $this->dados['countAbertos'] = count(array_filter($buyInList, function ($bi) {
-            return $bi['endDate'] == null;
+            return ci_time($bi['startDate'])->isBefore(ci_time('now')) && $bi['endDate'] == null;
         }));
 
         $this->dados['countFuturo']  = count(array_filter($buyInList, function ($bi) {
@@ -274,32 +274,41 @@ class Session extends BaseController
         $input = $this->getRequestInput($this->request);
 
         $busca =  strtolower($input['busca']);
+        $pokerSiteId =  intval($input['site']);
 
         if (is_array($meusBuyIns)) {
             $html .= '';
-            foreach ($meusBuyIns as $bi) {
-                $adicionar = false;
-                if (strtolower($bi['gameName']) == $busca) {
-                    $adicionar = true;
-                } else
-                if (str_contains(strtolower($bi['gameName']), $busca)) {
-                    $adicionar = true;
-                }
-                if ($adicionar) {
-                    $buyInValue = $bi['buyinValue'];
-                    $gameName = $bi['gameName'];
-                    $pokerSiteId = $bi['pokerSiteId'];
-                    $tipoBuyIn = $bi['tipoBuyIn'];
-                    $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-3 col-lg-4"');
-                    $gameInfo .= box_bi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                    $gameInfo .= box_bi('&nbsp;', ($bi['tipoBuyInName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                    $html .= "<div class='border border-secondary rounded ps-3 pe-3 mb-1 ms-0'>";
-                    $html .= "<div class='row'>$gameInfo</div>";
-                    $html .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$gameName</div></a>";
-                    $html .= '</div>';
-                    // $html .= json_encode($bi);
-                }
+
+            if ($pokerSiteId) {
+                $meusBuyIns = array_filter($meusBuyIns, function ($bi) use ($pokerSiteId) {
+                    return $bi['pokerSiteId'] == $pokerSiteId;
+                });
             }
+            $exatos = array_filter($meusBuyIns, function ($bi) use ($busca) {
+                return strtolower($bi['gameName']) == $busca;
+            });
+            $contem = array_filter($meusBuyIns, function ($bi) use ($busca, $exatos) {
+                return !in_array($bi, $exatos) && str_contains(strtolower($bi['gameName']), $busca);
+            });
+
+            $mergedUnique = (array_merge($exatos, $contem));
+            $lines = [];
+            foreach ($mergedUnique as $bi) {
+                $strLines = '';
+                $buyInValue = $bi['buyinValue'];
+                $gameName = $bi['gameName'];
+                $pokerSiteId = $bi['pokerSiteId'];
+                $tipoBuyIn = $bi['tipoBuyIn'];
+                $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-3 col-lg-4"');
+                $gameInfo .= box_bi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                $gameInfo .= box_bi('&nbsp;', ($bi['tipoBuyInName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
+                $strLines .= "<div class='border border-secondary rounded ps-3 pe-3 mb-1 ms-0'>";
+                $strLines .= "<div class='row'>$gameInfo</div>";
+                $strLines .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$gameName</div></a>";
+                $strLines .= '</div>';
+                $lines[] = $strLines;
+            }
+            $html .= implode(array_unique($lines));
         }
         return $html;
     }
