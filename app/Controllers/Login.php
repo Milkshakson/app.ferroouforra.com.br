@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Libraries\APPException;
+use App\Libraries\Dotenv;
+use App\Libraries\Twitch;
 use App\Providers\PokerSessionProvider;
 use App\Providers\UsuarioProvider;
 use Exception;
@@ -37,7 +39,7 @@ class Login extends BaseController
                             $this->session->set('isValidTokenAcesso', true);
                             $pokerSessionProvider = new PokerSessionProvider();
                             $openedSession = $pokerSessionProvider->getCurrentOpen();
-                            if($openedSession['statusCode']==202){
+                            if ($openedSession['statusCode'] == 202) {
                                 $this->session->set('openedSession', $openedSession['content']);
                             }
                             $this->response->redirect('/home/index');
@@ -56,8 +58,41 @@ class Login extends BaseController
         }
         $this->view->display('Login/index', $this->dados);
     }
+    public function twitch()
+    {
+        $input = $_GET;
+        $scope = urlencode('user:read:email user:read:subscriptions');
+        $twitch = new Twitch([
+            'clientId' => getenv('clientIdTwitch'),
+            'clientSecret' => getenv('clientSecretTwitch'),
+        ]);
+        $uri_return = is_null($twitch->getRedirectUri()) ? '' : urlencode($twitch->getRedirectUri());
+        $env = new Dotenv();
+        $clientId = $env->get('clientIdTwitch');
+        $this->dados['input'] = $input;
+        if (!$input || count($input) == 0) {
+            header("location: https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=$clientId&redirect_uri=$uri_return&scope=$scope");
+            pre('redirecionando', 1);
+        } else {
+            if ($input['code']) {
+                $credentials = $twitch->getAuthorizationCode($input['code']);
+                $user =  $twitch->getUserInfo($credentials->login);
+                // $validate = $twitch->validateStringToken(String $token = null)
+                //Tenta logar
+                $loginTwitch = '';
 
-    public function logout(){
+                //ou então tenta criar e logar
+                pre('Code');
+                pre($credentials);
+                pre($user, 1);
+            } else {
+                pre('No Code', 1);
+            }
+        }
+        $this->view->display('Twitch/authorize', $this->dados);
+    }
+    public function logout()
+    {
         $this->session->destroy();
         $redirect = site_url('home/index/1');
         header("location: $redirect");

@@ -120,13 +120,12 @@ class Curl
         $this->_useragent = $userAgent;
     }
 
-    public function createCurl($url = 'nul')
+    public function createCurl($url = null)
     {
-        if ($url != 'nul') {
+        if (!is_null($url)) {
             $this->_url = $url;
         }
         $s = curl_init();
-
         curl_setopt($s, CURLOPT_URL, $this->_url);
         if ($this->_header) {
             curl_setopt($s, CURLOPT_HTTPHEADER, $this->_header);
@@ -186,7 +185,6 @@ class Curl
         curl_setopt($s, CURLOPT_USERAGENT, $this->_useragent);
         curl_setopt($s, CURLOPT_REFERER, $this->_referer);
         curl_setopt($s, CURLINFO_HEADER_OUT, true);
-
         $this->_webpage = curl_exec($s);
         $this->_status = curl_getinfo($s, CURLINFO_HTTP_CODE);
         curl_close($s);
