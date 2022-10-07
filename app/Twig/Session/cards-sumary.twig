@@ -17,7 +17,10 @@
 						<h6>{{count(buyInList)}}</h6>
 						<span class="text-muted small pt-2 ps-1">{{textSitesJogados}}
 							|
-							{{implode(', ',sitesJogados) }}</span>
+							{% if is_array(sitesJogados) %}
+								{{implode(', ',sitesJogados) }}
+							{% endif %}
+						</span>
 					</div>
 				</div>
 			</div>
