@@ -1,70 +1,79 @@
-<header id="header" class="header fixed-top d-flex align-items-center">
+{% set openedSession = session('openedSession') %}
+<header id="header" class="header fixed-top d-flex align-items-center bg-twitch text-white">
 	<div class="d-flex align-items-center justify-content-between">
 		<a href="/" class="logo d-flex align-items-center">
-			<img src="/assets/img/Logo.png"/>  
+			<img src="/assets/img/Logo.png"/>
 			{% if constant('ENVIRONMENT')=='production' %}
-			
-			{% elseif constant('ENVIRONMENT')=='development' %}
-Ambiente de desenvolvimento
+
+				{% elseif constant('ENVIRONMENT')=='development' %}
+					Ambiente de desenvolvimento
 				{% elseif constant('ENVIRONMENT')=='testing' %}
-Ambiente de testes
+					Ambiente de testes
 			{% endif %}
+			<small class='p-3'>{{config('app').appName}}</small>
 		</a>
 		<i class="bi bi-list toggle-sidebar-btn"></i>
 	</div>
+	{% set decodedToken =session('decodedTokenAcesso') %}
 	<!-- End Logo -->
-		<!--  Searchbar -->
-		<h5 class="card-title">
-				<span>{{config('app').appName}}</span>
+	<!--  Searchbar -->
+		<div class="d-flex flex-1 align-items-center justify-content-center"> <h5 class="card-title">
+			{% if not decodedToken.isSub %}
+				<span>Seja sub da
+					<a href='https://twitch.tv/milkshakson'>Twitch do Milkshakson</a>
+					e aproveite as ferramentas deste aplicativo no plano Twitch Sub</span>
+			{% else %}
+				<span>Incrível, você é sub do canal da
+					<a href='https://twitch.tv/milkshakson'>Twitch do Milkshakson</a>
+					e já pode aproveitar as ferramentas deste aplicativo no plano Twitch Sub</span>
+			{% endif %}
 		</h5>
-		<!-- End Search Bar -->
-		<nav class="header-nav ms-auto">
-			<ul class="d-flex align-items-center">
-				{% if (session('isValidTokenAcesso')) %}
-					<li class="nav-item dropdown">
-						<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-							<i class="bi bi-time-left-token bi-clock"></i>
-							<span class="badge bg-light badge-number badge-time-left-token"></span>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-							<li class="dropdown-header">
-								<span class="badge-time-left-token-expanded"></span>
-							</li>
-						</ul>
-					</li>
-				
-					<!-- End Messages Nav -->
-					<li class="nav-item dropdown pe-3">
-						<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-							<i class="bi bi-person"></i>
-							<span class="d-none d-md-block dropdown-toggle ps-2">
-								{{session('usuarioTokenAcesso').sub }}</span>
-						</a>
-						<!-- End Profile Iamge Icon -->
-						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-							<li class="dropdown-header">
-								<h6>
-									{{session('usuarioTokenAcesso').sub }}
-								</h6>
-								<span>{{session('usuarioTokenAcesso').environment }}</span>
-							</li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li>
-								<a class="dropdown-item d-flex align-items-center" href="/login/logout">
-									<i class="bi bi-box-arrow-right"></i>
-									<span>Sair</span>
-								</a>
-							</li>
-						</ul>
-						<!-- End Profile Dropdown Items -->
-					</li>
-					<!-- End Profile Nav -->
+	</div>
+
+	<!-- End Search Bar -->
+	<nav class="header-nav ms-auto">
+		<ul class="d-flex align-items-center">
+			{% if (session('isValidTokenAcesso')) %}
+				<li class="nav-item dropdown">
+					<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+						<i class="bi bi-time-left-token bi-clock"></i>
+						<span class="badge bg-light badge-number badge-time-left-token"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+						<li class="dropdown-header">
+							<span class="badge-time-left-token-expanded"></span>
+						</li>
+						<li class="dropdown-header">
+							<span class="">{{decodedToken.endsAt}}</span>
+						</li>
+					</ul>
+				</li>
+				<!-- End Messages Nav -->
+				<li class="nav-item dropdown pe-3">
+					<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+						{% if (session('isValidTokenAcesso')) %}
+							<img class="avatar rounded-circle {{decodedToken.isSub ? 'sub':''}}" alt="avatar" height="50px" src='{{decodedToken.imgUrl}}'/>
+						{% endif %}
+						<span class="d-none d-md-block dropdown-toggle ps-2">
+							{{decodedToken.nome }}</span>
+					</a>
+					<!-- End Profile Iamge Icon -->
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li>
+							<a class="dropdown-item d-flex align-items-center" href="/login/logout">
+								<i class="bi bi-box-arrow-right"></i>
+								<span>Sair</span>
+							</a>
+						</li>
+					</ul>
+					<!-- End Profile Dropdown Items -->
+				</li>
+				<!-- End Profile Nav -->
 
 
-				{% endif %}
-			</ul>
-		</nav>
-	<!-- End Icons Navigation -->
-</header>
+			{% endif %}
+		</ul>
+	</nav><!-- End Icons Navigation --></header>

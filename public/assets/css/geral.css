@@ -1,0 +1,29 @@
+img.sub {
+    border: 4px solid goldenrod;
+}
+
+.btn-twitch,
+.btn-twitch:hover {
+    background-color: #5c16c5 !important;
+}
+
+.bg-twitch {
+    background-color: #5c16c5 !important;
+}
+
+.text-white {
+    color: white !important;
+}
+
+header.bg-twitch span,
+header.bg-twitch .toggle-sidebar-btn,
+header.bg-twitch a,
+header.bg-twitch h5.card-title span {
+    color: white !important;
+}
+
+header.bg-twitch .dropdown-item,
+header.bg-twitch .badge-time-left-token,
+header.bg-twitch .dropdown-item span {
+    color: #5c16c5 !important;
+}

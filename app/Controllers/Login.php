@@ -57,7 +57,7 @@ class Login extends BaseController
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage(); //'Erro ao efetuar Login.';
         }
-        $this->view->display('Login/index', $this->dados);
+        $this->view->display('Login/twitch', $this->dados);
     }
     public function twitch()
     {
@@ -82,6 +82,7 @@ class Login extends BaseController
                     if ($login['statusCode'] == 202) {
                         $token = $login['content']['idToken'];
                         $this->session->set('tokenAcesso', $token);
+                        $this->session->set('decodedTokenAcesso', (object) $login['content']);
                         $this->session->set('isValidTokenAcesso', true);
                         $pokerSessionProvider = new PokerSessionProvider();
                         $openedSession = $pokerSessionProvider->getCurrentOpen();

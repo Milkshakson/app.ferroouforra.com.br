@@ -156,31 +156,37 @@ class Twitch
         return $return;
     }
 
-    public function getUserInfo($userLogin)
+    public function getUserInfo($userLogin, $token = null)
     {
-        $credentials = $this->getClientCredentials();
+        if (is_null($token)) {
+            $credentials = $this->getClientCredentials();
+            $token = $credentials->access_token;
+        }
         $url = "https://api.twitch.tv/helix/users?login=$userLogin";
         $info = $this->fetch(
             $url,
             'get',
             [],
-            ["Authorization: Bearer $credentials->access_token", "Client-ID: $this->clientId"]
+            ["Authorization: Bearer $token", "Client-ID: $this->clientId"]
         );
         if ($info && property_exists($info, 'data'))
             return $info->data[0];
         return null;
     }
 
-    public function getUsersInfo($users)
+    public function getUsersInfo($users, $token = null)
     {
-        $credentials = $this->getClientCredentials();
+        if (is_null($token)) {
+            $credentials = $this->getClientCredentials();
+            $token = $credentials->access_token;
+        }
         $nomes = 'login=' . (implode('&login=', $users));
         $url = "https://api.twitch.tv/helix/users?$nomes";
         $info = $this->fetch(
             $url,
             'get',
             [],
-            ["Authorization: Bearer $credentials->access_token", "Client-ID: $this->clientId"]
+            ["Authorization: Bearer $token", "Client-ID: $this->clientId"]
         );
         if ($info && property_exists($info, 'data'))
             return $info->data;
