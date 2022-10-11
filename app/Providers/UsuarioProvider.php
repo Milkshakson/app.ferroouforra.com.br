@@ -13,12 +13,10 @@ class UsuarioProvider extends APIFF
             'senha' => $senha
         ]);
     }
-    public function loginTwitch($credentials)
+    public function loginTwitch($code)
     {
-        if (is_object($credentials))
-            $credentials = json_encode($credentials);
         return $this->consumeEndpoint('POST', "login-twitch", [
-            'credentials' => $credentials,
+            'code' => $code,
         ]);
     }
     public function register($dados = [])
