@@ -3,32 +3,11 @@
 	<div class="d-flex align-items-center justify-content-between">
 		<a href="/" class="logo d-flex align-items-center">
 			<img src="/assets/img/Logo.png"/>
-			{% if constant('ENVIRONMENT')=='production' %}
-
-				{% elseif constant('ENVIRONMENT')=='development' %}
-					Ambiente de desenvolvimento
-				{% elseif constant('ENVIRONMENT')=='testing' %}
-					Ambiente de testes
-			{% endif %}
-			<small class='p-3'>{{config('app').appName}}</small>
+			<small class='p-3 app-title-header'>{{config('app').appName}}</small>
 		</a>
 		<i class="bi bi-list toggle-sidebar-btn"></i>
 	</div>
-	{% set decodedToken =session('decodedTokenAcesso') %}
 	<!-- End Logo -->
-	<!--  Searchbar -->
-		<div class="d-flex flex-1 align-items-center justify-content-center"> <h5 class="card-title">
-			{% if not decodedToken.isSub %}
-				<span>Seja sub da
-					<a href='https://twitch.tv/milkshakson'>Twitch do Milkshakson</a>
-					e aproveite as ferramentas deste aplicativo no plano Twitch Sub</span>
-			{% else %}
-				<span>Incrível, você é sub do canal da
-					<a href='https://twitch.tv/milkshakson'>Twitch do Milkshakson</a>
-					e já pode aproveitar as ferramentas deste aplicativo no plano Twitch Sub</span>
-			{% endif %}
-		</h5>
-	</div>
 
 	<!-- End Search Bar -->
 	<nav class="header-nav ms-auto">

@@ -12,6 +12,9 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('focusout', '[name="gameName"]', function (e) {
+        setTimeout(() => $('#retorno-lista-jogos').html(''), 500);
+    });
     $(document).on('keyup', '[name="gameName"]', function (e) {
         let sender = $(this);
         let busca = sender.val();

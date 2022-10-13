@@ -63,7 +63,7 @@ class BaseController extends Controller
         $this->apiApp = new APIFF();
         $this->view = new View();
         $path = $this->request->getPath();
-        helper(['url', 'form']);
+        helper(['url', 'form', 'date']);
         $excecao = [
             'home/index', 'home/index/1', '/',
             'login/index', 'login/login',
@@ -92,6 +92,8 @@ class BaseController extends Controller
             "tiger gaming" => "/assets/img/poker-sites/tigergaming.png",
             "poker stars.es" => "/assets/img/poker-sites/pokerstars.es.png",
         ];
+
+        $this->dados['decodedToken'] = session('decodedTokenAcesso');
         $this->session->set('sitesLogo', $sitesLogo);
     }
     protected function checkToken()

@@ -1,0 +1,69 @@
+{% set endDate = date('Y-m-d') %}
+{% set endTime = date('H:i') %}
+<div class='row'>
+	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+		<label for="endDate" class="form-label">Data Fim</label>
+		<input autocomplete="off" type="date" name="endDate" class="form-control" id="endDate" value="{{set_value('endDate', endDate)}}">
+	</div>
+
+	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+		<label for="endTime" class="form-label">Hora Fim</label>
+		<input autocomplete="off" type="time" name="endTime" class="form-control" id="endTime" value="{{set_value('endTime', endTime)}}">
+	</div>
+
+	<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+		<label for="prizeIn" class="form-label">
+			<span class='text-success'>Premiação</span>
+			na 1ª entrada
+			<i data-bs-toggle="tooltip" title="Valor da premiação na 1ª entrada" class='bi bi-info-circle-fill'></i>
+		</label>
+		<div class="input-group has-validation">
+			<span class="input-group-text" id="IGPPrizeIn">
+				<i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i>
+			</span>
+			<input autocomplete="off" type="text" inputmode="numeric" name="prizeIn" class="form-control money-dolar" id="prizeIn" value="{{set_value('prizeIn', bi.prizeIn)}}">
+		</div>
+	</div>
+	<div class="col-6 col-sm-6 col-md-6 col-lg-3">
+		<label for="prizeReentry" class="form-label">
+			<span class='text-success'>Premiação</span>
+			na reentrada
+			<i data-bs-toggle="tooltip" title="Valor da premiação na reentrada não entra na conta dos Patrocinadores " class='bi bi-info-circle-fill'></i>
+		</label>
+		<div class="input-group has-validation">
+			<span class="input-group-text" id="IGPPrizeReentry">
+				<i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i>
+			</span>
+			<input autocomplete="off" type="text" inputmode="numeric" name="prizeReentry" class="form-control money-dolar" id="prizeReentry" value="{{set_value('prizeReentry', bi.prizeReentry)}}">
+		</div>
+	</div>
+
+	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+		<label for="fieldSize" class="form-label">Tamanho do field</label>
+		<div class="input-group mb-3">
+			<input autocomplete="off" type="text" inputmode="numeric" name="fieldSize" class="form-control" id="fieldSize" value="{{set_value('fieldSize', bi.fieldSize)}}">
+			<span class="input-group-text" id="basicAddonFieldSize">
+				<i title="Players" data-bs-toggle="tooltip" class="text-primary bi bi-people"></i>
+			</span>
+		</div>
+	</div>
+
+	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+		<label for="position" class="form-label">Posição</label>
+		<div class="input-group mb-3">
+			<input autocomplete="off" type="text" inputmode="numeric" name="position" class="form-control" id="position" value="{{set_value('position', bi.position)}}">
+			<span class="input-group-text" id="basicAddonPosition">
+				<i title="Posição final" data-bs-toggle="tooltip" class="text-primary bi bi-bar-chart"></i>
+			</span>
+		</div>
+	</div>
+
+</div>
+<div class="col-12">
+	<div class="form-check form-switch">
+		<input autocomplete="off" class="form-check-input" type="checkbox" value="1" name="finalTable" id="isClosed" {{set_value('finalTable', bi.finalTable) ? 'checked="true"' : '' }}>
+		<label class="form-check-label" for="finalTable">
+			Alcancei a Mesa Final
+		</label>
+	</div>
+</div>

@@ -10,3 +10,16 @@
 .grid-container-cards-session .card {
     height: 100%;
 }
+
+.btn-group-session i {
+    font-size: 1.3rem !important;
+}
+
+.btn-group-session a {
+    padding-bottom: 0;
+}
+
+.btn-group-session {
+    padding-right: 0px !important;
+    margin-right: 0px !important;
+}

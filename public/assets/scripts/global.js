@@ -74,12 +74,14 @@ $(function () {
         selectOnFocus: true
     });
 
-    
-    $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function(k) {
+    $('.alert').each(function (e) {
+        $(this).fadeOut(10000);
+    });
+    $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
         let sender = $(this);
         if (sender.val().startsWith(".", 0)) {
             let val = sender.val();
-            sender.val('0'+val);
+            sender.val('0' + val);
         }
     });
 });

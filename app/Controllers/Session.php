@@ -9,10 +9,6 @@ use IntlCalendar;
 
 class Session extends BaseController
 {
-    public function __construct()
-    {
-        helper('date');
-    }
     public function current()
     {
         try {
@@ -80,15 +76,171 @@ class Session extends BaseController
             $this->dados['erros'] = 'Falha ao remover o buyin.';
         }
     }
+    private function getCurrentBi($buyInList, $idBuyIN)
+    {
+        $currentBI = null;
+        $editBi = array_filter($buyInList, function ($bi) use ($idBuyIN) {
+            return $bi['buyinId'] == $idBuyIN;
+        });
+        if (count($editBi) == 1) {
+            $currentBI = end($editBi);
+        }
 
-
-    public function salvaBuyIn($idBuyIN = null)
+        return $currentBI;
+    }
+    public function endBuyIn($idBuyIN)
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = $pokerSessionProvider->getCurrentOpen();
+            if ($openedSession['statusCode'] != 202) {
+                throw new APPException("Erro ao recuperar a sessão aberta");
+            }
+            $this->dados['openedSession'] = $openedSession['content'];
+            $buyInList = $openedSession['content']['buyInList'];
+            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
+            $this->dados['bi'] = $this->getCurrentBi($buyInList, $idBuyIN);
             if ($this->request->getMethod() == 'post') {
                 $input = $this->getRequestInput($this->request);
-                // pre($input, 1);
+                if (!empty($input)) {
+                    $idBuyIN = $input['buyinId'];
+                    $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
+                    $rules['endDate'] =
+                        [
+                            'label' => "Data fim",
+                            'rules' => 'required'
+                        ];
+                    $rules['endTime'] =
+                        [
+                            'label' => "Hora fim",
+                            'rules' => 'required'
+                        ];
+                    $rules['prizeIn'] =
+                        [
+                            'label' => "Premiação",
+                            'rules' => 'required'
+                        ];
+                    if (key_exists('finalTable', $input) && $input['finalTable']) {
+                        $rules['position'] =
+                            [
+                                'label' => "Posição",
+                                'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
+                            ];
+                    }
+                    if ($this->validate($rules)) {
+
+                        if (empty($input['endDate'])) {
+                            $endDate = null;
+                        } else {
+                            $endDate = ($input['endDate'] . ' ' . $input['endTime']) ?? null;
+                        }
+                        if ($currentBI) {
+                            $currentBI['prizeIn'] = filter_var($input['prizeIn'], FILTER_VALIDATE_FLOAT);
+                            $currentBI['prizeReentry'] = filter_var($input['prizeReentry'], FILTER_VALIDATE_FLOAT);
+                            $currentBI['fieldSize'] = filter_var($input['fieldSize'], FILTER_VALIDATE_INT);
+                            $currentBI['position'] = filter_var($input['position'], FILTER_VALIDATE_INT);
+                            $currentBI['finalTable'] = key_exists('finalTable', $input) ? filter_var($input['finalTable'], FILTER_VALIDATE_INT) : false;
+                            $currentBI['endDate'] = $endDate;
+                            $adiciona =  $pokerSessionProvider->salvaBuyIn($currentBI);
+                            if ($adiciona['statusCode'] == 201) {
+                                $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
+                                $this->response->redirect('/session/current');
+                            } else {
+                                $this->dados['erros'] = APPException::handleMessage($adiciona['content']['erros']);
+                            }
+                        } else {
+                            $this->dados['erros'] = 'Buy-in não encontrado na sua sessão.';
+                        }
+                    } else {
+                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                    }
+                } else {
+                    $this->dados['erros'] = 'Dados não enviados.';
+                }
+            }
+        } catch (APPException $exception) {
+            return $this->exitSafe($exception->getHandledMessage(), 'home/index');
+        }
+        $this->dados['bi'] = $currentBI;
+        $this->view->display('Session/BuyIns/Ending/index.twig', $this->dados);
+    }
+
+    public function stakingBuyIn($idBuyIN)
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = $pokerSessionProvider->getCurrentOpen();
+            if ($openedSession['statusCode'] != 202) {
+                throw new APPException("Erro ao recuperar a sessão aberta");
+            }
+            $this->dados['openedSession'] = $openedSession['content'];
+            $buyInList = $openedSession['content']['buyInList'];
+            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
+            $this->dados['bi'] = $this->getCurrentBi($buyInList, $idBuyIN);
+            if ($this->request->getMethod() == 'post') {
+                $input = $this->getRequestInput($this->request);
+                if (!empty($input)) {
+                    $rules['stakingSelling'] =
+                        [
+                            'label' => "Cota à venda",
+                            'rules' => 'required'
+                        ];
+                    $rules['markup'] = [
+                        'label' => "Markup",
+                        'rules' => 'required|greater_than[0]|less_than_equal_to[2]'
+                    ];
+                    $rules['stakingSold'] =
+                        [
+                            'label' => "Cota vendida",
+                            'rules' => 'required'
+                        ];
+
+                    $idBuyIN = $input['buyinId'];
+                    $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
+                    if ($this->validate($rules)) {
+                        if ($currentBI) {
+                            $currentBI['stakingSelling'] = filter_var($input['stakingSelling'], FILTER_VALIDATE_FLOAT);
+                            $currentBI['stakingSold'] = filter_var($input['stakingSold'], FILTER_VALIDATE_FLOAT);
+                            $currentBI['markup'] = filter_var($input['markup'], FILTER_VALIDATE_FLOAT);
+                            $adiciona =  $pokerSessionProvider->salvaBuyIn($currentBI);
+                            if ($adiciona['statusCode'] == 201) {
+                                $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
+                                $this->response->redirect('/session/current');
+                            } else {
+                                $this->dados['erros'] = APPException::handleMessage($adiciona['content']['erros']);
+                            }
+                        } else {
+                            $this->dados['erros'] = 'Buy-in não encontrado na sua sessão.';
+                        }
+                    } else {
+                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                    }
+                } else {
+                    $this->dados['erros'] = 'Dados não enviados.';
+                }
+            }
+        } catch (APPException $exception) {
+            return $this->exitSafe($exception->getHandledMessage(), 'home/index');
+        }
+        $this->dados['bi'] = $currentBI;
+        $this->view->display('Session/BuyIns/Staking/index.twig', $this->dados);
+    }
+
+    public function saveBuyIn($idBuyIN = null)
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = $pokerSessionProvider->getCurrentOpen();
+            if ($openedSession['statusCode'] != 202) {
+                throw new APPException("Erro ao recuperar a sessão aberta");
+            }
+            $buyInList = $openedSession['content']['buyInList'];
+            if ($this->request->getMethod() == 'post') {
+                $input = $this->getRequestInput($this->request);
                 if (!empty($input)) {
                     $rules = [
                         "buyinValue" => [
@@ -126,53 +278,6 @@ class Session extends BaseController
                             'rules' => 'required'
                         ],
                     ];
-                    if (key_exists('isClosed', $input) && $input['isClosed']) {
-                        $rules['endDate'] =
-                            [
-                                'label' => "Data fim",
-                                'rules' => 'required'
-                            ];
-                        $rules['endTime'] =
-                            [
-                                'label' => "Hora fim",
-                                'rules' => 'required'
-                            ];
-                        $rules['prizeIn'] =
-                            [
-                                'label' => "Premiação",
-                                'rules' => 'required'
-                            ];
-                        if (key_exists('finalTable', $input) && $input['finalTable']) {
-                            $rules['position'] =
-                                [
-                                    'label' => "Posição",
-                                    'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
-                                ];
-                        }
-                        /*        $rules['fieldSize'] =
-                            [
-                                'label' => "Tamanho do field",
-                                'rules' => 'required'
-                            ]; */
-                    }
-
-                    if (key_exists('stakingSellingCheck', $input) && $input['stakingSellingCheck'] > 0) {
-
-                        $rules['stakingSelling'] =
-                            [
-                                'label' => "Cota à venda",
-                                'rules' => 'required'
-                            ];
-                        $rules['markup'] = [
-                            'label' => "Markup",
-                            'rules' => 'required|greater_than[0]|less_than_equal_to[2]'
-                        ];
-                        $rules['stakingSold'] =
-                            [
-                                'label' => "Cota vendida",
-                                'rules' => 'required'
-                            ];
-                    }
 
                     if ($this->validate($rules)) {
                         if (empty($input['startDate'])) {
@@ -180,45 +285,29 @@ class Session extends BaseController
                         } else {
                             $startDate = ($input['startDate'] . ' ' . $input['startTime']) ?? null;
                         }
-                        if (empty($input['endDate'])) {
-                            $endDate = null;
-                        } else {
-                            $endDate = ($input['endDate'] . ' ' . $input['endTime']) ?? null;
-                        }
-                        $stakingSelling  = $input['stakingSelling'] ?? null;
-                        $stakingSold  = $input['stakingSold'] ?? null;
-                        $prizeIn  = $input['prizeIn'] ?? null;
+
+                        $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
                         $buyinValue  = $input['buyinValue'] ?? null;
-                        $prizeReentry  = $input['prizeReentry'] ?? null;
                         $reentryBuyIn  = $input['reentryBuyIn'] ?? null;
-                        $markup  = $input['markup'] ?? null;
-                        $fieldSize  = $input['fieldSize'] ?? null;
                         $gameName  = $input['gameName'] ?? null;
                         $tipoBuyIn  = $input['tipoBuyIn'] ?? null;
                         $pokerSiteId  = $input['pokerSiteId'] ?? null;
+
                         $buyinId  = $input['buyinId'] ? $input['buyinId'] : null;
-                        $position  = $input['position'] ?? null;
-                        $finalTable  = $input['finalTable']  ?? null;
                         $dataPost = [
                             'buyinId' => $buyinId,
-                            'buyinValue' => $buyinValue,
-                            'sessionPokerid' => $input['sessionPokerid'],
-                            'stakingSelling' => $stakingSelling,
-                            'stakingSold' => $stakingSold,
-                            'prizeIn' => $prizeIn,
-                            'prizeReentry' => $prizeReentry,
-                            'reentryBuyIn' => $reentryBuyIn,
-                            'markup' => $markup,
-                            'currencyName' => 'dolar', //Somente dolar neste momento
                             'startDate' => $startDate,
-                            'endDate' => $endDate,
-                            'fieldSize' => $fieldSize,
-                            'gameName' => $gameName,
                             'tipoBuyIn' => $tipoBuyIn,
                             'pokerSiteId' => $pokerSiteId,
-                            'position' => $position,
-                            'finalTable' => $finalTable,
+                            'buyinValue' => $buyinValue,
+                            'sessionPokerid' => $input['sessionPokerid'],
+                            'reentryBuyIn' => $reentryBuyIn,
+                            'currencyName' => 'dolar', //Somente dolar neste momento
+                            'gameName' => $gameName,
                         ];
+                        $dataPost = array_merge($currentBI, $dataPost);
+                        unset($dataPost['gameId']);
                         $adiciona =  $pokerSessionProvider->salvaBuyIn($dataPost);
                         if ($adiciona['statusCode'] == 201) {
                             $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
@@ -233,18 +322,9 @@ class Session extends BaseController
                     $this->dados['erros'] = 'Dados não enviados.';
                 }
             }
-            $openedSession = $pokerSessionProvider->getCurrentOpen();
-            if ($openedSession['statusCode'] != 202) {
-                throw new APPException("Erro ao recuperar a sessão aberta");
-            }
             $this->dados['openedSession'] = $openedSession['content'];
-            $buyInList = $openedSession['content']['buyInList'];
-            foreach ($buyInList as $bi) {
-                if ($bi['buyinId'] == $idBuyIN) {
-                    $this->dados['bi'] = $bi;
-                    break;
-                }
-            }
+            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+            $this->dados['bi'] = $currentBI;
             $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
             if ($tiposBuyIn['statusCode'] != 200) {
                 throw new APPException("Erro ao recuperar os tipos de buy in");
