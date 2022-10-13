@@ -1,0 +1,23 @@
+@media(max-width:1080px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    body,
+    main {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+}
+
+@media(max-width:455px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    body,
+    main {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+}

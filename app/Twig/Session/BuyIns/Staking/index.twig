@@ -1,0 +1,47 @@
+{% extends 'templateBase.twig' %}
+{% block content %}
+	<div class="pagetitle">
+		<h1>{{ bi.gameName}}</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Venda de cotas</a>
+				</li>
+			</ol>
+		</nav>
+	</div>
+	{% if bi %}
+		<div class="card">
+			<div class="card-header d-flex flex-column">
+				<span>
+					<strong>Site:</strong>
+					{{bi.pokerSiteName}}
+				</span>
+				<span>
+					<strong>Início:</strong>
+					{{ci_time(bi.startDate).format('d/m/Y H:i')}}
+				</span>
+			</div>
+			<div class="card-body pt-5">
+				<form method='post'>
+					<input type="hidden" name="buyinId" value="{{bi.buyinId}}">
+					{% include "Session/BuyIns/Staking/fields.twig" %}
+					<div class='d-flex pt-5'>
+						<button class='btn btn-success'>Salvar</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	{% else %}
+		<div class="card">
+			<div class="card-header">
+				<span class='text-danger'>Bad beat!</span>
+			</div>
+			<div class="card-body">
+				<span>Parece que este buy-in tomou uma 3bet e deu fold!</span>
+				<span>Não conseguimos encontrá-lo dentro da sua sessão!</span>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
