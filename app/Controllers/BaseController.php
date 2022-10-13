@@ -64,6 +64,7 @@ class BaseController extends Controller
         $this->view = new View();
         $path = $this->request->getPath();
         helper(['url', 'form', 'date']);
+        
         $excecao = [
             'home/index', 'home/index/1', '/',
             'login/index', 'login/login',
@@ -74,7 +75,7 @@ class BaseController extends Controller
             'registration/email-confirm',
         ];
         if (!in_array($path, $excecao)) {
-            return $this->checkToken();
+            $this->checkToken();
         }
         $sitesLogo = [
             "gg poker" => "/assets/img/poker-sites/ggpoker.jpg",

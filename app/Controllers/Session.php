@@ -78,7 +78,7 @@ class Session extends BaseController
     }
     private function getCurrentBi($buyInList, $idBuyIN)
     {
-        $currentBI = null;
+        $currentBI = [];
         $editBi = array_filter($buyInList, function ($bi) use ($idBuyIN) {
             return $bi['buyinId'] == $idBuyIN;
         });

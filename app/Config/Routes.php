@@ -35,6 +35,12 @@ $routes->get('/', 'Home::index');
 $routes->add('registration/email-confirmation-resend','Registration::resendConfirmationEmail');
 $routes->add('registration/email-confirm','Registration::confirmEmail');
 $routes->add('registration/password-recovery','Registration::passwordRecovery');
+// $routes->group('session', static function ($routes) {
+//     $routes->add('current', 'PokerSession::current');
+//     $routes->add('salvaBuyIn', 'PokerSession::saveBuyIn');
+//     $routes->add('saveBuyIn', 'PokerSession::saveBuyIn');
+//     $routes->add('stakingBuyIn', 'PokerSession::stakingBuyIn');
+// });
 
 /*
  * --------------------------------------------------------------------
