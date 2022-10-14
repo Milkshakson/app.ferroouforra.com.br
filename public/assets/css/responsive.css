@@ -1,4 +1,4 @@
-@media(max-width:1080px) {
+@media(max-width:455px) {
     .mobile-hidden {
         display: none !important;
     }
@@ -10,14 +10,8 @@
     }
 }
 
-@media(max-width:455px) {
-    .mobile-hidden {
+@media(min-width:456px) {
+    .summary-current-session {
         display: none !important;
-    }
-
-    body,
-    main {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
     }
 }

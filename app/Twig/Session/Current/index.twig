@@ -1,26 +1,23 @@
 {% extends 'templateBase.twig' %}
 {% block css %}
 	{{parent()}}
-	<link rel="stylesheet" href="\assets\css\session.css">
+	<link rel="stylesheet" href="\assets\css\session.css?version={{versionScripts}}" rel="stylesheet">
 {% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList =[] %}
 {% block content %}
 	<div class="pagetitle">
-		<h1>Sessão</h1>
 		<nav>
 			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Sessão</a>
+				</li>
 				{% if openedSession is not empty %}
 					<li class="breadcrumb-item">
 						<a href="#">{{openedSession['description']}}</a>
 					</li>
 					<li class="breadcrumb-item">
-						<a href="#">aberta desde
-							{{ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i')}}</a>
-					</li>
-				{% else %}
-					<li class="breadcrumb-item">
-						<a href="#">Nenhuma sessão aberta</a>
+						<a href="#">{{ci_time(openedSession['startDate'],'Y-m-d H:i:s').format('d/m/Y H:i')}}</a>
 					</li>
 				{% endif %}
 			</ol>
@@ -66,26 +63,3 @@
 		</div>
 	</section>
 {% endblock %}
-
-{%  block vue %}
-	<script>
-		var data = {
-livros: [
-'Orange is The New Black - Piper Kerman', 'A Origem das Espécies - Charles Darwin'
-],
-titulo: 'Livros 2',
-buyInListVue: {{ json_encode(session('openedSession').buyInList,1) }}
-};
-document.addEventListener("DOMContentLoaded", () => {
-new Vue({
-el: '#main',
-data: data,
-methods: {
-teste() {
-return moment();
-}
-}
-});
-});
-	</script>
-{%  endblock %}

@@ -1,14 +1,18 @@
+:root {
+    --twitch-bg-color: #5c16c5;
+}
+
 img.sub {
     border: 4px solid goldenrod;
 }
 
 .btn-twitch,
 .btn-twitch:hover {
-    background-color: #5c16c5 !important;
+    background-color: var(--twitch-bg-color) !important;
 }
 
 .bg-twitch {
-    background-color: #5c16c5 !important;
+    background-color: var(--twitch-bg-color) !important;
 }
 
 .text-white {

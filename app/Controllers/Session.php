@@ -16,12 +16,17 @@ class Session extends BaseController
             $endpoint = '/poker_session/my_sessions';
             $pokerSessionProvider = new PokerSessionProvider();
             $sessions = $pokerSessionProvider->consumeEndpoint('get', $endpoint);
-            $closedSessions = array_filter($sessions['content'], function ($session) {
-                return !is_null($session['endDate']);
-            });
+            if (in_array($sessions['statusCode'], [200, 201])) {
+                $closedSessions = array_filter($sessions['content'], function ($session) {
+                    return !is_null($session['endDate']);
+                });
+            } else {
+                $closedSessions  = [];
+            }
             $this->dados['sessions'] = $closedSessions;
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
+            $this->exitSafe($exception->getHandledMessage());
         }
         $this->view->display('Session/Closed/index', $this->dados);
     }
@@ -91,6 +96,11 @@ class Session extends BaseController
 
         $this->dados['countFuturo']  = count(array_filter($buyInList, function ($bi) {
             return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
+        }));
+
+
+        $this->dados['countEncerrados']  = count(array_filter($buyInList, function ($bi) {
+            return  !is_null($bi['endDate']);
         }));
         $this->dados['sitesJogados'] = array_unique(array_column($buyInList, 'siteName'));
         $this->view->display('Session/Current/index.twig', $this->dados);

@@ -2,6 +2,9 @@ $(function () {
     $('.btn-remove-buyin').confirmButton({
         confirm: "Confirma a remoção do buy-in?"
     });
+    $('.btn-reopen-session').confirmButton({
+        confirm: "Confirma a reabertura da sessão?"
+    });
     $(".back-to-top").click(function (e) {
         e.preventDefault();
         $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -74,8 +77,8 @@ $(function () {
         selectOnFocus: true
     });
 
-    $('.alert').each(function (e) {
-        $(this).fadeOut(10000);
+    $('.alert-dismissible').each(function (e) {
+        $(this).fadeOut(6000);
     });
     $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
         let sender = $(this);

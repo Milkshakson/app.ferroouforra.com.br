@@ -1,7 +1,11 @@
 {% extends "templateBase.twig" %}
 {% block content %}
 	{{breadcrumb(['Sessões encerradas'],'Sessão')}}
-	{% for session in sessions %}
-		{% include "Session/Closed/session-detail.twig" %}
-	{% endfor %}
+	{% if count(sessions) %}
+		{% for session in sessions %}
+			{% include "Session/Closed/session-detail.twig" %}
+		{% endfor %}
+	{% else %}
+		<div class='w-100 text-center alert-danger alert'>Nenhuma sessão encontrada para exibir</div>
+	{% endif %}
 {% endblock %}

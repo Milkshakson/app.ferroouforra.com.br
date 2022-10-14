@@ -12,14 +12,56 @@
 }
 
 .btn-group-session i {
-    font-size: 1.3rem !important;
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
 }
 
 .btn-group-session a {
-    padding-bottom: 0;
+    padding: 0 !important;
+    padding-left: 25px !important;
+    align-items: baseline;
+    height: 25px;
 }
 
 .btn-group-session {
-    padding-right: 0px !important;
-    margin-right: 0px !important;
+    padding: 0px !important;
+    align-items: baseline !important;
+}
+
+.summary-current-session {
+    padding: 0 0 0 0 !important;
+}
+
+.grid-summary-current-session {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.summary-current-session>.card-body,
+.grid-summary-current-session,
+.grid-summary-current-session>div {
+    margin: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    padding: 0 !important;
+}
+
+.grid-summary-current-session>div>span:first-child {
+    background-color: rgb(229, 238, 232) !important;
+    color: #849bc4;
+    font-weight: bold;
+}
+
+.grid-summary-current-session>div>span {
+    padding: 3px;
+    white-space: nowrap;
+}
+
+@media(max-width:455px) {
+    .grid-summary-current-session {
+        size: 0.3rem;
+        display: grid !important;
+        row-gap: 2px;
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
 }

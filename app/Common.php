@@ -23,48 +23,6 @@ function pre($var, $exit = false)
     }
 }
 
-function coalesce($var, $replace = '')
-{
-    if (is_null($var)) {
-        return $replace;
-    } else {
-        return $var;
-    }
-}
-
-function dolarFormat($money = 0)
-{
-    defined('MIL') or define('MIL', 1000);
-    defined('MILHAO') or define('MILHAO', MIL * MIL);
-    if (is_null($money))
-        $money = 0;
-
-    $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-    if ($money >= MILHAO) {
-        return $fmt->formatCurrency($money / MILHAO, 'usd') . 'M';
-    } else if ($money >= MIL) {
-        return $fmt->formatCurrency($money / MIL, 'usd') . 'K';
-    } else {
-        return $fmt->formatCurrency($money, 'usd');
-    }
-}
-function percent($number = 0)
-{
-    $number = is_null($number) ? 0 : $number;
-    return number_format($number, 2) . '%';
-}
-if (!function_exists('array_array')) {
-
-    function array_array($array = [])
-    {
-        $retorno = [];
-        foreach ($array as $value) {
-            $retorno[$value] = $value;
-        }
-        return $retorno;
-    }
-}
-
 function getSiteSrcImage($siteName = '')
 {
     $sitesLogo = session('sitesLogo');
