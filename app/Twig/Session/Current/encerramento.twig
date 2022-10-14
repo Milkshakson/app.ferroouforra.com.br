@@ -26,15 +26,15 @@
 		<div class="row">
 			<div class='col-lg-6'>
 				{% if (is_array(openedSession) and not openedSession is empty) %}
-					{% include 'Session/form-encerramento.twig' %}
+					{% include 'Session/Current/form-encerramento.twig' %}
 				{% else %}
-					{% include 'Session/form-abertura.twig' %}
+					{% include 'Session/Current/form-abertura.twig' %}
 				{% endif %}
 			</div>
 			<div class='col-lg-6'>
 				{% if (is_array(openedSession) and not openedSession is empty) %}
 					<div class='row'>
-						{% include 'Session/cards-sumary.twig' %}
+						{% include 'Session/Current/cards-sumary.twig' %}
 					</div>
 				{% endif %}
 				<div class='row'>

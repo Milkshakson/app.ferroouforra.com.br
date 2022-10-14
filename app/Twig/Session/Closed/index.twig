@@ -1,0 +1,7 @@
+{% extends "templateBase.twig" %}
+{% block content %}
+	{{breadcrumb(['Sessões encerradas'],'Sessão')}}
+	{% for session in sessions %}
+		{% include "Session/Closed/session-detail.twig" %}
+	{% endfor %}
+{% endblock %}

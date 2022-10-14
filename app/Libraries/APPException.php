@@ -27,13 +27,14 @@ class APPException extends Exception
         $APIMessages = [
             'INVALID_TOKEN' => 'Token de acesso inválido',
             'POKER_SESSIONS_OPEN_EXISTS' => 'Já existe uma sessão aberta',
-            "EMAIL_NOT_CONFIRMED"=> "Seu email não foi confirmado.",
-            "EMAIL_NOT_FOUND"=> "Email não encontrado.",
-            'EMAIL_EXISTS'=>'Este email já está cadastrado no sistema.',
-            'OPENED_GAMES_IN_SESSION_CLOSE'=>'É preciso encerrar os torneios abertos antes de encerrar a sessão.',
-            'TOO_MANY_RECOVERY'=>'Já existe uma recuperação em andamento.',
+            'POKER_SESSIONS_NOT_EXISTS' => 'Sessão não encontrada',
+            "EMAIL_NOT_CONFIRMED" => "Seu email não foi confirmado.",
+            "EMAIL_NOT_FOUND" => "Email não encontrado.",
+            'EMAIL_EXISTS' => 'Este email já está cadastrado no sistema.',
+            'OPENED_GAMES_IN_SESSION_CLOSE' => 'É preciso encerrar os torneios abertos antes de encerrar a sessão.',
+            'TOO_MANY_RECOVERY' => 'Já existe uma recuperação em andamento.',
         ];
-        $messages = array_unique($APIMessages+$genericMessages);
+        $messages = array_unique($APIMessages + $genericMessages);
         if (key_exists($message, $messages)) {
             return $messages[$message];
         } else {

@@ -8,8 +8,10 @@ use Twig\Loader\FilesystemLoader;
 class View
 {
     private $template = 'twig';
-    public function __construct()
+    private $dados = [];
+    public function __construct($dados = [])
     {
+        $this->dados = $dados;
     }
     public function display($view, $dados = [])
     {
@@ -21,6 +23,7 @@ class View
     }
     public function render($view, $dados = [])
     {
+        $dados = array_merge($this->dados, $dados);
         switch ($this->template) {
             case 'twig':
                 $loader = new FilesystemLoader(APPPATH . 'Twig');

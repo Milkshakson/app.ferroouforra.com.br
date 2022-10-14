@@ -9,6 +9,38 @@ use IntlCalendar;
 
 class Session extends BaseController
 {
+
+    public function listClosed()
+    {
+        try {
+            $endpoint = '/poker_session/my_sessions';
+            $pokerSessionProvider = new PokerSessionProvider();
+            $sessions = $pokerSessionProvider->consumeEndpoint('get', $endpoint);
+            $closedSessions = array_filter($sessions['content'], function ($session) {
+                return !is_null($session['endDate']);
+            });
+            $this->dados['sessions'] = $closedSessions;
+        } catch (APPException $exception) {
+            $this->dados['erro'] = $exception->getHandledMessage();
+        }
+        $this->view->display('Session/Closed/index', $this->dados);
+    }
+    public function reopen($id)
+    {
+        try {
+            $endpoint = '/poker_session/reabre_sessao';
+            $pokerSessionProvider = new PokerSessionProvider();
+            $reopen = $pokerSessionProvider->consumeEndpoint('post', $endpoint, ['id' => intval($id)]);
+            $this->dados['reopen'] = $reopen;
+            if ($reopen['statusCode'] == 200) {
+                $this->session->setFlashdata('sucessos', 'Sessão reaberta com sucesso.');
+                $this->response->redirect('/session/current');
+            }
+        } catch (APPException $exception) {
+            $this->session->setFlashdata('erros', $exception->getHandledMessage());
+            $this->response->redirect('/session/listClosed');
+        }
+    }
     public function current()
     {
         try {
@@ -61,7 +93,7 @@ class Session extends BaseController
             return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
         }));
         $this->dados['sitesJogados'] = array_unique(array_column($buyInList, 'siteName'));
-        $this->view->display('Session/index.twig', $this->dados);
+        $this->view->display('Session/Current/index.twig', $this->dados);
     }
 
     public function removeBuyIn($idBuyIN = 0)
@@ -477,7 +509,7 @@ class Session extends BaseController
             throw new APPException("Erro ao recuperar a sessão aberta");
         }
         $this->dados['openedSession'] = $openedSession['content'];
-        $this->view->display('Session/importarGrade.twig', $this->dados);
+        $this->view->display('Session/Current/importarGrade.twig', $this->dados);
     }
 
     public function importaSessao($tipo = null)
@@ -533,7 +565,7 @@ class Session extends BaseController
                         if ($fechamento['statusCode'] == 202) {
                             $this->session->remove("openedSession");
                             $this->session->setFlashdata('sucessos', 'Sessão encerrada com sucesso.');
-                            $this->response->redirect('/home/index');
+                            $this->response->redirect('/Session/listClosed');
                         } else {
                             $this->dados['erros'] = APPException::handleMessage($fechamento['content']['erros']);
                         }
@@ -547,7 +579,7 @@ class Session extends BaseController
         } catch (APPException $exception) {
             $this->dados['erros'] = $exception->getHandledMessage();
         }
-        $this->view->display('Session/encerramento.twig', $this->dados);
+        $this->view->display('Session/Current/encerramento.twig', $this->dados);
     }
     public function component($componente = 'cards')
     {

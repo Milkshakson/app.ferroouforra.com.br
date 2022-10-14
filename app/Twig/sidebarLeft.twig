@@ -14,48 +14,55 @@
 					<span>Minha sessão</span>
 				</a>
 			</li>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="/dashboard/yearly">
-				<i class="bi bi-calendar"></i>
-				<span>Resumo anual</span>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="/dashboard/monthly">
-				<i class="bi bi-calendar"></i>
-				<span>Resumo mensal</span>
-			</a>
-		</li>
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/session/listClosed">
+					<i class="bi bi-currency-dollar"></i>
+					<span>Sessões encerradas</span>
+				</a>
+			</li>
 
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/dashboard/yearly">
+					<i class="bi bi-calendar"></i>
+					<span>Resumo anual</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/dashboard/monthly">
+					<i class="bi bi-calendar"></i>
+					<span>Resumo mensal</span>
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/login/logout">
+					<i class="bx bx-exit"></i>
+					<span>Sair</span>
+				</a>
+			</li>
+		{% else %}
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/login/index">
+					<i class="bi bi-key"></i>
+					<span>Login</span>
+				</a>
+			</li>
+		{% endif %}
+		<li class="nav-heading">Externos</li>
 		<li class="nav-item">
-			<a class="nav-link collapsed" href="/login/logout">
-				<i class="bx bx-exit"></i>
-				<span>Sair</span>
+			<a target="_blank" class="nav-link collapsed" href="https://twitch.tv/milkshakson">
+				<i class="bi bi-twitch"></i>
+				<span>Twitch do Milk</span>
 			</a>
 		</li>
-	{% else %}
 		<li class="nav-item">
-			<a class="nav-link collapsed" href="/login/index">
-				<i class="bi bi-key"></i>
-				<span>Login</span>
+			<a target="_blank" class="nav-link collapsed" href="https://ferroouforra.com.br/">
+				<i class="bi bi-newspaper"></i>
+				<span>Site Ferro ou Forra</span>
 			</a>
 		</li>
+	</ul>
+	{% if session('mostrar_propaganda')%}
+		<a target="_blank" href="https://p4f.com/Account/Register?atag=milkshakson"></a>
 	{% endif %}
-<li class="nav-heading">Externos</li>
-	<li class="nav-item">
-		<a target="_blank" class="nav-link collapsed" href="https://twitch.tv/milkshakson">
-			<i class="bi bi-twitch"></i>
-			<span>Twitch do Milk</span>
-		</a>
-	</li>
-	<li class="nav-item">
-		<a target="_blank" class="nav-link collapsed" href="https://ferroouforra.com.br/">
-			<i class="bi bi-newspaper"></i>
-			<span>Site Ferro ou Forra</span>
-		</a>
-	</li>
-</ul>
-{% if session('mostrar_propaganda')%}
-	<a target="_blank" href="https://p4f.com/Account/Register?atag=milkshakson"></a>
-{% endif %}</aside>
+</aside>

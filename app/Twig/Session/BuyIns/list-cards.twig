@@ -1,33 +1,3 @@
-<div class="card">
-	<div class="card-body">
-		<h5 class='card-title d-flex flex-column'>
-			Lista de jogos
-			<span class='d-flex justify-content-end'>
-				Total:
-				{{count(buyInList)}}
-				| Em andamento:
-				{{countAbertos}}
-				| Para começar:{{countFuturo}}
-			</span>
-		</h5>
-	</div>
-	<div class="card-footer">
-		<div class='d-flex justify-content-end pe-0'>
-			<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
-				<a class="btn text-success" title="Adicionar jogo" href="/session/saveBuyIn">
-					<i class='bi bi-plus-circle'></i>
-				</a>
-				<a class="btn text-success " title='Importar Grade' href="/session/importarGrade">
-					<i class='bx bx-import'></i>
-				</a>
-				<a class="btn text-danger " title='Encerrar a sessão' href="/session/encerrar">
-					<i class='bx bx-sleepy'></i>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-
 {% autoescape false %}
 	{% for bi in buyInList %}
 		{% set classLucro = bi['isClosed'] ?  (bi['profit'] > 0 ? 'text-success' : ((bi['profit'] < 0) ? 'text-danger' : '')) : '' %}
@@ -41,28 +11,30 @@
 		<div class="card mb-1 py-2">
 			<div class="d-flex flex-column">
 				<div class='row'>
-					<div class='d-flex justify-content-end'>
-						<div class="btn-group" role="group" aria-label="Botões ação Buy-in">
-							<a class="dropdown-item text-danger btn-remove-buyin" title="Remover" href="/session/removeBuyIn/{{bi['buyinId']}}">
-								<i class='bi bi-trash'></i>
-							</a>
+					{% if (session and is_null(session.endDate)) %}
+						<div class='d-flex justify-content-end'>
+							<div class="btn-group" role="group" aria-label="Botões ação Buy-in">
+								<a class="dropdown-item text-danger btn-remove-buyin" title="Remover" href="/session/removeBuyIn/{{bi['buyinId']}}">
+									<i class='bi bi-trash'></i>
+								</a>
 
 
-							<a class="dropdown-item text-primary " title="Cotas" href="/session/stakingBuyIn/{{bi.buyinId}}">
-								<i class="ri-money-dollar-box-line"></i>
-							</a>
+								<a class="dropdown-item text-primary " title="Cotas" href="/session/stakingBuyIn/{{bi.buyinId}}">
+									<i class="ri-money-dollar-box-line"></i>
+								</a>
 
-							<a class="dropdown-item text-primary" title="Editar" href="/session/saveBuyIn/{{bi['buyinId']}}">
-								<i class='bi bi-pencil'></i>
-							</a>
+								<a class="dropdown-item text-primary" title="Editar" href="/session/saveBuyIn/{{bi['buyinId']}}">
+									<i class='bi bi-pencil'></i>
+								</a>
 
-							<a class="dropdown-item text-primary" title="Encerrar" href="/session/endBuyIn/{{bi['buyinId']}}">
-								<i class="bi bi-door-closed-fill"></i>
-							</a>
+								<a class="dropdown-item text-primary" title="Encerrar" href="/session/endBuyIn/{{bi['buyinId']}}">
+									<i class="bi bi-door-closed-fill"></i>
+								</a>
+							</div>
 						</div>
-					</div>
+					{% endif %}
 					<div
-						class="col-lg-2 col-sm-3 col-xs-3 col-3 px-1 py-0 d-flex align-content-center align-items-center">
+						class="col-lg-2 col-sm-3 col-xs-3 col-3 px-2 py-0 d-flex align-content-center align-items-center">
 						<!--https://seeklogo.com/images/P/pokerstars-logo-4D58E5168B-seeklogo.com.png-->
 						<img src="{{(getSiteSrcImage(bi['pokerSiteName'])) }}" style="max-width:50px;" class="img-fluid rounded-circle" alt="{{bi['pokerSiteShortName']}}">
 					</div>

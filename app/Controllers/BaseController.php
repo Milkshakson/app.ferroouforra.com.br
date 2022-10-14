@@ -61,10 +61,9 @@ class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $this->session = \Config\Services::session();
         $this->apiApp = new APIFF();
-        $this->view = new View();
         $path = $this->request->getPath();
-        helper(['url', 'form', 'date']);
-        
+        helper(['url', 'form', 'date', 'template']);
+
         $excecao = [
             'home/index', 'home/index/1', '/',
             'login/index', 'login/login',
@@ -74,9 +73,6 @@ class BaseController extends Controller
             'registration/password-recovery',
             'registration/email-confirm',
         ];
-        if (!in_array($path, $excecao)) {
-            $this->checkToken();
-        }
         $sitesLogo = [
             "gg poker" => "/assets/img/poker-sites/ggpoker.jpg",
             "poker stars" => "/assets/img/poker-sites/pokerstars.jpg",
@@ -96,6 +92,11 @@ class BaseController extends Controller
 
         $this->dados['decodedToken'] = session('decodedTokenAcesso');
         $this->session->set('sitesLogo', $sitesLogo);
+        //deve ser a última coisa a executar
+        $this->view = new View($this->dados);
+        if (!in_array($path, $excecao)) {
+            $this->checkToken();
+        }
     }
     protected function checkToken()
     {
