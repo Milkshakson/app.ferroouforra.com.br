@@ -1,13 +1,17 @@
 {% extends 'templateBase.twig' %}
+{% block css %}
+	{{parent()}}
+	<link rel="stylesheet" href="\assets\css\dashboard.css?version={{versionScripts}}" rel="stylesheet">
+{% endblock %}
 {% block content %}
-	<div class='row'>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Ano anterior" href='/dashboard/monthly/{{CIMesResumo.subMonths(1).format("m/y")}}'>
-			<i style="font-size:50px;" class='bx bx-skip-previous-circle'></i>
+	<div class="summary-button-control card d-flex justify-content-between align-items-center flex-row">
+		<a class='d-flex' title="Ano anterior" href='/dashboard/monthly/{{CIMesResumo.subMonths(1).format("m/Y")}}'>
+			<i class='bx bx-skip-previous-circle'></i>
 		</a>
-		<h4 class='card-title text-center col-10 col-sm-10 col-md-10 col-lg-10 col-xxl-10'>Resumo do mês
-			{{month}}/{{year}}</h4>
-		<a class='col-1 col-sm-1 col-md-1 col-lg-1 col-xxl-1' title="Próximo mês" href='/dashboard/monthly/{{CIMesResumo.addMonths(1).format("m/y")}}'>
-			<i style="font-size:50px;" class='bx bx-skip-next-circle'></i>
+		<div class="d-flex flex-1 card-title">Resumo do mês
+			{{month}}/{{year}}</div>
+		<a class='d-flex' title="Próximo mês" href='/dashboard/monthly/{{CIMesResumo.addMonths(1).format("m/Y")}}'>
+			<i class='bx bx-skip-next-circle'></i>
 		</a>
 	</div>
 	<div class='row'>
@@ -24,11 +28,11 @@
 						</h5>
 						<div class='row p-1'>
 							{% if dia['countBuyIns']>0 %}
-								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
-								{{box_bi('Lucro',dolarFormat(dia['profit']),'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6"')}}
+								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6 col-6"')}}
+								{{box_bi('Lucro',dolarFormat(dia['profit']),'class="col-sm-6 col-md-6 col-lg-6 col-xxl-6 col-6"')}}
 							{% else %}
-								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
-								{{box_bi('','','class="col-sm-12 col-md-12 col-lg-12 col-xxl-12"')}}
+								{{box_bi('Registros',dia['countBuyIns'],'class="col-sm-12 col-md-12 col-lg-12 col-xxl-12 col-6"')}}
+								{{box_bi('','','class="col-sm-12 col-md-12 col-lg-12 col-xxl-12 col-6"')}}
 							{% endif %}
 						</div>
 					</div>

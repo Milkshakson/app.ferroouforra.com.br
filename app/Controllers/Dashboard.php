@@ -60,7 +60,7 @@ class Dashboard extends BaseController
             $this->dados['month'] = $month;
             $this->dados['CIMesResumo'] = Time::createFromFormat('m/Y', "$month/$year");
             $pokerSessionProvider = new PokerSessionProvider();
-            $monthlySumary = $pokerSessionProvider->getResumoMensal($month, $year);
+            $monthlySumary = $pokerSessionProvider->getResumoMensal(intval($month), intval($year));
             if ($monthlySumary['statusCode'] == 202) {
                 $monthlySumary = $monthlySumary['content'];
                 $this->dados['monthlySumary'] = $monthlySumary;

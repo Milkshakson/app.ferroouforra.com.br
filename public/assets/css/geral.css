@@ -15,6 +15,10 @@ img.sub {
     background-color: var(--twitch-bg-color) !important;
 }
 
+.nowrap {
+    white-space: nowrap !important;
+}
+
 .text-white {
     color: white !important;
 }
