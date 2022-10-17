@@ -3,6 +3,10 @@
 	{{parent()}}
 	<link rel="stylesheet" href="\assets\css\session.css?version={{versionScripts}}" rel="stylesheet">
 {% endblock %}
+{% block scriptsFooter %}
+	{{parent()}}
+	<script defer src="\assets\scripts\session.js?version={{versionScripts}}"></script>
+{% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList =[] %}
 {% block content %}
@@ -44,12 +48,14 @@
 					{% else %}
 						{% set classTextProfit = 'text-danger'%}
 					{% endif %}
-					<div class='row'>
-						{% include 'Session/Current/summary.twig' %}
+					<div class='d-flex flex-column'>
+						<div
+							class="container-summary-opened">{# {% include 'Session/Current/summary.twig' %} #}
+						</div>
 						<div class="card-footer p-0">
 							<div class='d-flex justify-content-end p-0 pb-2'>
 								<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
-									<a class="btn text-success" title="Adicionar jogo" href="/session/saveBuyIn">
+									<a class="btn text-success btn-add-game" title="Adicionar jogo" href="/session/saveBuyIn">
 										<i class='bi bi-plus-circle-fill'></i>
 									</a>
 									<a class="btn text-success " title='Importar Grade' href="/session/importarGrade">
@@ -61,18 +67,20 @@
 								</div>
 							</div>
 						</div>
-						{% include 'Session/BuyIns/list-cards.twig' %}
+						<div
+							class='container-buyins-opened'>{# {% include 'Session/BuyIns/list-cards.twig' %} #}
+						</div>
 					</div>
 				{% else %}
 					{% include 'Session/Current/form-abertura.twig' %}
 				{% endif %}
 			</div>
 			<div class='col-lg-6'>
-				<div class='row mobile-hidden'>
-					{% include 'Session/Current/cards-sumary.twig' %}
+				<div
+					class='row mobile-hidden'>{# {% include 'Session/Current/cards-sumary.twig' %} #}
 				</div>
-				<div class='row mobile-hidden'>
-					{% include 'Common/faq.twig' %}
+				<div
+					class='row mobile-hidden'>{# {% include 'Common/faq.twig' %} #}
 				</div>
 			</div>
 		</div>
