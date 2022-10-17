@@ -91,6 +91,7 @@ class BaseController extends Controller
         ];
 
         $this->dados['decodedToken'] = session('decodedTokenAcesso');
+        $this->dados['title'] = 'Ferro ou Forra';
         $this->session->set('sitesLogo', $sitesLogo);
         //deve ser a última coisa a executar
         $this->view = new View($this->dados);
