@@ -1,0 +1,35 @@
+.summary-button-control i {
+    font-size: 35px !important;
+}
+
+.summary-button-control .card-title {
+    padding: 0px !important;
+}
+
+.grid-summary-data {
+    display: grid !important;
+}
+
+.grid-summary-data {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-summary-data>div {
+    border: 1px solid;
+}
+
+@media(max-width:455px) {
+    .summary-button-control {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    .grid-summary-data {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .grid-summary-data>div {
+        border: 1px solid;
+    }
+}
