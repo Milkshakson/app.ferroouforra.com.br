@@ -9,9 +9,3 @@
         overflow-x: hidden !important;
     }
 }
-
-@media(min-width:456px) {
-    .summary-current-session {
-        display: none !important;
-    }
-}
