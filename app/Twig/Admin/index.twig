@@ -1,0 +1,33 @@
+{% extends 'templateBase.twig' %}
+{% block content %}
+	<div class="pagetitle">
+		{% set buyInList = [] %}
+		{% set openedSession = session('openedSession')%}
+		{% if (openedSession) %}
+			{% set buyInList = openedSession['buyInList'] %}
+		{% endif %}
+		<h1>Resumo das sessões</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="/">Admin</a>
+				</li>
+			</ol>
+		</nav>
+	</div>
+	<!-- End Page Title -->
+	<section class="section dashboard">
+		<div class="d-flex flex-row justify-content-center">
+			<div class="card">
+				<div class="card-header">Resumo das sessões nas últimas 24h</div>
+				<div class="card-body d-flex flex-column">
+					{% for sessao in sessoes %}
+						<div class='gap-3'>{{sessao.situacao}}
+							:
+							{{sessao.countSessions}}</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

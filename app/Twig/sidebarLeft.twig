@@ -34,6 +34,15 @@
 				</a>
 			</li>
 
+			{% if decodedToken.nome == 'Milkshakson' %}
+				<li class="nav-item">
+					<a class="nav-link collapsed" href="/admin">
+						<i class="bx bx-cog"></i>
+						<span>Painel ADM</span>
+					</a>
+				</li>
+			{% endif %}
+
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/login/logout">
 					<i class="bx bx-exit"></i>
