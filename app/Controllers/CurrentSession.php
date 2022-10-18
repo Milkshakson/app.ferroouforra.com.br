@@ -11,9 +11,9 @@ class CurrentSession extends BaseController
     public function lazyLoadSummary()
     {
         try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $this->session->set('openedSession', $pokerSessionProvider->getCurrentOpen()['content']);
             $openedSession = session('openedSession');
-            if (!$openedSession) {
-            }
             $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
             $this->dados['buyInList'] = $buyInList;
             $this->dados['countAbertos'] = count(array_filter($buyInList, function ($bi) {
@@ -23,8 +23,7 @@ class CurrentSession extends BaseController
             $this->dados['countFuturo']  = count(array_filter($buyInList, function ($bi) {
                 return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
             }));
-
-
+            $this->dados['sumary'] = $openedSession['sumary'];
             $this->dados['countEncerrados']  = count(array_filter($buyInList, function ($bi) {
                 return  !is_null($bi['endDate']);
             }));
@@ -39,11 +38,12 @@ class CurrentSession extends BaseController
     public function lazyLoadBuyInList()
     {
         try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $this->session->set('openedSession', $pokerSessionProvider->getCurrentOpen()['content']);
             $openedSession = session('openedSession');
-            if (!$openedSession) {
-            }
             $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
             $this->dados['buyInList'] = $buyInList;
+            $this->dados['openedSession'] = $openedSession;
             $html = $this->view->render('Session/BuyIns/list-cards.twig', $this->dados);
             print(json_encode(['html' => $html]));
         } catch (Exception $e) {

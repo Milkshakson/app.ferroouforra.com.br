@@ -9,10 +9,23 @@ $(document).ready(() => {
     reloadBuyInsOpen($('.container-buyins-opened'))
 
 
-    $(document).on('click', '.btn-add-game', (e) => {
+    // $(document).on('click', '.btn-add-game', (e) => {
+    //     e.preventDefault()
+    //     lazyFormRegistration()
+    // })
+
+    
+    $(document).on('click','.btn-remove-buyin', function(e){
+      var sender =$(this)
+      if(!sender.hasClass('confirmed')){
         e.preventDefault()
-        lazyFormRegistration()
-    })
+       var confirmed = confirm('Tem certeza que deseja remover?')
+       if(confirmed){
+        sender.addClass('confirmed')
+        location.href =sender.attr('href')
+      }
+    }
+  });
 
 })
 

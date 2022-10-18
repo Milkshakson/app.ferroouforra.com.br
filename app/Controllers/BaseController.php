@@ -54,7 +54,7 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-        $this->dados['versionScripts'] = '1.3';
+        $this->dados['versionScripts'] = '1.4';
 
         // Preload any models, libraries, etc, here.
 
