@@ -1,10 +1,4 @@
 $(function () {
-    $('.btn-remove-buyin').confirmButton({
-        confirm: "Confirma a remoção do buy-in?"
-    });
-    $('.btn-reopen-session').confirmButton({
-        confirm: "Confirma a reabertura da sessão?"
-    });
     $(".back-to-top").click(function (e) {
         e.preventDefault();
         $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -86,5 +80,54 @@ $(function () {
             let val = sender.val();
             sender.val('0' + val);
         }
+    });
+
+    $(document).on('click', '.img-select-site', function () {
+        $("[name='pokerSiteId']").val($(this).data('value'))
+        $('.site-selected').removeClass('site-selected')
+        $(this).addClass('site-selected')
+        $('[name="gameName"]').focus()
+    })
+
+    $(document).on('focusout', '[name="gameName"]', function (e) {
+        setTimeout(() => $('#retorno-lista-jogos').html(''), 50000);
+    });
+
+    $(document).on('keyup', '[name="gameName"]', function (e) {
+        let sender = $(this);
+        let busca = sender.val();
+        var html = '';
+        $('.meus-buyins').remove();
+        if (busca.length >= 3) {
+            $.ajax({
+                data: {
+                    'busca': busca,
+                    'site': $('#pokerSiteId').val()
+                },
+                method: 'post',
+                url: '/session/meusBuyIns',
+                beforeSend: () => {
+                    let meusBuyIns = $('<div class="meus-buyins col-lg-12 col-md-12"><div class="d-flex align-items-center justify-content-center">..buscando seus torneios favoritos da forra..</div></div>');
+                    $('#retorno-lista-jogos').html(meusBuyIns);
+                },
+                success: function (retorno) {
+                    let meusBuyIns = $('<div class="meus-buyins col-lg-12 col-md-12">' + retorno + '</div>');
+                    $('#retorno-lista-jogos').html(meusBuyIns);
+                }
+            }).fail(function () {
+                html = 'Erro';
+                let meusBuyIns = $('<div class="meus-buyins col-lg-12 col-md-12"><div class="">' + html + '</div></div>');
+                sender.after(meusBuyIns);
+            }).always(function () { });
+        }
+    });
+    $(document).on('click', '.seleciona-buy-in', function (e) {
+        e.preventDefault();
+        let sender = $(this);
+        $('[name="gameName"]').val(sender.data('gameName'));
+        $('[name="pokerSiteId"]').val(sender.data('site'));
+        $('[name="tipoBuyIn"]').val(sender.data('tipoBuyIn'));
+        $('[name="buyinValue"]').val(sender.data('buyIn'));
+        $('.meus-buyins').remove();
     });
 });

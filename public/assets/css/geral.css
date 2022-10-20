@@ -35,3 +35,9 @@ header.bg-twitch .badge-time-left-token,
 header.bg-twitch .dropdown-item span {
     color: #5c16c5 !important;
 }
+
+.site-selected {
+    background-color: var(--twitch-bg-color);
+    border: 1px solid var(--twitch-bg-color);
+    color: white;
+}

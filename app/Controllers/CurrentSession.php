@@ -54,12 +54,25 @@ class CurrentSession extends BaseController
     public function lazyFormRegistration()
     {
         try {
+            $pokerSessionProvider = new PokerSessionProvider();
             $openedSession = session('openedSession');
             if (!$openedSession) {
             }
             $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
+            $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
+            if ($tiposBuyIn['statusCode'] != 200) {
+                throw new APPException("Erro ao recuperar os tipos de buy in");
+            }
+            $this->dados['tiposBuyIn'] = $tiposBuyIn['content'];
+
+            $pokerSites = $pokerSessionProvider->getPokerSites();
+            if ($pokerSites['statusCode'] != 200) {
+                throw new APPException("Erro ao recuperar a lista de sites");
+            }
+
+            $this->dados['pokerSites'] = $pokerSites['content'];
             $this->dados['buyInList'] = $buyInList;
-            $html = $this->view->render('Session\BuyIns\form-cadastro.twig', $this->dados);
+            $html = $this->view->render('Session\BuyIns\lazy-form.twig', $this->dados);
             print(json_encode(['html' => $html, 'title' => 'Adição de buy-in']));
         } catch (Exception $e) {
             $this->exitSafe(APPException::handleMessage($e->getMessage()));

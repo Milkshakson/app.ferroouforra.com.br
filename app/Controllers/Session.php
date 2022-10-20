@@ -271,8 +271,25 @@ class Session extends BaseController
         $this->dados['bi'] = $currentBI;
         $this->view->display('Session/BuyIns/Staking/index.twig', $this->dados);
     }
+    public function createBuyIn($pokerSiteId = null)
+    {
+        $this->saveBuyIn(null, $pokerSiteId);
+    }
 
-    public function saveBuyIn($idBuyIN = null)
+    public function lazyloadMyBuyIns()
+    {
+        $pokerSessionProvider = new PokerSessionProvider();
+        $myBuyIns = $pokerSessionProvider->getMeusBuyIns()['content'];
+        $myBuyIns = array_filter($myBuyIns, function ($bi) {
+            $bi = (object) $bi;
+            // return ci_time($bi->startDate)->format('H:i') == '11:39';
+            return $bi->pokerSiteName == 'Party Poker';
+        });
+        $this->session->set('meusBuyIns', $myBuyIns);
+        $this->dados['myBuyIns'] = $myBuyIns;
+        $this->view->display('Session/BuyIns/list-my-buyins', $this->dados);
+    }
+    public function saveBuyIn($idBuyIN = null, $pokerSiteId = null)
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
@@ -366,6 +383,9 @@ class Session extends BaseController
             }
             $this->dados['openedSession'] = $openedSession['content'];
             $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+            if ($currentBI == [] and !is_null($pokerSiteId)) {
+                $currentBI['pokerSiteId'] = $pokerSiteId;
+            }
             $this->dados['bi'] = $currentBI;
             $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
             if ($tiposBuyIn['statusCode'] != 200) {
@@ -392,6 +412,7 @@ class Session extends BaseController
             $meusBuyIns = $pokerSessionProvider->getMeusBuyIns()['content'];
             $this->session->set('meusBuyIns', $meusBuyIns);
         }
+
         $html = '';
         $input = $this->getRequestInput($this->request);
 
@@ -401,7 +422,7 @@ class Session extends BaseController
         if (is_array($meusBuyIns)) {
             $html .= '';
 
-            if ($pokerSiteId) {
+            if (intval($pokerSiteId) > 0) {
                 $meusBuyIns = array_filter($meusBuyIns, function ($bi) use ($pokerSiteId) {
                     return $bi['pokerSiteId'] == $pokerSiteId;
                 });
@@ -412,7 +433,6 @@ class Session extends BaseController
             $contem = array_filter($meusBuyIns, function ($bi) use ($busca, $exatos) {
                 return !in_array($bi, $exatos) && str_contains(strtolower($bi['gameName']), $busca);
             });
-
             $mergedUnique = (array_merge($exatos, $contem));
             $lines = [];
             foreach ($mergedUnique as $bi) {
@@ -421,16 +441,20 @@ class Session extends BaseController
                 $gameName = $bi['gameName'];
                 $pokerSiteId = $bi['pokerSiteId'];
                 $tipoBuyIn = $bi['tipoBuyIn'];
-                $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-3 col-lg-4"');
+                $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-3 col-sm-3 col-md-3 col-lg-3"');
                 $gameInfo .= box_bi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
                 $gameInfo .= box_bi('&nbsp;', ($bi['tipoBuyInName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                $strLines .= "<div class='border border-secondary rounded ps-3 pe-3 mb-1 ms-0'>";
+                $strLines .= "<div class='border border-secondary '>";
                 $strLines .= "<div class='row'>$gameInfo</div>";
-                $strLines .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'><div class='row pb-3'>$gameName</div></a>";
+                $strLines .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'>
+                <div class='row pb-3'>$gameName</div>
+                </a>";
                 $strLines .= '</div>';
                 $lines[] = $strLines;
             }
             $html .= implode(array_unique($lines));
+        } else {
+            $html = '**s*';
         }
         return $html;
     }

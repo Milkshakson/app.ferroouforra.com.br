@@ -56,6 +56,11 @@
     white-space: nowrap;
 }
 
+.grid-poker-site {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
 @media(max-width:455px) {
     .grid-summary-current-session {
         size: 0.3rem;
