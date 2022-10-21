@@ -1,79 +1,93 @@
 {% extends 'templateBase.twig' %}
 {% block css %}
-  {{ parent() }}
-  <link rel="stylesheet" href="\assets\css\session.css?version={{ versionScripts }}" rel="stylesheet" />
+	{{ parent() }}
+	<link rel="stylesheet" href="\assets\css\session.css?version={{ versionScripts }}" rel="stylesheet"/>
 {% endblock %}
 {% block scriptsFooter %}
-  {{ parent() }}
-  <script defer src="\assets\scripts\session.js?version={{ versionScripts }}"></script>
+	{{ parent() }}
+	<script defer src="\assets\scripts\session.js?version={{ versionScripts }}"></script>
 {% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList = [] %}
 {% block content %}
-  <div class="pagetitle">
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Sessão</a>
-        </li>
-        {% if openedSession is not empty %}
-          <li class="breadcrumb-item">
-            <a href="#">{{ openedSession['description'] }}</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a href="#">{{ ci_time(openedSession['startDate'], 'Y-m-d H:i:s').format('d/m/Y H:i') }}</a>
-          </li>
-        {% endif %}
-      </ol>
-    </nav>
-  </div>
-  <!-- End Page Title -->
-  <section class="section dashboard">
-    <div class="row">
-      <div class="col-lg-6">
-        {% if is_array(openedSession) and openedSession is not empty %}
-          {% set buyInList = openedSession['buyInList'] %}
-          {% set sitesJogados = [] %}
-          {% for bi in buyInList %}
-            {% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
-          {% endfor %}
-          {% set sitesJogados = array_unique(sitesJogados) %}
-          {% set distinctSites = count(sitesJogados) %}
-          {% set textSitesJogados = distinctSites ~ (distinctSites > 1 ? ' sites' : ' site') %}
-          {% set sumary = openedSession['sumary'] %}
-          {% if sumary['profit'] > 0 %}
-            {% set classTextProfit = 'text-success' %}
-          {% elseif openedSession['sumary']['profit'] == 0 %}
-            {% set classTextProfit = 'text-primary' %}
-          {% else %}
-            {% set classTextProfit = 'text-danger' %}
-          {% endif %}
-          <div class="d-flex flex-column">
-            <div class="container-summary-opened"></div>
-            <div class="card-footer p-0">
-              <div class="d-flex justify-content-end p-0 pb-2">
-                <div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
-                  <a class="btn text-success btn-add-game" title="Adicionar jogo" href="/session/saveBuyIn"><i class="bi bi-plus-circle-fill"></i></a>
-                  <a class="btn text-success" title="Importar Grade" href="/session/importarGrade"><i class="bi bi-grid-3x3-gap-fill"></i></a>
-                  <a class="btn text-success" title="Encerrar a sessão" href="/session/encerrar"><i class="bi bi-save2-fill"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="container-buyins-opened"></div>
-          </div>
-        {% else %}
-          {% include 'Session/Current/form-abertura.twig' %}
-        {% endif %}
-      </div>
-      <div class="col-lg-6">
-        <div class="d-flex flex-column">
-          <form action="" name="formFilterMyBuyIns"></form>
-          <h2>Meus Buyins</h2>
-          <div class="content-my-buyins"></div>
-        </div>
-        <div class="row mobile-hidden"></div>
-        <div class="row mobile-hidden"></div>
-      </div>
-    </div>
-  </section>
+	<div class="pagetitle">
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">
+						Sessão
+					</a>
+				</li>
+				{% if openedSession is not empty %}
+					<li class="breadcrumb-item">
+						<a href="#">
+							{{ openedSession['description'] }}
+						</a>
+					</li>
+					<li class="breadcrumb-item">
+						<a href="#">
+							{{ ci_time(openedSession['startDate'], 'Y-m-d H:i:s').format('d/m/Y H:i') }}
+						</a>
+					</li>
+				{% endif %}
+			</ol>
+		</nav>
+	</div>
+	<!-- End Page Title -->
+	<section class="section dashboard">
+		<div class="row">
+			<div class="col-lg-12">
+				{% if is_array(openedSession) and openedSession is not empty %}
+					{% set buyInList = openedSession['buyInList'] %}
+					{% set sitesJogados = [] %}
+					{% for bi in buyInList %}
+						{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
+					{% endfor %}
+					{% set sitesJogados = array_unique(sitesJogados) %}
+					{% set distinctSites = count(sitesJogados) %}
+					{% set textSitesJogados = distinctSites ~ (distinctSites > 1 ? ' sites' : ' site') %}
+					{% set sumary = openedSession['sumary'] %}
+					{% if sumary['profit'] > 0 %}
+						{% set classTextProfit = 'text-success' %}
+					{% elseif openedSession['sumary']['profit'] == 0 %}
+						{% set classTextProfit = 'text-primary' %}
+					{% else %}
+						{% set classTextProfit = 'text-danger' %}
+					{% endif %}
+					<div class="d-flex flex-column">
+						<div class="container-summary-opened"></div>
+						<div class="card-footer p-0">
+							<div class="d-flex justify-content-end p-0 pb-2">
+								<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
+									<a class="btn text-success btn-add-game" title="Adicionar jogo" href="/session/saveBuyIn">
+										<i class="bi bi-plus-circle-fill"></i>
+									</a>
+									<a class="btn text-success" title="Importar Grade" href="/session/importarGrade">
+										<i class="bi bi-grid-3x3-gap-fill"></i>
+									</a>
+									<a class="btn text-success" title="Encerrar a sessão" href="/session/encerrar">
+										<i class="bi bi-save2-fill"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="container-buyins-opened"></div>
+					</div>
+				{% else %}
+					{% include 'Session/Current/form-abertura.twig' %}
+				{% endif %}
+			</div>
+			<div class="col-lg-12">
+				<div class="d-flex flex-column">
+					<form action="" name="formFilterMyBuyIns"></form>
+					<h2>
+						{# Meus Buyins #}
+					</h2>
+					<div class="content-my-buyins"></div>
+				</div>
+				<div class="row mobile-hidden"></div>
+				<div class="row mobile-hidden"></div>
+			</div>
+		</div>
+	</section>
 {% endblock %}
