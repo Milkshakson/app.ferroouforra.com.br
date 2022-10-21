@@ -54,15 +54,18 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-        $this->dados['versionScripts'] = '1.4';
-
+        if (ENVIRONMENT == 'production') {
+            $this->dados['versionScripts'] = '1.6';
+        } else {
+            $this->dados['versionScripts'] = date('dmYhis');
+        }
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
         $this->session = \Config\Services::session();
         $this->apiApp = new APIFF();
         $path = $this->request->getPath();
-        helper(['url', 'form', 'date', 'template']);
+        helper(['url', 'form', 'date', 'template', 'my_string']);
 
         $excecao = [
             'home/index', 'home/index/1', '/',
@@ -98,6 +101,18 @@ class BaseController extends Controller
         if (!in_array($path, $excecao)) {
             $this->checkToken();
         }
+    }
+    protected function getCurrentBi($buyInList, $idBuyIN)
+    {
+        $currentBI = [];
+        $editBi = array_filter($buyInList, function ($bi) use ($idBuyIN) {
+            return $bi['buyinId'] == $idBuyIN;
+        });
+        if (count($editBi) == 1) {
+            $currentBI = end($editBi);
+        }
+
+        return $currentBI;
     }
     protected function checkToken()
     {

@@ -38,7 +38,11 @@ class APPException extends Exception
         if (key_exists($message, $messages)) {
             return $messages[$message];
         } else {
-            return 'Ocorreu um erro na operação.';
+            if (ENVIRONMENT != 'production') {
+                return $message;
+            } else {
+                return 'Ocorreu um erro na operação.';
+            }
         }
     }
 }

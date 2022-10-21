@@ -86,6 +86,8 @@ if (!function_exists('profitFormat')) {
             $class = 'text-success';
         } elseif ($valor < 0) {
             $class = 'text-danger';
+        } else {
+            $class = 'text-primary';
         }
         $valor = dolarFormat($valor);
         return "<strong class='$class'>$valor</strong>";

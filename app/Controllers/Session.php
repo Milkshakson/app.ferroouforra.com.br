@@ -118,18 +118,6 @@ class Session extends BaseController
             $this->dados['erros'] = 'Falha ao remover o buyin.';
         }
     }
-    private function getCurrentBi($buyInList, $idBuyIN)
-    {
-        $currentBI = [];
-        $editBi = array_filter($buyInList, function ($bi) use ($idBuyIN) {
-            return $bi['buyinId'] == $idBuyIN;
-        });
-        if (count($editBi) == 1) {
-            $currentBI = end($editBi);
-        }
-
-        return $currentBI;
-    }
     public function endBuyIn($idBuyIN)
     {
         try {
@@ -431,7 +419,8 @@ class Session extends BaseController
                 return strtolower($bi['gameName']) == $busca;
             });
             $contem = array_filter($meusBuyIns, function ($bi) use ($busca, $exatos) {
-                return !in_array($bi, $exatos) && str_contains(strtolower($bi['gameName']), $busca);
+                $contains = containsAll($busca, strtolower($bi['gameName']));
+                return !in_array($bi, $exatos) && $contains; //str_contains(strtolower($bi['gameName']), $busca);
             });
             $mergedUnique = (array_merge($exatos, $contem));
             $lines = [];
@@ -441,14 +430,16 @@ class Session extends BaseController
                 $gameName = $bi['gameName'];
                 $pokerSiteId = $bi['pokerSiteId'];
                 $tipoBuyIn = $bi['tipoBuyIn'];
-                $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-3 col-sm-3 col-md-3 col-lg-3"');
+                $gameInfo = box_bi('Buy in', dolarFormat($bi['buyinValue']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
                 $gameInfo .= box_bi('Site', ($bi['pokerSiteName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
                 $gameInfo .= box_bi('&nbsp;', ($bi['tipoBuyInName']), 'class="col-4 col-sm-4 col-md-4 col-lg-4"');
-                $strLines .= "<div class='border border-secondary '>";
-                $strLines .= "<div class='row'>$gameInfo</div>";
-                $strLines .= "<a href='#' class='seleciona-buy-in' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'>
-                <div class='row pb-3'>$gameName</div>
-                </a>";
+                $strLines .= "<div class='border border-secondary rounded p-0 mb-1 mt-1'>";
+                $strLines .= "<div class='d-flex flex-row w-100 m-0 p-0'>";
+                $strLines .= "<a href='#' class='seleciona-buy-in w-100 p-0 m-0' data-buy-in='$buyInValue' data-game-name='$gameName' data-site='$pokerSiteId' data-tipo-buy-in='$tipoBuyIn'>";
+                $strLines .= "<div class='d-flex flex-row p-3  bg-twitch text-light '>$gameName</div>";
+                $strLines .= "<div class='d-flex flex-row p-3'>$gameInfo</div>";
+                $strLines .= '</div>';
+                $strLines .= "</a>";
                 $strLines .= '</div>';
                 $lines[] = $strLines;
             }

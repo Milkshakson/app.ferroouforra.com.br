@@ -4,12 +4,16 @@ const intervalreload = setInterval(() => {
   reloadSummaryOpen($('.container-summary-opened'))
 }, timeToReload)
 
+
+
+$(window).on('load', function () {
+  // loadMyBuyIns()
+});
+
+
 $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
-  //loadMyBuyIns()
-
-
   $(document).on('click', '.btn-add-game', (e) => {
     e.preventDefault()
     lazyFormRegistration()
@@ -61,7 +65,10 @@ function lazyFormRegistration() {
       $('#' + idForm).find('.modal-body').html(data.html)
       $('#' + idForm).find('.modal-title').html(data.title)
     }
-  }).fail(() => target.html('Não foi possível recuperar o formulário.'))
+  }).fail(() => {
+    $('#' + idForm).find('.modal-title').html('Falha')
+    $('#' + idForm).find('.modal-body').html('Não foi possível recuperar o formulário.')
+  })
 }
 
 function loadMyBuyIns() {

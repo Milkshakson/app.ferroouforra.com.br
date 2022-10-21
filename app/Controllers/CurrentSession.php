@@ -31,7 +31,7 @@ class CurrentSession extends BaseController
             $html = $this->view->render('Session/Current/summary.twig', $this->dados);
             print(json_encode(['html' => $html]));
         } catch (Exception $e) {
-            $this->exitSafe(APPException::handleMessage($e->getMessage()));
+            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
         }
     }
 
@@ -47,18 +47,19 @@ class CurrentSession extends BaseController
             $html = $this->view->render('Session/BuyIns/list-cards.twig', $this->dados);
             print(json_encode(['html' => $html]));
         } catch (Exception $e) {
-            $this->exitSafe(APPException::handleMessage($e->getMessage()));
+            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
         }
     }
 
     public function lazyFormRegistration()
     {
         try {
+            $idBuyIN = null;
             $pokerSessionProvider = new PokerSessionProvider();
             $openedSession = session('openedSession');
             if (!$openedSession) {
             }
-            $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
+            $buyInList = key_exists('buyInList', $openedSession) ? $openedSession['buyInList'] : [];
             $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
             if ($tiposBuyIn['statusCode'] != 200) {
                 throw new APPException("Erro ao recuperar os tipos de buy in");
@@ -71,11 +72,17 @@ class CurrentSession extends BaseController
             }
 
             $this->dados['pokerSites'] = $pokerSites['content'];
-            $this->dados['buyInList'] = $buyInList;
+            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+            if ($currentBI == []) {
+                $currentBI['sessionPokerid'] = $openedSession['id'];
+            }
+            $this->dados['bi'] = $currentBI;
+
+
             $html = $this->view->render('Session\BuyIns\lazy-form.twig', $this->dados);
             print(json_encode(['html' => $html, 'title' => 'Adição de buy-in']));
         } catch (Exception $e) {
-            $this->exitSafe(APPException::handleMessage($e->getMessage()));
+            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
         }
     }
 }
