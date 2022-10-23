@@ -15,8 +15,8 @@ $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
   $(document).on('click', '.btn-add-game', (e) => {
-    e.preventDefault()
-    lazyFormRegistration()
+    // e.preventDefault()
+    // lazyFormRegistration()
   })
 
 
