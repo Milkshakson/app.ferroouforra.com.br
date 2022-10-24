@@ -44,7 +44,7 @@ class CurrentSession extends BaseController
             $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
             $this->dados['buyInList'] = $buyInList;
             $this->dados['openedSession'] = $openedSession;
-            $html = $this->view->render('Session/BuyIns/list-cards.twig', $this->dados);
+            $html = $this->view->render('Session/BuyIns/list-cards-improved.twig', $this->dados);
             print(json_encode(['html' => $html]));
         } catch (Exception $e) {
             print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
