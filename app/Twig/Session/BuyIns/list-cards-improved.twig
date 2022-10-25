@@ -5,7 +5,8 @@
 		</div>
 	{% endif %}
 	{% for bi in buyInList %}
-		{% set classLucro = bi['isClosed'] ?  (bi['profit'] > 0 ? 'text-success' : ((bi['profit'] < 0) ? 'text-danger' : '')) : 'text-dark' %}
+		{% set classLucro = bi.isClosed ?  (bi.profit > 0 ? 'text-success' : ((bi.profit < 0) ? 'text-danger' : '')) : 'text-dark' %}
+		{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : '')) : 'bg-grey' %}
 		{% set startDate = ci_time(bi['startDate']) %}
 		{% set endDate = ci_time(bi['endDate']) %}
 		{% if (bi['isClosed']) %}
@@ -13,10 +14,10 @@
 		{% else %}
 			{% set cardTime = box_bi('Início', startDate.humanize(), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-3 col-xs-3 col-3'") %}
 		{% endif %}
-		<div class="card p-0 mb-1">
+		<div class="card p-0  mb-1">
 			<div class="card-body  p-0 m-0">
-				<div class="d-flex flex-column  p-0 m-0">
-					<div class="d-flex flex-sm-column justify-content-between">
+				<div class="d-flex flex-column body-bi-improved p-0 m-0  {{classBgLucro}}">
+					<div class="d-flex container-top-card-bi justify-content-between">
 						<div class="d-flex flex-1">
 							<div class="d-flex flex-row justify-content-between p-1 m-0 w-100">
 								<div class="d-flex m-0">

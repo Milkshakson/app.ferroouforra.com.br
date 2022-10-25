@@ -45,6 +45,10 @@
     padding: 0 !important;
 }
 
+.bg-grey {
+    background-color: lightslategray;
+}
+
 .grid-summary-current-session>div>span:first-child {
     background-color: rgb(229, 238, 232) !important;
     color: #849bc4;
@@ -68,11 +72,40 @@
     color: white !important;
 }
 
+.container-btn-group-bi {
+    justify-content: end;
+}
+
+.body-bi-improved {
+    border-top-left-radius: 5px;
+}
+
+.container-top-card-bi {
+    display: flex;
+    flex-direction: row;
+}
+
+.bg-grey span,
+.bg-danger span,
+.bg-success span {
+    color: white !important;
+}
+
 @media(max-width:455px) {
     .grid-summary-current-session {
         size: 0.3rem;
         display: grid !important;
         row-gap: 2px;
         grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    .container-top-card-bi {
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .container-btn-group-bi {
+        padding-top: 3px;
+        padding-bottom: 3px;
     }
 }
