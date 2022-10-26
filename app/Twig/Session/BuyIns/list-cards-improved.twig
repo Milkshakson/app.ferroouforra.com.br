@@ -6,7 +6,7 @@
 	{% endif %}
 	{% for bi in buyInList %}
 		{% set classLucro = bi.isClosed ?  (bi.profit > 0 ? 'text-success' : ((bi.profit < 0) ? 'text-danger' : '')) : 'text-dark' %}
-		{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : '')) : 'bg-grey' %}
+		{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : 'bg-primary text-light')) : 'bg-grey' %}
 		{% set startDate = ci_time(bi['startDate']) %}
 		{% set endDate = ci_time(bi['endDate']) %}
 		{% if (bi['isClosed']) %}
@@ -18,17 +18,17 @@
 			<div class="card-body  p-0 m-0">
 				<div class="d-flex flex-column body-bi-improved p-0 m-0  {{classBgLucro}}">
 					<div class="d-flex container-top-card-bi justify-content-between">
-						<div class="d-flex flex-1">
+						<div class="d-flex flex-grow-1">
 							<div class="d-flex flex-row justify-content-between p-1 m-0 w-100">
 								<div class="d-flex m-0">
 									<img src="{{ getSiteSrcImage(bi['pokerSiteName']) }}" style="max-width:35px;" class="img-fluid rounded-circle" alt="{{ bi['pokerSiteShortName'] }}"/>
 								</div>
-								<div class="card-title {{ classLucro }} d-flex flex-1 w-100 m-0 p-1">
+								<div class="card-title {{ classLucro }} d-flex flex-grow-1 w-100 m-0 p-1">
 									{% if bi['position'] == '1' %}
 										<i class="bx bxs-trophy"></i>
 									{% endif %}
 									<span>
-										{{ bi.gameName }}
+										{{ (bi.gameName) }}
 										/
 										{{ bi.pokerSiteName }}
 										|
@@ -74,9 +74,9 @@
 							<button class="p-0 m-0 border accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bi['buyinId']}}" aria-expanded="false" aria-controls="flush-collapse{{bi['buyinId']}}">
 								<div class="d-flex flex-row justify-content-between p-1 m-0 w-100">
 									<div class='d-flex flex-row flex-grow-1 text-muted small justify-content-between px-3'>
-										{{box_bi('Total buy in', dolarFormat(bi['totalBuyIn'])) }}
-										{{box_bi('Total prize', dolarFormat(bi['totalPrize']))}}
-										{{box_bi('Lucro', dolarFormat(bi['profit']))}}
+										{{box_bi('Paguei', dolarFormat(bi['totalBuyIn'])) }}
+										{{box_bi('Ganhei', dolarFormat(bi['totalPrize']))}}
+										{{box_bi('Lucro', dolarFormat(bi['profit']),"class='"~ classLucro ~"'")}}
 									</div>
 								</div>
 							</button>
@@ -86,9 +86,9 @@
 								<div class="col-lg-12 col-sm-12 col-xs-12 col-12 pt-0">
 									<div class="card-body bg-light py-0">
 										<div class='row text-muted small '>
-											{{box_bi('Total buy in', dolarFormat(bi['totalBuyIn']), 'class="col-lg-3 col-md-6 col-sm-3  col-xs-3 col-3"') }}
-											{{box_bi('Total prize', dolarFormat(bi['totalPrize']), 'class="col-lg-3 col-md-6 col-sm-3 col-xs-3 col-3"')}}
-											{{box_bi('Lucro', dolarFormat(bi['profit']), "class='col-lg-3 col-md-3 col-xs-3 col-3 classLucro'")}}
+											{{box_bi('Paguei', dolarFormat(bi.totalBuyIn), 'class="col-lg-3 col-md-6 col-sm-3  col-xs-3 col-3"') }}
+											{{box_bi('Ganhei', dolarFormat(bi.totalPrize), 'class="col-lg-3 col-md-6 col-sm-3 col-xs-3 col-3"')}}
+											{{box_bi('Lucro', dolarFormat(bi.profit), "class='col-lg-3 col-md-3 col-xs-3 col-3 "~ classLucro ~"'")}}
 											{{cardTime}}
 										</div>
 									</div>

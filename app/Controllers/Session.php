@@ -136,22 +136,31 @@ class Session extends BaseController
                 if (!empty($input)) {
                     $idBuyIN = $input['buyinId'];
                     $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+                    $rules['gameName'] = [
+                        'label' => "Nome do Jogo",
+                        'rules' => 'required'
+                    ];
+                    if ($input['endDate']) {
+                        $rules['endDate'] =
+                            [
+                                'label' => "Data fim",
+                                'rules' => 'valid_date'
+                            ];
+                        $rules['endTime'] =
+                            [
+                                'label' => "Hora fim",
+                                'rules' => 'required'
+                            ];
+                        $rules['prizeIn'] =
+                            [
+                                'label' => "Premiação",
+                                'rules' => 'required'
+                            ];
+                    } else {
+                        $input['endTime'] = null;
+                    }
 
-                    $rules['endDate'] =
-                        [
-                            'label' => "Data fim",
-                            'rules' => 'required'
-                        ];
-                    $rules['endTime'] =
-                        [
-                            'label' => "Hora fim",
-                            'rules' => 'required'
-                        ];
-                    $rules['prizeIn'] =
-                        [
-                            'label' => "Premiação",
-                            'rules' => 'required'
-                        ];
+
                     if (key_exists('finalTable', $input) && $input['finalTable']) {
                         $rules['position'] =
                             [
@@ -160,7 +169,9 @@ class Session extends BaseController
                             ];
                     }
                     if ($this->validate($rules)) {
-
+                        $input = array_map(function ($data) {
+                            return (!is_null($data) && trim($data)) == '' ? null : $data;
+                        }, $input);
                         if (empty($input['endDate'])) {
                             $endDate = null;
                         } else {
@@ -213,21 +224,35 @@ class Session extends BaseController
             if ($this->request->getMethod() == 'post') {
                 $input = $this->getRequestInput($this->request);
                 if (!empty($input)) {
-                    $rules['stakingSelling'] =
-                        [
-                            'label' => "Cota à venda",
-                            'rules' => 'required'
-                        ];
-                    $rules['markup'] = [
-                        'label' => "Markup",
-                        'rules' => 'required|greater_than[0]|less_than_equal_to[2]'
+                    $rules["buyinId"] = [
+                        'label' => "Id do BI",
+                        'rules' => 'required'
                     ];
-                    $rules['stakingSold'] =
-                        [
-                            'label' => "Cota vendida",
-                            'rules' => 'required'
+                    if ($input['stakingSelling']) {
+                        $rules['stakingSelling'] =
+                            [
+                                'label' => "Cota à venda",
+                                'rules' => 'greater_than[0]|less_than[100]'
+                            ];
+                        $rules['markup'] = [
+                            'label' => "Markup",
+                            'rules' => 'required|greater_than[0]|less_than_equal_to[2]'
                         ];
 
+                        if ($input['stakingSold']) {
+                            $rules['stakingSold'] =
+                                [
+                                    'label' => "Cota vendida",
+                                    'rules' => 'greater_than[0]|less_than[100]'
+                                ];
+                        }
+                    } else {
+                        $input['stakingSold'] = null;
+                        $input['markup'] = null;
+                    }
+                    $input = array_map(function ($data) {
+                        return (!is_null($data) && trim($data)) == '' ? null : $data;
+                    }, $input);
                     $idBuyIN = $input['buyinId'];
                     $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
 
@@ -327,6 +352,10 @@ class Session extends BaseController
                     ];
 
                     if ($this->validate($rules)) {
+                        $input = array_map(function ($data) {
+                            return (!is_null($data) && trim($data)) == '' ? null : mb_strtoupper($data);
+                        }, $input);
+
                         if (empty($input['startDate'])) {
                             $startDate = null;
                         } else {

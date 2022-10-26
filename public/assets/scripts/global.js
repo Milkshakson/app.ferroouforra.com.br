@@ -135,4 +135,13 @@ $(function () {
         $('[name="buyinValue"]').val(sender.data('buyIn'));
         $('.meus-buyins').remove();
     });
+
+    $(document).on('focus', ".markup,.percent-dot,.money-dolar", function () {
+        const val = $(this).val()
+        if (val == 0) {
+            $(this).val('')
+        } else {
+            $(this).select();
+        }
+    })
 });

@@ -87,6 +87,8 @@
 
 .bg-grey span,
 .bg-danger span,
+.bg-info span,
+.bg-primary span,
 .bg-success span {
     color: white !important;
 }
