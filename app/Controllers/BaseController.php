@@ -55,7 +55,7 @@ class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
         if (ENVIRONMENT == 'production') {
-            $this->dados['versionScripts'] = '1.7';
+            $this->dados['versionScripts'] = getenv('versionScripts') ?? '1.8';
         } else {
             $this->dados['versionScripts'] = date('dmYhis');
         }
