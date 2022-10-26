@@ -41,3 +41,7 @@ header.bg-twitch .dropdown-item span {
     border: 1px solid var(--twitch-bg-color);
     color: white;
 }
+
+.text-golden {
+    color: gold;
+}

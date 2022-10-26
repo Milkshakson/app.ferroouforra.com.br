@@ -136,7 +136,7 @@ class Session extends BaseController
                 if (!empty($input)) {
                     $idBuyIN = $input['buyinId'];
                     $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
-                    $rules['gameName'] = [
+                    $rules['buyinId'] = [
                         'label' => "Nome do Jogo",
                         'rules' => 'required'
                     ];
@@ -159,13 +159,17 @@ class Session extends BaseController
                     } else {
                         $input['endTime'] = null;
                     }
-
+                    $rules['fieldSize'] =
+                        [
+                            'label' => "Tamanho do field",
+                            'rules' => 'numeric|greater_than[0]'
+                        ];
 
                     if (key_exists('finalTable', $input) && $input['finalTable']) {
                         $rules['position'] =
                             [
                                 'label' => "Posição",
-                                'rules' => 'required|greater_than[0]|less_than_equal_to[9]'
+                                'rules' => 'required|numeric|greater_than[0]|less_than_equal_to[9]'
                             ];
                     }
                     if ($this->validate($rules)) {

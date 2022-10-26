@@ -7,6 +7,7 @@
 			{% block css %}
 				<link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css?version={{versionScripts}}" rel="stylesheet">
 				<link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="\assets\vendor\bootstrap-icons-1.9.1\bootstrap-icons-1.9.1\bootstrap-icons.css?version={{versionScripts}}" rel="stylesheet">
 				<link href="/assets/templates/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css?version={{versionScripts}}" rel="stylesheet">
 				<link href="/assets/templates/NiceAdmin/assets/vendor/remixicon/remixicon.css?version={{versionScripts}}" rel="stylesheet">
 				<link href="/assets/templates/NiceAdmin/assets/css/style.css?version={{versionScripts}}" rel="stylesheet">
@@ -24,7 +25,8 @@
 				<!-- ======= Sidebar ======= -->
 				{% include 'sidebarLeft.twig' %}
 				<!-- End Sidebar-->
-				{% include 'topContentMain.twig' %}{% block content %}
+				{% include 'topContentMain.twig' %}
+				{% block content %}
 				{% endblock %}
 
 			{% include 'contentFooter.twig' %}
