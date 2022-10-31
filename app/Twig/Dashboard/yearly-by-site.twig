@@ -2,6 +2,41 @@
 {% block css %}
 	{{parent()}}
 	<link rel="stylesheet" href="\assets\css\dashboard.css?version={{versionScripts}}" rel="stylesheet">
+	<style>
+		.card-sumary-site {
+			transition: visibility 0s, opacity 0.5s linear;
+		}
+	</style>
+{% endblock %}
+{% block scriptsFooter %}
+	{{parent()}}
+	<script>
+		$(document).ready(function () {
+const storedSearch = localStorage.getItem('siteNameFilter');
+setTimeout(() => {
+$('.siteNameFilter').val(storedSearch)
+$('.siteNameFilter').keyup();
+}, 5);
+$(document).on("keyup", ".siteNameFilter", function () {
+const search = $(this).val()
+localStorage.setItem('siteNameFilter', search);
+const cards = $('.card-sumary-site');
+cards.each(function () {
+if (search.trim() == "") {
+$(this).show();
+} else {
+const span = $(this).find('.span-poker-site-name')
+if (span.text().toLowerCase().includes(search.toLowerCase())) {
+$(this).show();
+} else {
+$(this).hide();
+}
+}
+})
+
+})
+})
+	</script>
 {% endblock %}
 {% block content %}
 
@@ -18,10 +53,15 @@
 				<i class="bx bx-skip-next-circle"></i>
 			</a>
 		</div>
-
+		<div>
+			<input type="text" class="w-100 form-control-sm siteNameFilter" name="siteNameFilter" value="{{siteNameFilter}}" placeholder="Filtre aqui o nome do site">
+		</div>
+		<small>
+			* O ITM neste cenário leva em conta a premiação com bounty. Por exemplo: se você não entrou na faixa de ITM do torneio, mas pegou um bounty e registrou como prêmio, o sistema irá considerar ITM.
+		</small>
 		{% for pokerSiteName,yearlySumary in yearlysSumary %}
 
-			<div class="card">
+			<div class="card card-sumary-site">
 				<div class="card-body">
 					{% set totalProfitYear = array_sum(array_column(yearlySumary, 'profit')) %}
 					{% set countBuyIns = array_sum(array_column(yearlySumary, 'countBuyIns')) %}
@@ -41,9 +81,6 @@
 					{% else %}
 						{% set classTextProfit = 'text-light' %}
 					{% endif %}
-					<small>
-						* O ITM neste cenário leva em conta a premiação com bounty. Por exemplo: se você não entrou na faixa de ITM do torneio, mas pegou um bounty e registrou como prêmio, o sistema irá considerar ITM.
-					</small>
 					<div class='d-flex justify-content-between align-items-center bg-secondary text-light p-2'>
 						{% if  getSiteSrcImage(pokerSiteName) %}
 							<img src="{{ getSiteSrcImage(pokerSiteName) }}" style="max-width:35px;" class="img-fluid rounded-circle" alt="{{ pokerSiteName }}"/>
@@ -54,7 +91,9 @@
 						{% endif %}
 						<div>
 							Resumo dos registros:
-							{{pokerSiteName}}
+							<span class="span-poker-site-name">
+								{{pokerSiteName}}
+							</span>
 						</div>
 					</div>
 					<div class="bg-light grid-summary-data">
