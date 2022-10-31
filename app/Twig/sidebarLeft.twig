@@ -1,36 +1,58 @@
 <aside id="sidebar" class="sidebar">
 	<ul class="sidebar-nav" id="sidebar-nav">
-		<li class="nav-heading">Geral</li>
+		<li class="nav-heading">
+			Geral
+		</li>
 		<li class="nav-item">
 			<a class="nav-link " href="{{site_url()}}">
 				<i class="bx bx-home"></i>
-				<span>{{config('App').appSigla}}-Home</span>
+				<span>
+					{{config('App').appSigla}}
+					-Home
+				</span>
 			</a>
 		</li>
 		{% if(session('isValidTokenAcesso')) %}
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/session/current">
 					<i class="bi bi-currency-dollar"></i>
-					<span>Minha sessão</span>
+					<span>
+						Minha sessão
+					</span>
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/session/listClosed">
 					<i class="bi bi-currency-dollar"></i>
-					<span>Sessões encerradas</span>
+					<span>
+						Sessões encerradas
+					</span>
 				</a>
 			</li>
 
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/dashboard/yearly">
 					<i class="bi bi-calendar"></i>
-					<span>Resumo anual</span>
+					<span>
+						Resumo anual
+					</span>
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link collapsed" href="/dashboard/yearly_by_site">
+					<i class="bi bi-calendar"></i>
+					<span>
+						Resumo anual por site
+					</span>
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/dashboard/monthly">
 					<i class="bi bi-calendar"></i>
-					<span>Resumo mensal</span>
+					<span>
+						Resumo mensal
+					</span>
 				</a>
 			</li>
 
@@ -38,7 +60,9 @@
 				<li class="nav-item">
 					<a class="nav-link collapsed" href="/admin">
 						<i class="bx bx-cog"></i>
-						<span>Painel ADM</span>
+						<span>
+							Painel ADM
+						</span>
 					</a>
 				</li>
 			{% endif %}
@@ -46,28 +70,38 @@
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/login/logout">
 					<i class="bx bx-exit"></i>
-					<span>Sair</span>
+					<span>
+						Sair
+					</span>
 				</a>
 			</li>
 		{% else %}
 			<li class="nav-item">
 				<a class="nav-link collapsed" href="/login/index">
 					<i class="bi bi-key"></i>
-					<span>Login</span>
+					<span>
+						Login
+					</span>
 				</a>
 			</li>
 		{% endif %}
-		<li class="nav-heading">Externos</li>
+		<li class="nav-heading">
+			Externos
+		</li>
 		<li class="nav-item">
 			<a target="_blank" class="nav-link collapsed" href="https://twitch.tv/milkshakson">
 				<i class="bi bi-twitch"></i>
-				<span>Twitch do Milk</span>
+				<span>
+					Twitch do Milk
+				</span>
 			</a>
 		</li>
 		<li class="nav-item">
 			<a target="_blank" class="nav-link collapsed" href="https://ferroouforra.com.br/">
 				<i class="bi bi-newspaper"></i>
-				<span>Site Ferro ou Forra</span>
+				<span>
+					Site Ferro ou Forra
+				</span>
 			</a>
 		</li>
 	</ul>

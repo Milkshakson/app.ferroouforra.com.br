@@ -48,6 +48,10 @@ class PokerSessionProvider extends APIFF
     {
         return $this->consumeEndpoint('GET', "/poker_session/resumo_anual_v2/?year=$year");
     }
+    public function getResumoAnualBySite($year)
+    {
+        return $this->consumeEndpoint('GET', "/poker_session/resumo_anual_by_site_v2/?year=$year");
+    }
 
     public function getResumoMensal($month, $year)
     {

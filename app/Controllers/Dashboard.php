@@ -8,6 +8,34 @@ use CodeIgniter\I18n\Time;
 
 class Dashboard extends BaseController
 {
+    public function yearly_by_site($year = null)
+    {
+        try {
+            $this->dados['colorsRand'] = $hex = array_merge(range(0, 9), range('A', 'F'));
+            $this->dados['colorsRand'] = sprintf('#06x', random_int(0, 0xFFFFFF));
+            $year = $year ?? $year = date('Y');
+            $this->dados['year'] = $year;
+            $pokerSessionProvider = new PokerSessionProvider();
+            $yearlySumary = $pokerSessionProvider->getResumoAnualBySite($year);
+            $barChartBuyIn = ['cores' => [], 'labels' => [], 'dataValues' => []];
+            $barChartCotas = ['cores' => [], 'labels' => [], 'dataValues' => []];
+            $barChartLucro = ['cores' => [], 'labels' => [], 'dataValues' => []];
+            $this->dados['yearlysSumary'] = [];
+            if ($yearlySumary['statusCode'] == 202) {
+                $yearlySumary = $yearlySumary['content'];
+                foreach ($yearlySumary as $mes) {
+                    $this->dados['yearlysSumary'][$mes['pokerSiteName']][] = $mes;
+                }
+            }
+            $this->dados['barChartBuyIn'] = json_encode($barChartBuyIn, 1);
+            $this->dados['barChartCotas'] = json_encode($barChartCotas, 1);
+            $this->dados['barChartLucro'] = json_encode($barChartLucro, 1);
+        } catch (APPException $e) {
+            $this->dados['erros'] = $e->getHandledMessage($e->getMessage());
+        }
+        $this->view->display('Dashboard/yearly-by-site', $this->dados);
+    }
+
     public function yearly($year = null)
     {
         try {
