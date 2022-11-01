@@ -31,9 +31,9 @@
 				{% set startDate = ci_time(bi['startDate']) %}
 				{% set endDate = ci_time(bi['endDate']) %}
 				{% if (bi['isClosed']) %}
-					{% set cardTime = box_bi('Encerrado', endDate.humanize(), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-6 col-xs-6 col-6'") %}
+					{% set cardTime = box_bi('Encerrado',startDate.format('d/m/Y H:i') , "title='" ~ endDate.humanize() ~ "' class='col-lg-3 col-md-6 col-xs-6 col-6'") %}
 				{% else %}
-					{% set cardTime = box_bi('Início', startDate.humanize(), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-6 col-xs-6 col-6'") %}
+					{% set cardTime = box_bi('Início',startDate.format('d/m/Y H:i') , "title='" ~  startDate.humanize()~ "' class='col-lg-3 col-md-6 col-xs-6 col-6'") %}
 				{% endif %}
 				<div class="card mb-1 p-2 buyin-to-import" data-codigo-bi="{{bi.buyinId}}" id="card_{{bi.buyinId}}">
 					<div class="row g-0">
