@@ -10,9 +10,9 @@
 		{% set startDate = ci_time(bi['startDate']) %}
 		{% set endDate = ci_time(bi['endDate']) %}
 		{% if (bi['isClosed']) %}
-			{% set cardTime = box_bi('Encerrado', endDate.humanize(), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-3 col-xs-3 col-3'") %}
+			{% set cardTime = box_bi('Encerrado', endDate.format('d/m/Y H:i'), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-3 col-xs-3 col-3'") %}
 		{% else %}
-			{% set cardTime = box_bi('Início', startDate.humanize(), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-3 col-xs-3 col-3'") %}
+			{% set cardTime = box_bi('Início', startDate.format('d/m/Y H:i'), "title='" ~ startDate.format('d/m/Y H:i') ~ "' class='col-lg-3 col-md-3 col-xs-3 col-3'") %}
 		{% endif %}
 		<div class="card p-0  mb-1">
 			<div class="card-body  p-0 m-0">
