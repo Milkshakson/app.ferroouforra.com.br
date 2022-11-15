@@ -91,7 +91,7 @@ $(function () {
 
     $(document).on('focusout', '[name="gameName"]', function (e) {
         $('.container-grid-poker-sitesJogados').show();
-        setTimeout(() => $('#retorno-lista-jogos').html(''), 50000);
+        setTimeout(() => $('#retorno-lista-jogos').html(''), 1000);
     });
 
     $(document).on('focus', '[name="gameName"]', function (e) {

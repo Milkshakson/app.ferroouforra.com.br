@@ -162,7 +162,7 @@ class Session extends BaseController
                     $rules['fieldSize'] =
                         [
                             'label' => "Tamanho do field",
-                            'rules' => 'numeric|greater_than[0]'
+                            'rules' => 'permit_empty|numeric|greater_than[0]'
                         ];
 
                     if (key_exists('finalTable', $input) && $input['finalTable']) {
