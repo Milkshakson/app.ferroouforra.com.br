@@ -91,7 +91,6 @@ class Login extends BaseController
                         }
                         $this->response->redirect('/home/index');
                     } else {
-                        pre($login, 1);
                         $this->dados['erros'] = 'Falha ao efetuar Login';
                     }
                 } else {
@@ -99,9 +98,10 @@ class Login extends BaseController
                 }
             }
         } catch (Exception $e) {
-            $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson';
+            $this->session->set('tokenAcesso', $token);
+            $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson'.'<br>'. APPException::handleMessage($e->getMessage()) ;
         }
-        $this->view->display('Twitch/authorize', $this->dados);
+        $this->view->display('Login/twitch', $this->dados);
     }
     public function logout()
     {

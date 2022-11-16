@@ -13,10 +13,10 @@ class APIFF extends Curl
         switch (ENVIRONMENT) {
             case 'development':
             case 'testing':
-                $this->APIURL = 'http://api-dev-ff.byworks.com.br';
+                $this->APIURL = 'https://api-dev.ferroouforra.com.br';
                 break;
             case 'production':
-                $this->APIURL = 'http://api-prod-ff.byworks.com.br';
+                $this->APIURL = 'https://api.ferroouforra.com.br';
                 break;
             default:
                 $this->APIURL = '';
@@ -78,7 +78,7 @@ class APIFF extends Curl
 
     protected function getGenericResponse()
     {
-        $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null,'raw'=>$this->__tostring()];
+        $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null, 'raw' => $this->__tostring()];
         try {
             $jsonString = $this->__tostring();
             $content = json_decode($jsonString, 1);
