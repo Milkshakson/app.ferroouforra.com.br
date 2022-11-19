@@ -4,6 +4,7 @@
 			Esta sessão não possui nenhum registro
 		</div>
 	{% endif %}
+	{% set now  = ci_time() %}
 	{% for bi in buyInList %}
 		{% set classLucro = bi.isClosed ?  (bi.profit > 0 ? 'text-success' : ((bi.profit < 0) ? 'text-danger' : '')) : 'text-dark' %}
 		{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : 'bg-primary text-light')) : 'bg-grey' %}
@@ -25,6 +26,10 @@
 								</div>
 								<div class="card-title {{ classLucro }} d-flex flex-grow-1 w-100 m-0 p-1">
 									<span>
+										{% if startDate.isAfter(now) %}
+										<i class='bx bx-stopwatch text-info'></i>
+										{% endif %}
+
 										{% if bi.position == '1' %}
 											<i class="bx bxs-trophy text-golden" title="{{bi.position}}º Lugar"></i>
 										{% elseif (bi.position>1 and bi.position <10 ) %}
