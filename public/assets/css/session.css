@@ -93,6 +93,24 @@
     color: white !important;
 }
 
+.stopwatch-blink {
+    color: red !important; 
+    font-size: small;
+    animation: .5s 0s infinite alternate stopwatch-blink;
+}
+
+@keyframes stopwatch-blink {
+    from {
+        color: red;
+        font-size: small;
+    }
+
+    to {
+        color: blueviolet;
+        font-size: large;
+    }
+}
+
 @media(max-width:455px) {
     .grid-summary-current-session {
         size: 0.3rem;

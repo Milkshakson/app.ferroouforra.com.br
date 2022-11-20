@@ -24,12 +24,18 @@
 								<div class="d-flex m-0">
 									<img src="{{ getSiteSrcImage(bi['pokerSiteName']) }}" style="max-width:35px;" class="img-fluid rounded-circle" alt="{{ bi['pokerSiteShortName'] }}"/>
 								</div>
-								<div class="card-title {{ classLucro }} d-flex flex-grow-1 w-100 m-0 p-1">
+								{% set stopwatchBlink ='' %}
+								{% if startDate.isAfter(now) %}
+									{% set minutesToStart = now.difference(startDate).getMinutes() %}
+									{% if minutesToStart <= 5 %}
+										{% set stopwatchBlink ='stopwatch-blink' %}
+									{% endif %}
+									<div style="display:flex;justify-content:center;align-items:center;width:35px;height:35px;">
+										<i class='bx bx-stopwatch text-info {{stopwatchBlink}}'></i>
+									</div>
+								{% endif %}
+								<div class="card-title {{ classLucro }} d-flex flex-row align-items-center flex-grow-1 w-100 m-0 p-1">
 									<span>
-										{% if startDate.isAfter(now) %}
-										<i class='bx bx-stopwatch text-info'></i>
-										{% endif %}
-
 										{% if bi.position == '1' %}
 											<i class="bx bxs-trophy text-golden" title="{{bi.position}}º Lugar"></i>
 										{% elseif (bi.position>1 and bi.position <10 ) %}
