@@ -1,0 +1,54 @@
+
+<!--flashdata -->
+{% if session().getFlashdata('sucessos') is not empty %}
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session().getFlashdata('sucessos')}}
+    </div>
+{% endif %}
+
+{% if session().getFlashdata('erros') is not empty %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session().getFlashdata('erros')}}
+    </div>
+{% endif %}
+{% if session().getFlashdata('avisos') is not empty %}
+    <div class="alert alert-warning bg-warning text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session().getFlashdata('avisos')}}
+    </div>
+{% endif %}
+<!--Fim Flashdata-->
+{% if erros is not empty %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{erros}}
+    </div>
+{% endif %}
+{% if erro is not empty %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{erro}}
+    </div>
+{% endif %}
+{% if sucessos is not empty %}
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{sucessos}}
+    </div>
+{% endif %}
+
+{% if avisos is not empty %}
+    <div class="alert alert-warning bg-warning text-light border-0 alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{avisos}}
+    </div>
+{% endif %}
+
+{% if validationErros is not empty %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        {{validationErros}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
