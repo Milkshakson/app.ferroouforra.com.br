@@ -54,9 +54,7 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-        if (ENVIRONMENT == 'production') {
-            $this->dados['versionScripts'] = getenv('versionScripts') ?? date('dmYhis');
-        }
+        $this->dados['versionScripts'] = getenv('versionScripts') ?? date('dmYhis');
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
