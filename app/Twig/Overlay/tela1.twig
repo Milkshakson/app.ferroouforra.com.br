@@ -1,0 +1,35 @@
+{% extends 'Overlay/template.twig' %}
+{% block css %}
+	{{parent()}}
+	<link rel="stylesheet" href="\assets\css\home.css">
+	<link rel="stylesheet" href="\assets\css\overlay.css">
+{% endblock %}
+{% block content %}
+	<!-- ======= Header ======= -->
+	<header class="d-flex justify-content-center align-items-center w-100">
+		{% include 'Overlay/contentHeader.twig' %}
+	</header>
+	<!-- End Header -->
+	<main class="d-flex flex-row w-100">
+		<aside
+			id="left-content" class="bg-default">
+			<!-- ======= Sidebar ======= -->
+			{% include 'Overlay/sidebarLeft.twig' %}
+			<!-- End Sidebar-->
+		</aside>
+		<section id="center-content h-100">
+			{% include 'Overlay/content-center.twig' %}
+		</section>
+		<aside
+			id="right-content" class="d-flex flex-1 flex-column">
+			<!-- ======= Sidebar ======= -->
+			{% include 'Overlay/content-right.twig' %}
+			<!-- End Sidebar-->
+		</aside>
+	</main>
+
+	<footer class="d-flex justify-content-center align-items-center w-100">
+		{% include 'Overlay/content-footer.twig' %}
+	</footer>
+
+{% endblock %}

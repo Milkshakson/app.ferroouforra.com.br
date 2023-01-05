@@ -14,4 +14,9 @@ class Home extends BaseController
         }
         $this->view->display('Home/index', $this->dados);
     }
+
+    public function overlay()
+    {
+        $this->view->display('Overlay/tela1', $this->dados);
+    }
 }

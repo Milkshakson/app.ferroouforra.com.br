@@ -1,0 +1,100 @@
+:root {
+  --body-width: 1920px;
+  --body-height: 1080px;
+  --sidebar-left-width: 400px;
+  --sidebar-right-width: 400px;
+  --center-content-width: 1120px;
+  --main-height: 960px;
+  --header-height: 60px;
+  --footer-height: 60px;
+  --top-content-height: 1020px;
+  --background-color-default: #1e1e1e;
+  --box-tela1-height: 612px;
+  --box-cam1-width: --sidebar-right-width;
+  --border-color-default: orangered;
+}
+.transparent-area {
+  background-color: rgba(0, 0, 0, 0);
+}
+body,
+#main-frame {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: var(--body-width) !important;
+  max-height: var(--body-height) !important;
+  min-width: var(--body-width) !important;
+  min-height: var(--body-height) !important;
+  max-height: var(--body-height) !important;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+
+#left-content {
+  min-width: var(--sidebar-left-width);
+  max-width: var(--sidebar-left-width);
+  background-color: var(--background-color-default) !important;
+}
+#center-content {
+  max-width: var(--center-content-width);
+  min-width: var(--center-content-width);
+}
+#right-content {
+  max-width: var(--sidebar-right-width);
+  min-width: var(--sidebar-right-width);
+}
+header {
+  max-height: var(--header-height);
+  min-height: var(--header-height);
+  background-color: var(--background-color-default) !important;
+}
+main {
+  max-height: var(--main-height);
+  min-height: var(--main-height);
+  height: var(--main-height);
+}
+footer {
+  background-color: var(--background-color-default) !important;
+  max-height: var(--footer-height);
+  min-height: var(--footer-height);
+}
+
+#box-tela1 {
+  width: var(--center-content-width) !important;
+  height: var(--box-tela1-height) !important;
+  max-height: var(--box-tela1-height) !important;
+  min-height: var(--box-tela1-height) !important;
+}
+
+#box-cam1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--box-cam1-width) !important;
+  height: 200px !important;
+  max-width: var(--box-cam1-width) !important;
+  max-height: 200px !important;
+  min-width: var(--box-cam1-width) !important;
+  min-height: 200px !important;
+}
+
+#box-cam2 {
+  width: 250px !important;
+  height: 120px !important;
+  max-width: 250px !important;
+  max-height: 120px !important;
+  min-width: 250px !important;
+  min-height: 120px !important;
+}
+#bottom-content {
+  background-color: var(--background-color-default) !important;
+  height: 600px;
+}
+
+.bg-default {
+  background-color: var(--background-color-default) !important;
+}
+
+.text-light {
+  color: white !important;
+}

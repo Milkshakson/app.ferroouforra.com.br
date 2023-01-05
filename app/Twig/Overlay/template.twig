@@ -1,0 +1,31 @@
+{% autoescape false %}
+	<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			{% include 'header.twig' %}
+			<!-- Vendor CSS Files -->
+			{% block css %}
+				<link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/templates/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="\assets\vendor\bootstrap-icons-1.9.1\bootstrap-icons-1.9.1\bootstrap-icons.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/templates/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/templates/NiceAdmin/assets/vendor/remixicon/remixicon.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/templates/NiceAdmin/assets/css/style.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/templates/NiceAdmin/assets/css/custom-style.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/css/geral.css?version={{versionScripts}}" rel="stylesheet">
+				<link href="/assets/css/responsive.css?version={{versionScripts}}" rel="stylesheet">
+			{% endblock %}
+		</head>
+		<body>
+			<section id="main-frame">
+				{% include "messages.twig" %}
+				{% block content %}
+				{% endblock %}
+				{% block scriptsFooter %}
+					{% include 'scriptsFooter.twig' %}
+				{% endblock %}
+			</section>
+		</body>
+
+	</html>
+{% endautoescape %}

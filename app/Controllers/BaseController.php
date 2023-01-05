@@ -65,6 +65,7 @@ class BaseController extends Controller
 
         $excecao = [
             'home/index', 'home/index/1', '/',
+            'home/overlay',
             'login/index', 'login/login',
             'login/twitch',
             'login/logout', 'registration/new',
