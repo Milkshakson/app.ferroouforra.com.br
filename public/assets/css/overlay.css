@@ -28,6 +28,10 @@ body,
   overflow: hidden !important;
   display: flex;
   flex-direction: column;
+
+  /* background-color: #4B3621;  */
+  color: #ffffff; /* branco */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #left-content {
@@ -66,7 +70,7 @@ footer {
   min-height: var(--box-tela1-height) !important;
 }
 
-#box-cam1 {
+.box-cam-1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +82,7 @@ footer {
   min-height: 200px !important;
 }
 
-#box-cam2 {
+.box-cam-2 {
   width: 250px !important;
   height: 120px !important;
   max-width: 250px !important;
@@ -97,4 +101,81 @@ footer {
 
 .text-light {
   color: white !important;
+}
+.navbar-brand {
+  border: 1px solid #ccc; /* borda cinza claro */
+  border-radius: 3px; /* borda arredondada */
+  width: 420px; /* espaçamento entre os itens */
+}
+.nav-item {
+  word-wrap: n;
+  width: 360px;
+  border: 1px solid #ccc; /* borda cinza claro */
+  border-radius: 3px; /* borda arredondada */
+  margin-right: 10px; /* espaçamento entre os itens */
+}
+.nav-item a {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+}
+.nav-link {
+  display: inline-block; /* exibe os itens em linha */
+  padding: 8px; /* espaçamento interno */
+}
+
+.info-value {
+  width: 300px;
+}
+
+.year-summary {
+  width: 400px; /* largura da seção */
+  float: left; /* flutua a seção para a esquerda */
+  margin-bottom: 20px; /* adicione um espaçamento inferior */
+}
+
+.year-summary .card {
+  background-color: #444; /* cor de fundo escura */
+  color: #fff; /* cor da fonte branca */
+  border: 1px solid #ccc; /* borda cinza claro */
+  border-radius: 3px; /* borda arredondada */
+  margin-bottom: 10px; /* adicione um espaçamento entre os cards */
+}
+
+.year-summary .card-title {
+  font-size: 18px; /* tamanho da fonte do título */
+}
+
+.year-summary .card-text {
+  font-size: 14px; /* tamanho da fonte do texto */
+}
+
+.tournament-list {
+  border: 1px solid green;
+  width: 100%; /* faz a lista ocupar todo o espaço disponível */
+  overflow: hidden; /* esconde os itens que excederem a largura da lista */
+  position: relative; /* posiciona a lista de forma relativa */
+}
+.tournament-list .card {
+  background-color: #444; /* cor de fundo escura */
+  color: #fff; /* cor da fonte branca */
+}
+.tournament {
+  width: 100%; /* faz cada item ocupar 100% da largura */
+  text-align: center; /* centraliza o texto do item */
+  font-size: 18px; /* define o tamanho da fonte do item */
+  animation: tournament-slider 20s linear infinite; /* adiciona uma animação para fazer a lista rolar automaticamente */
+}
+.tournament-list.tournament-slider-active .tournament {
+  animation: tournament-slider 20s linear infinite; /* adiciona a animação apenas quando a classe tournament-slider-active estiver presente */
+}
+
+/* define a animação para fazer a lista rolar automaticamente */
+@keyframes tournament-slider {
+  0% {
+    top: 0;
+  } /* começa com o topo da lista no lugar */
+  100% {
+    top: -100%;
+  } /* desloca o topo da lista para cima */
 }

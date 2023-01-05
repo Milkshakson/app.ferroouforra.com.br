@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 	<!-- ======= Header ======= -->
-	<header class="d-flex justify-content-center align-items-center w-100">
+	<header class="d-flex justify-content-between align-items-center">
 		{% include 'Overlay/contentHeader.twig' %}
 	</header>
 	<!-- End Header -->
@@ -31,5 +31,18 @@
 	<footer class="d-flex justify-content-center align-items-center w-100">
 		{% include 'Overlay/content-footer.twig' %}
 	</footer>
+	<script>
+		// seleciona a lista de torneios
+const tournamentList = document.querySelector('.tournament-list');
 
+// adiciona a classe tournament-slider-active quando faltar espaço na vertical
+if (tournamentList.offsetHeight<tournamentList.scrollHeight) {
+  tournamentList.classList.add('tournament-slider-active');
+}
+
+// remove a classe tournament-slider-active quando houver espaço suficiente na vertical
+if (tournamentList.offsetHeight> = tournamentList.scrollHeight) {
+tournamentList.classList.remove('tournament-slider-active');
+}
+	</script>
 {% endblock %}

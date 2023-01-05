@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url("https://i.pixls.us/2022/02/19/nZWLx.jpg");
+  background-size: cover;
+  font-family: sans-serif;
+}
+
+#game-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 450px;
+  margin-top: -225px;
+  margin-left: -400px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 5px solid #333;
+  box-shadow: 0 0 20px #000;
+}
+
+#webcam {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 200px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 5px solid #333;
+  box-shadow: 0 0 20px #000;
+}
+
+#guest-webcam {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 200px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 5px solid #333;
+  box-shadow: 0 0 20px #000;
+}
+
+#scoreboard {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  width: 800px;
+  height: 120px;
+  margin-left: -400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  border: 5px solid #333;
+  box-shadow: 0 0 20px #000;
+}
+
+.player-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px solid #333;
+  box-shadow: 0 0 20px #000;
+}
+
+.player-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.player-score {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
