@@ -1,0 +1,10 @@
+services:
+  apache:
+    build: .
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www/html/
+      - ./docker/sites-enabled/:/etc/apache2/sites-enabled/
+    restart: always
