@@ -25,6 +25,11 @@ class UsuarioProvider extends APIFF
         return $this->consumeEndpoint('POST', "auth/login_existing_token");
     }
 
+    public function getStreamInfo()
+    {
+        return $this->consumeEndpoint('get', 'streamer/live_info');
+    }
+
     public function getTwitchCredential($token, $email)
     {
         return $this->consumeEndpoint('get', "twitch/credential", ['token' => $token]);

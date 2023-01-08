@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Libraries\APIFF;
+use App\Libraries\Auth;
 use App\Libraries\APPException;
 use App\Libraries\Dotenv;
 use App\Libraries\Twitch;
@@ -61,14 +61,11 @@ class Login extends BaseController
     }
     public function twitch()
     {
+        $auth = new Auth();
         try {
             $input = $_GET;
             $scope = urlencode('user:read:email user:read:subscriptions');
-            $twitch = new Twitch([
-                'clientId' => getenv('clientIdTwitch'),
-                'clientSecret' => getenv('clientSecretTwitch'),
-            ]);
-            $uri_return = is_null($twitch->getRedirectUri()) ? '' : urlencode($twitch->getRedirectUri());
+            $uri_return = is_null(getenv('uriRedirectTwitch')) ? '' : urlencode(getenv('uriRedirectTwitch'));
             $env = new Dotenv();
             $clientId = $env->get('clientIdTwitch');
             $this->dados['input'] = $input;
@@ -79,21 +76,14 @@ class Login extends BaseController
                 if ($input['code']) {
                     $usuarioProvider = new UsuarioProvider();
                     $login = $usuarioProvider->loginTwitch($input['code']);
-                    if ($login['statusCode'] == 202) {
-                        $token = $login['content']['idToken'];
-                        $this->session->set('tokenAcesso', $token);
-                        $this->session->set('decodedTokenAcesso', (object) $login['content']);
-                        $this->session->set('isValidTokenAcesso', true);
-                        $this->response->redirect('/home/index');
-                    } else {
-                        $this->dados['erros'] = 'Falha ao efetuar Login';
-                    }
+                    $auth->loginToSession($login);
+                    $this->response->redirect('/home/index');
                 } else {
                     $this->dados['erros'] = 'A autorização falhou.';
                 }
             }
         } catch (Exception $e) {
-            $this->session->set('tokenAcesso', $token);
+            $auth->unsetSession();
             $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson' . '<br>' . APPException::handleMessage($e->getMessage());
         }
         $this->view->display('Login/twitch', $this->dados);

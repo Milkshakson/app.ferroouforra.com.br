@@ -14,22 +14,6 @@ class Home extends BaseController
         if ($logout) {
             $this->dados['avisos'] = 'Você saiu do sistema';
         }
-        pre(session('decodedTokenAcesso'));
         $this->view->display('Home/index', $this->dados);
-    }
-
-    public function overlay($existingTtoken)
-    {
-        try {
-            $usuarioProvider = new UsuarioProvider();
-            $login = $usuarioProvider->loginByExistingToken($existingTtoken);
-            $token = $login['content']['idToken'];
-            $this->session->set('tokenAcesso', $token);
-            $this->session->set('decodedTokenAcesso', (object) $login['content']);
-            $this->session->set('isValidTokenAcesso', true);
-            $this->view->display('Overlay/tela1', $this->dados);
-        } catch (Exception $e) {
-            echo 'Token inválido';
-        }
     }
 }

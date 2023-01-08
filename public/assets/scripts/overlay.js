@@ -7,7 +7,7 @@ $(document).ready(function () {
         if (!isLoadingInfoLive)
             $.ajax({
                 beforeSend: () => isLoadingInfoLive = true,
-                url: '/live',
+                url: '/streamer/liveInfo',
                 success: function (data) {
                     $('#live-time').html(data)
                 }
