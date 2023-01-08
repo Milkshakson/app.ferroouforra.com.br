@@ -113,8 +113,6 @@ class BaseController extends Controller
     }
     protected function checkToken()
     {
-
-        $path = $this->request->getPath();
         try {
             // verifica se existe um token armazenado
             $stringTokenAcesso = trim($this->session->get('tokenAcesso'));
@@ -124,23 +122,24 @@ class BaseController extends Controller
                 // checa o payload
                 $this->dados['is_valid_token'] = false;
                 $payload = json_decode(base64_decode(str_replace('_', '/', str_replace('-', '+', explode('.', $stringTokenAcesso)[1]))));
-                $payloadTeste = (array) $payload;
-                if ($payloadTeste) {
-                    $falhas = 0;
-                    key_exists('sub', $payloadTeste) or $falhas++;
-                    key_exists('localId', $payloadTeste) or $falhas++;
-                    key_exists('iat', $payloadTeste) or $falhas++;
-                    key_exists('exp_data', $payloadTeste) or $falhas++;
-                    key_exists('environment', $payloadTeste) or $falhas++;
-                    $expDate = Time::createFromTimestamp($payloadTeste['exp']);
+                if ($payload) {
+                    $falhas = [];
+                    $falhas = array_filter(['sub', 'localId', 'iat', 'exp_data', 'environment'], function ($key) use ($payload) {
+                        return  !property_exists($payload, $key);
+                    });
+                    $expDate = Time::createFromTimestamp($payload->exp, app_timezone());
                     $payload->expDate = $expDate->format('d/m/Y H:i:s');
                     $nowDate = new Time('now');
                     if (!$expDate->isAfter($nowDate)) {
-                        $falhas++;
+                        $falhas[] = 'isNotAfter';
                     }
-                    if ($falhas > 0) {
+
+                    if (count($falhas) > 0) {
                         $this->session->set('isValidTokenAcesso', false);
                         $this->session->set('usuarioTokenAcesso', null);
+
+                        pre($falhas);
+
                         return $this->exitSafe('Token de acesso inválido.');
                     } else {
                         $this->session->set('isValidTokenAcesso', true);
