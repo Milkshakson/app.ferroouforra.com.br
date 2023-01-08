@@ -8,3 +8,8 @@ services:
       - ./:/var/www/html/
       - ./docker/sites-enabled/:/etc/apache2/sites-enabled/
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M

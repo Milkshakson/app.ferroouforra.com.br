@@ -89,7 +89,8 @@ class Session extends BaseController
         } catch (APPException $exception) {
             $this->dados['erro'] = $exception->getHandledMessage();
         }
-        $buyInList = key_exists('buyInList', session('openedSession')) ? session('openedSession')['buyInList'] : [];
+        $openedSession =  session('openedSession');
+        $buyInList = is_array($openedSession) && key_exists('buyInList', $openedSession) ? session('openedSession')['buyInList'] : [];
         $this->dados['countAbertos'] = count(array_filter($buyInList, function ($bi) {
             return ci_time($bi['startDate'])->isBefore(ci_time('now')) && $bi['endDate'] == null;
         }));

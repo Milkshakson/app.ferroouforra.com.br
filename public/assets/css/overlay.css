@@ -13,9 +13,11 @@
   --box-cam1-width: --sidebar-right-width;
   --border-color-default: orangered;
 }
+
 .transparent-area {
   background-color: rgba(0, 0, 0, 0);
 }
+
 body,
 #main-frame {
   margin: 0 !important;
@@ -30,7 +32,8 @@ body,
   flex-direction: column;
 
   /* background-color: #4B3621;  */
-  color: #ffffff; /* branco */
+  color: #ffffff;
+  /* branco */
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -39,24 +42,29 @@ body,
   max-width: var(--sidebar-left-width);
   background-color: var(--background-color-default) !important;
 }
+
 #center-content {
   max-width: var(--center-content-width);
   min-width: var(--center-content-width);
 }
+
 #right-content {
   max-width: var(--sidebar-right-width);
   min-width: var(--sidebar-right-width);
 }
+
 header {
   max-height: var(--header-height);
   min-height: var(--header-height);
   background-color: var(--background-color-default) !important;
 }
+
 main {
   max-height: var(--main-height);
   min-height: var(--main-height);
   height: var(--main-height);
 }
+
 footer {
   background-color: var(--background-color-default) !important;
   max-height: var(--footer-height);
@@ -90,6 +98,7 @@ footer {
   min-width: 250px !important;
   min-height: 120px !important;
 }
+
 #bottom-content {
   background-color: var(--background-color-default) !important;
   height: 600px;
@@ -102,26 +111,38 @@ footer {
 .text-light {
   color: white !important;
 }
+
 .navbar-brand {
-  border: 1px solid #ccc; /* borda cinza claro */
-  border-radius: 3px; /* borda arredondada */
-  width: 420px; /* espaçamento entre os itens */
+  border: 1px solid #ccc;
+  /* borda cinza claro */
+  border-radius: 3px;
+  /* borda arredondada */
+  width: 420px;
+  /* espaçamento entre os itens */
 }
+
 .nav-item {
   word-wrap: n;
   width: 360px;
-  border: 1px solid #ccc; /* borda cinza claro */
-  border-radius: 3px; /* borda arredondada */
-  margin-right: 10px; /* espaçamento entre os itens */
+  border: 1px solid #ccc;
+  /* borda cinza claro */
+  border-radius: 3px;
+  /* borda arredondada */
+  margin-right: 10px;
+  /* espaçamento entre os itens */
 }
+
 .nav-item a {
   display: flex;
   flex-direction: row;
   white-space: nowrap;
 }
+
 .nav-link {
-  display: inline-block; /* exibe os itens em linha */
-  padding: 8px; /* espaçamento interno */
+  display: inline-block;
+  /* exibe os itens em linha */
+  padding: 8px;
+  /* espaçamento interno */
 }
 
 .info-value {
@@ -129,53 +150,80 @@ footer {
 }
 
 .year-summary {
-  width: 400px; /* largura da seção */
-  float: left; /* flutua a seção para a esquerda */
-  margin-bottom: 20px; /* adicione um espaçamento inferior */
+  width: 400px;
+  /* largura da seção */
+  float: left;
+  /* flutua a seção para a esquerda */
+  margin-bottom: 20px;
+  /* adicione um espaçamento inferior */
 }
 
 .year-summary .card {
-  background-color: #444; /* cor de fundo escura */
-  color: #fff; /* cor da fonte branca */
-  border: 1px solid #ccc; /* borda cinza claro */
-  border-radius: 3px; /* borda arredondada */
-  margin-bottom: 10px; /* adicione um espaçamento entre os cards */
+  background-color: #444;
+  /* cor de fundo escura */
+  color: #fff;
+  /* cor da fonte branca */
+  border: 1px solid #ccc;
+  /* borda cinza claro */
+  border-radius: 3px;
+  /* borda arredondada */
+  margin-bottom: 10px;
+  /* adicione um espaçamento entre os cards */
 }
 
 .year-summary .card-title {
-  font-size: 18px; /* tamanho da fonte do título */
+  font-size: 18px;
+  /* tamanho da fonte do título */
 }
 
 .year-summary .card-text {
-  font-size: 14px; /* tamanho da fonte do texto */
+  font-size: 14px;
+  /* tamanho da fonte do texto */
 }
 
 .tournament-list {
   border: 1px solid green;
-  width: 100%; /* faz a lista ocupar todo o espaço disponível */
-  overflow: hidden; /* esconde os itens que excederem a largura da lista */
-  position: relative; /* posiciona a lista de forma relativa */
+  width: 100%;
+  /* faz a lista ocupar todo o espaço disponível */
+  overflow: hidden;
+  /* esconde os itens que excederem a largura da lista */
+  position: relative;
+  /* posiciona a lista de forma relativa */
 }
+
 .tournament-list .card {
-  background-color: #444; /* cor de fundo escura */
-  color: #fff; /* cor da fonte branca */
+  background-color: #444;
+  /* cor de fundo escura */
+  color: #fff;
+  /* cor da fonte branca */
 }
+
 .tournament {
-  width: 100%; /* faz cada item ocupar 100% da largura */
-  text-align: center; /* centraliza o texto do item */
-  font-size: 18px; /* define o tamanho da fonte do item */
-  animation: tournament-slider 20s linear infinite; /* adiciona uma animação para fazer a lista rolar automaticamente */
+  width: 100%;
+  /* faz cada item ocupar 100% da largura */
+  text-align: center;
+  /* centraliza o texto do item */
+  font-size: 18px;
+  /* define o tamanho da fonte do item */
+  animation: tournament-slider 20s linear infinite;
+  /* adiciona uma animação para fazer a lista rolar automaticamente */
 }
+
 .tournament-list.tournament-slider-active .tournament {
-  animation: tournament-slider 20s linear infinite; /* adiciona a animação apenas quando a classe tournament-slider-active estiver presente */
+  animation: tournament-slider 20s linear infinite;
+  /* adiciona a animação apenas quando a classe tournament-slider-active estiver presente */
 }
 
 /* define a animação para fazer a lista rolar automaticamente */
 @keyframes tournament-slider {
   0% {
     top: 0;
-  } /* começa com o topo da lista no lugar */
+  }
+
+  /* começa com o topo da lista no lugar */
   100% {
     top: -100%;
-  } /* desloca o topo da lista para cima */
+  }
+
+  /* desloca o topo da lista para cima */
 }
