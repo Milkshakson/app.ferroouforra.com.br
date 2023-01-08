@@ -9,19 +9,19 @@
   --footer-height: 60px;
   --top-content-height: 1020px;
   --background-color-default: #1e1e1e;
-  --box-tela1-height: 612px;
+  --box-cam1-height: 285px;
   --box-cam1-width: --sidebar-right-width;
   --border-color-default: orangered;
+  --box-tela1-height: 650px;
 }
 
 .transparent-area {
   background-color: rgba(0, 0, 0, 0);
 }
 
-body,
 #main-frame {
   margin: 0 !important;
-  padding: 0 !important;
+  padding-right: 5px !important;
   max-width: var(--body-width) !important;
   max-height: var(--body-height) !important;
   min-width: var(--body-width) !important;
@@ -30,6 +30,7 @@ body,
   overflow: hidden !important;
   display: flex;
   flex-direction: column;
+  border: 1px solid #ccc;
 
   /* background-color: #4B3621;  */
   color: #ffffff;
@@ -66,12 +67,14 @@ main {
 }
 
 footer {
+  border: 1px solid #ccc;
   background-color: var(--background-color-default) !important;
   max-height: var(--footer-height);
   min-height: var(--footer-height);
 }
 
 #box-tela1 {
+  border: 1px solid #ccc;
   width: var(--center-content-width) !important;
   height: var(--box-tela1-height) !important;
   max-height: var(--box-tela1-height) !important;
@@ -83,14 +86,16 @@ footer {
   justify-content: center;
   align-items: center;
   width: var(--box-cam1-width) !important;
-  height: 200px !important;
+  height: var(--box-cam1-height) !important;
   max-width: var(--box-cam1-width) !important;
-  max-height: 200px !important;
+  max-height: var(--box-cam1-height) !important;
   min-width: var(--box-cam1-width) !important;
-  min-height: 200px !important;
+  min-height: var(--box-cam1-height) !important;
+  border: 1px solid #ccc;
 }
 
 .box-cam-2 {
+  margin: 1px;
   width: 250px !important;
   height: 120px !important;
   max-width: 250px !important;
@@ -182,7 +187,7 @@ footer {
 }
 
 .tournament-list {
-  border: 1px solid green;
+  border: 1px solid #ccc;
   width: 100%;
   /* faz a lista ocupar todo o espaço disponível */
   overflow: hidden;
@@ -226,4 +231,18 @@ footer {
   }
 
   /* desloca o topo da lista para cima */
+}
+
+/* Sponsor */
+#sponsor-slider {
+  width: 1120px;
+  height: 300px;
+}
+
+#sponsor-slider .carousel-item {
+  transition: transform 1s ease-in-out;
+}
+
+#sponsor-slider.rotate .carousel-item.active {
+  transform: rotate(360deg);
 }

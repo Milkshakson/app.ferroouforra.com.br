@@ -1,8 +1,9 @@
 {% extends 'Overlay/template.twig' %}
 {% block css %}
 	{{parent()}}
-	<link rel="stylesheet" href="\assets\css\home.css">
-	<link rel="stylesheet" href="\assets\css\overlay.css">
+	<link rel="stylesheet" href="\assets\css\home.css?{{versionScripts}}">
+	<link rel="stylesheet" href="\assets\css\overlay.css?{{versionScripts}}">
+	<script src="\assets\scripts\overlay.js" defer></script>
 {% endblock %}
 {% block content %}
 	<!-- ======= Header ======= -->
@@ -10,7 +11,7 @@
 		{% include 'Overlay/contentHeader.twig' %}
 	</header>
 	<!-- End Header -->
-	<main class="d-flex flex-row w-100">
+	<main class="d-flex flex-row w-100 gap-1">
 		<aside
 			id="left-content" class="bg-default">
 			<!-- ======= Sidebar ======= -->
@@ -31,18 +32,4 @@
 	<footer class="d-flex justify-content-center align-items-center w-100">
 		{% include 'Overlay/content-footer.twig' %}
 	</footer>
-	<script>
-		// seleciona a lista de torneios
-const tournamentList = document.querySelector('.tournament-list');
-
-// adiciona a classe tournament-slider-active quando faltar espaço na vertical
-if (tournamentList.offsetHeight<tournamentList.scrollHeight) {
-  tournamentList.classList.add('tournament-slider-active');
-}
-
-// remove a classe tournament-slider-active quando houver espaço suficiente na vertical
-if (tournamentList.offsetHeight> = tournamentList.scrollHeight) {
-tournamentList.classList.remove('tournament-slider-active');
-}
-	</script>
 {% endblock %}

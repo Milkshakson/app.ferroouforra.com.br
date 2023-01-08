@@ -93,7 +93,6 @@ class Login extends BaseController
                 }
             }
         } catch (Exception $e) {
-            pre($e);
             $this->session->set('tokenAcesso', $token);
             $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson' . '<br>' . APPException::handleMessage($e->getMessage());
         }

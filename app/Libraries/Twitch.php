@@ -134,6 +134,37 @@ class Twitch
         }
     }
 
+    public function getTimeLive($credentials)
+    {
+        // Monta a URL da chamada da API
+        $apiUrl = "https://api.twitch.tv/helix/streams?user_id={$credentials->userId}";
+
+        // Configura o cabeçalho da chamada da API para incluir o ID do cliente
+        $headers = array(
+            "Authorization: Bearer $credentials->access_token",
+            "Client-ID: {$this->clientId}"
+        );
+
+        // Faz a chamada da API usando a classe fetch
+        $response = $this->fetch($apiUrl, "GET", [], $headers);
+        // Verifica se há uma transmissão ao vivo atual
+        if (!empty($response->data)) {
+            // Obtém o tempo de duração da transmissão ao vivo em segundos
+            $duration = $response['data'][0]['duration'];
+
+            // Calcula o tempo de duração da transmissão ao vivo em horas e minutos
+            $hours = floor($duration / 3600);
+            $minutes = floor(($duration % 3600) / 60);
+
+            // Formata o tempo de duração da transmissão ao vivo em H:m
+            $formattedDuration = sprintf("%02d:%02d", $hours, $minutes);
+
+            // Retorna o tempo de duração da transmissão ao vivo
+            return $formattedDuration;
+        } else {
+            return "Não há nenhuma transmissão ao vivo no momento.";
+        }
+    }
     public function getSubList($credentials)
     {
         /**

@@ -19,6 +19,17 @@ class UsuarioProvider extends APIFF
             'code' => $code,
         ]);
     }
+    public function loginByExistingToken($token)
+    {
+        $this->setHeader(['Authorization' => $token], true);
+        return $this->consumeEndpoint('POST', "auth/login_existing_token");
+    }
+
+    public function getTwitchCredential($token, $email)
+    {
+        return $this->consumeEndpoint('get', "twitch/credential", ['token' => $token]);
+    }
+
     public function register($dados = [])
     {
         return $this->consumeEndpoint('POST', "signup", $dados);
@@ -38,7 +49,6 @@ class UsuarioProvider extends APIFF
     {
         return $this->consumeEndpoint('POST', "auth/change_password", ['token' => $token, 'email' => $email]);
     }
-
     public function passwordRecovery($email)
     {
         return $this->consumeEndpoint('GET', "auth/password_recovery_v2?email=$email");
