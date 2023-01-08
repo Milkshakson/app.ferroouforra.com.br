@@ -13,12 +13,12 @@
  *
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
-function pre($var, $exit = false)
+function pre($var, $continue = false)
 {
     echo '<pre>';
     print_r($var);
     echo '</pre>';
-    if ($exit) {
+    if (!$continue) {
         exit;
     }
 }

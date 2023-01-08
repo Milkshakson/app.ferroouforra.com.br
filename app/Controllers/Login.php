@@ -84,11 +84,6 @@ class Login extends BaseController
                         $this->session->set('tokenAcesso', $token);
                         $this->session->set('decodedTokenAcesso', (object) $login['content']);
                         $this->session->set('isValidTokenAcesso', true);
-                        $pokerSessionProvider = new PokerSessionProvider();
-                        $openedSession = $pokerSessionProvider->getCurrentOpen();
-                        if ($openedSession['statusCode'] == 202) {
-                            $this->session->set('openedSession', $openedSession['content']);
-                        }
                         $this->response->redirect('/home/index');
                     } else {
                         $this->dados['erros'] = 'Falha ao efetuar Login';
@@ -98,8 +93,9 @@ class Login extends BaseController
                 }
             }
         } catch (Exception $e) {
+            pre($e);
             $this->session->set('tokenAcesso', $token);
-            $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson'.'<br>'. APPException::handleMessage($e->getMessage()) ;
+            $this->dados['erros'] = 'Falha ao efetuar o seu login com a Twitch. Reclame com o Milk na próxima live em https://twitch.tv/milkshakson' . '<br>' . APPException::handleMessage($e->getMessage());
         }
         $this->view->display('Login/twitch', $this->dados);
     }
