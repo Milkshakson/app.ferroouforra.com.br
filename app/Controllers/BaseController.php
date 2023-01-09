@@ -65,7 +65,7 @@ class BaseController extends Controller
 
         $excecao = [
             'home/index', 'home/index/1', '/',
-            'home/overlay',
+            'streamer/showOverlay', 'streamer/showOverlay/',
             'login/index', 'login/login',
             'login/twitch',
             'login/logout', 'registration/new',
@@ -95,7 +95,7 @@ class BaseController extends Controller
         $this->session->set('sitesLogo', $sitesLogo);
         //deve ser a última coisa a executar
         $this->view = new View($this->dados);
-        if (!in_array($path, $excecao)) {
+        if (!in_array($path, $excecao) && !str_starts_with($path, 'streamer/showOverlay')) {
             $this->checkToken();
         }
     }
