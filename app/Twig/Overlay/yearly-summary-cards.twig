@@ -1,40 +1,19 @@
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">
-			Torneios jogados
-		</h5>
-		<p class="card-text">
-			<div class="year-played-games">{{countBuyIns}}</div>
-		</p>
-	</div>
-</div>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">
-			Lucro
-		</h5>
-		<p class="card-text">
-			{{profit}}
-		</p>
-	</div>
-</div>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">
-			ABI
-		</h5>
-		<p class="card-text">
-			{{abi}}
-		</p>
-	</div>
-</div>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">
-			ROI
-		</h5>
-		<p class="card-text">
-			{{roi}}
-		</p>
+<div class="d-flex flex-column bg-dark text-light">
+	<div class="card  bg-dark text-light">
+		<div class="card-header">
+			Informações de torneios no ano de
+			{{year}}
+		</div>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">Torneios jogados:
+				<span class="float-right">{{countBuyIns}}</span>
+			</li>
+			<li class="list-group-item">ABI:
+				<span class="float-right">{{dolarFormat(abi)}}</span>
+			</li>
+			<li class="list-group-item">Lucro:
+				<span class="float-right">{{dolarFormat(profit)}}</span>
+			</li>
+		</ul>
 	</div>
 </div>

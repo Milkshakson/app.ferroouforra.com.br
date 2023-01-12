@@ -1,0 +1,67 @@
+<div class="carousel slide carousel-fade carousel-tournaments h-100 p-1" data-bs-interval="10000">
+	<div class="carousel-inner h-100 just">
+		{% for i, grupo in torneios|batch(9) %}
+			<div class="carousel-item {% if loop.first %}active{% endif %} d-flex  align-items-center">
+				<div class="d-flex flex-wrap align-items-center">
+					{% for bi in grupo %}
+						{% set classLucro = bi.isClosed ?  (bi.profit > 0 ? 'text-success' : ((bi.profit < 0) ? 'text-danger' : '')) : 'text-dark' %}
+						{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : 'bg-primary text-light')) : 'bg-grey' %}
+						{% set startDate = ci_time(bi['startDate']) %}
+						{% set endDate = ci_time(bi['endDate']) %}
+						<div class="card tournament p-0  mb-1">
+							<div class="card-body  p-0 m-0">
+								<div class="d-flex flex-column body-bi-improved p-0 m-0  {{classBgLucro}}">
+									<div class="d-flex container-top-card-bi justify-content-between">
+										<div class="d-flex flex-grow-1">
+											<div class="d-flex flex-row justify-content-between p-1 m-0 w-100">
+												<div class="d-flex m-0">
+													<img src="{{ getSiteSrcImage(bi['pokerSiteName']) }}" style="max-width:35px;" class="img-fluid rounded-circle" alt="{{ bi['pokerSiteShortName'] }}"/>
+												</div>
+
+												<div class="card-title {{ classLucro }} d-flex flex-row align-items-center flex-grow-1 w-100 m-0 p-1">
+													<span>
+														{% if bi.position == '1' %}
+															<i class="bx bxs-trophy text-golden" title="{{bi.position}}º Lugar"></i>
+														{% elseif (bi.position>1 and bi.position <10 ) %}
+															<i class="bi bi-{{bi.position}}-circle text-golden" title="{{bi.position}}º Lugar"></i>
+														{% endif %}
+														{{ (bi.gameName) }}
+													</span>
+												</div>
+												<div class="d-flex m-0">
+													{% if bi.stakingSelling > 0 %}
+														<img src="/assets/img/horse.png" height="35" alt="Cotas" class="rounded-circle img-responsive"/>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="d-flex container-top-card-bi justify-content-start">
+										{% set stopwatchBlink ='' %}
+										{% if startDate.isAfter(now) %}
+											{% set minutesToStart = now.difference(startDate).getMinutes() %}
+											{% if minutesToStart <= 5 %}
+												{% set stopwatchBlink ='stopwatch-blink' %}
+											{% endif %}
+											<div style="display:flex;justify-content:center;align-items:center;width:35px;height:35px;">
+												<i class='bx bx-stopwatch text-info {{stopwatchBlink}}'></i>
+											</div>
+										{% endif %}
+										<div class="card-title {{ classLucro }} d-flex flex-row align-items-center flex-grow-1 w-100 m-0 p-1 gap-1">
+											<span>
+												Início:
+												{{startDate.format('H:i')}}
+											</span>
+											<span>{{ bi.pokerSiteName }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>

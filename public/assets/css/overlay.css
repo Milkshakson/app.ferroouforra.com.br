@@ -211,27 +211,14 @@ footer {
   /* centraliza o texto do item */
   font-size: 18px;
   /* define o tamanho da fonte do item */
-  animation: tournament-slider 20s linear infinite;
+  /* animation: tournament-slider 20s linear infinite; */
   /* adiciona uma animação para fazer a lista rolar automaticamente */
 }
 
-.tournament-list.tournament-slider-active .tournament {
-  animation: tournament-slider 20s linear infinite;
-  /* adiciona a animação apenas quando a classe tournament-slider-active estiver presente */
-}
-
-/* define a animação para fazer a lista rolar automaticamente */
-@keyframes tournament-slider {
-  0% {
-    top: 0;
-  }
-
-  /* começa com o topo da lista no lugar */
-  100% {
-    top: -100%;
-  }
-
-  /* desloca o topo da lista para cima */
+.tournament-list h2,
+.tournament-list h3 {
+  text-align: center;
+  font-size: 1.1rem;
 }
 
 /* Sponsor */
