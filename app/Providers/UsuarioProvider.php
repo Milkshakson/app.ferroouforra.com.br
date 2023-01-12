@@ -21,7 +21,6 @@ class UsuarioProvider extends APIFF
     }
     public function loginByExistingToken($token)
     {
-        $this->setHeader(['Authorization' => $token], true);
         return $this->consumeEndpoint('POST', "auth/login_existing_token");
     }
 

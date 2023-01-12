@@ -46,6 +46,8 @@ class BaseController extends Controller
      */
     protected $helpers = [];
     protected $twig;
+    protected $view;
+    protected $apiApp;
 
     /**
      * Constructor.

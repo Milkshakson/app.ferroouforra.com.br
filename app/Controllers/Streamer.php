@@ -12,14 +12,7 @@ class Streamer extends BaseController
 
   public function overlay()
   {
-    if (session('isValidTokenAcesso')) {
-
-      echo "<h2>Copie a url abaixo e cole no OBS como fonte de navegador</h2>";
-      echo base_url('streamer/showOverlay/' . session('tokenAcesso'));
-    } else {
-      echo "<h2>Você precisa estar autenticado para usar a overlay.</h2>";
-      echo '<a href="' . base_url() . '" >Entrar</a>';
-    }
+    $this->view->display("Streamer/overlay.twig");
   }
   public function liveInfo()
   {
@@ -48,22 +41,18 @@ class Streamer extends BaseController
     $this->view->display("Overlay\yearly-summary-cards.twig", $this->dados);
   }
 
-  public function showOverlay($existingTtoken)
+  public function showOverlay($existingToken)
   {
+    $this->session->set('tokenAcesso', $existingToken);
     $auth = new Auth();
-    $usuarioProvider = new UsuarioProvider();
-    $login = $usuarioProvider->loginByExistingToken($existingTtoken);
-    $auth->loginToSession($login);
-    $this->view->display('Overlay/tela1', $this->dados);
     try {
       $usuarioProvider = new UsuarioProvider();
-      $login = $usuarioProvider->loginByExistingToken($existingTtoken);
+      $login = $usuarioProvider->loginByExistingToken($existingToken);
       $auth->loginToSession($login);
-      $this->view->display('Overlay/tela1', $this->dados);
     } catch (Exception $e) {
-      // pre($e);
-      $auth->unsetSession();
-      echo 'Token inválido';
+      $this->dados['overlayError'] = 'Token inválido';
+      $this->dados['overlayError'] = $e->getMessage() . ' ' . $existingToken;
     }
+    $this->view->display('Overlay/tela1', $this->dados);
   }
 }

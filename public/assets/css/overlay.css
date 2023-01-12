@@ -247,3 +247,16 @@ footer {
 #sponsor-slider.rotate .carousel-item.active {
   transform: rotate(360deg);
 }
+
+.overlayError {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  left: 0;
+  top: 0;
+  background-color: #d72020 !important;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

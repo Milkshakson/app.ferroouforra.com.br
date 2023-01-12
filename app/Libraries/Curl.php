@@ -199,4 +199,12 @@ class Curl
     {
         return $this->_webpage;
     }
+
+    /**
+     * Get the value of _header
+     */
+    public function getHeader()
+    {
+        return $this->_header;
+    }
 }
