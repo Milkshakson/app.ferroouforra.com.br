@@ -40,7 +40,7 @@ $(this).hide();
 {% endblock %}
 {% block content %}
 
-	{% if decodedToken.isSub %}
+	{% if 1 or decodedToken.isSub %}
 		<div class="summary-button-control card d-flex justify-content-between align-items-center flex-row">
 			<a class="d-flex" title="Ano anterior" href="/dashboard/yearly_by_site/{{ year - 1 }}">
 				<i class="bx bx-skip-previous-circle"></i>

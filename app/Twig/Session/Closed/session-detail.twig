@@ -10,6 +10,25 @@
 		</div>
 
 	</div>
+
+
+	{# Array
+						(
+						    [totalBuyIn] => 216.71
+						    [totalPrize] => 170.86
+						    [countITM] => 11
+						    [totalPrizeStakers] => 98.63000000
+						    [avgBuyIn] => 6.990645
+						    [countBuyIns] => 31
+						    [stakingReturn] => 133.9510000000
+						    [profit] => -10.5290000000
+						    [profitRaw] => -45.85
+						    [percentageITM] => 35.4839
+						    [buyInWithStakingSold] => 82.7590000000
+						    [percentageROI] => -12.72248335528462
+						    [percentageRawROI] => -21.157307
+						) #}
+
 	<div class="card-boby p-2">
 		<div class="d-flex flex-row justify-content-between">
 			<div>
@@ -18,6 +37,26 @@
 					{% if not is_null(session.endDate) %}
 						{{ci_time(session.endDate).format('d/m/Y H:i')}}
 					{% endif %}
+				</span>
+				<span>
+					<strong>Total investido:</strong>
+					{{dolarFormat(session.sumary['totalBuyIn'])}}
+				</span>
+				<span>
+					<strong>Retorno de cotas:</strong>
+					{{dolarFormat(session.sumary['stakingReturn'])}}
+				</span>
+				<span>
+					<strong>Total premiação:</strong>
+					{{dolarFormat(session.sumary['totalPrize'])}}
+				</span>
+				<span>
+					<strong>Premiação dos patrocinadores:</strong>
+					{{dolarFormat(session.sumary['totalPrizeStakers'])}}
+				</span>
+				<span>
+					<strong>Profit:</strong>
+					{{dolarFormat(session.sumary['profit'])}}
 				</span>
 			</div>
 			<span>
