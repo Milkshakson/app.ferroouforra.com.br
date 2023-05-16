@@ -45,3 +45,11 @@ header.bg-twitch .dropdown-item span {
 .text-golden {
     color: gold;
 }
+
+.alert-dismissible {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}

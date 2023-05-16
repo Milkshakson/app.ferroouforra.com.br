@@ -87,8 +87,11 @@
 							<button class="p-0 m-0 border accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bi['buyinId']}}" aria-expanded="false" aria-controls="flush-collapse{{bi['buyinId']}}">
 								<div class="d-flex flex-row justify-content-between p-1 m-0 w-100">
 									<div class='d-flex flex-row flex-grow-1 text-muted small justify-content-between px-3'>
+										{{box_bi('Início', startDate.format('d/m/Y H:i')) }}
 										{{box_bi('Paguei', dolarFormat(bi['totalBuyIn'])) }}
 										{{box_bi('Ganhei', dolarFormat(bi['totalPrize']))}}
+										{{box_bi('%vendido', percent(bi['stakingSold']))}}
+										{{box_bi('$ Cota', dolarFormat(bi['stakingReturn']))}}
 										{{box_bi('Lucro', dolarFormat(bi['profit']),"class='"~ classLucro ~"'")}}
 									</div>
 								</div>

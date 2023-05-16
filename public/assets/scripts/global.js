@@ -72,7 +72,7 @@ $(function () {
     });
 
     $('.alert-dismissible').each(function (e) {
-        $(this).fadeOut(6000);
+        $(this).fadeOut(15000);
     });
     $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
         let sender = $(this);
