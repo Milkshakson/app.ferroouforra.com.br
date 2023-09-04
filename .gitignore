@@ -130,3 +130,5 @@ node_modules/
 public/dist/
 
 public/cookie.txt
+server.crt
+server.key
