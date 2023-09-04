@@ -156,6 +156,11 @@ class Curl
             curl_setopt($s, CURLOPT_NOBODY, true);
         }
 
+        if (ENVIRONMENT !== 'production') {
+            curl_setopt($s, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($s, CURLOPT_SSL_VERIFYHOST, false);
+        }
+
         if ($this->_requestType) {
             curl_setopt($s, CURLOPT_CUSTOMREQUEST, $this->_requestType);
 
