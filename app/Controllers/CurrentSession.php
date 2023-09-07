@@ -35,6 +35,31 @@ class CurrentSession extends BaseController
         }
     }
 
+    public function updateBankRollSession()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = session('openedSession');
+            $dados = $this->getRequestInput($this->request);
+            $pokerSessionProvider->updateBankrollSession($openedSession['id'], $dados);
+            print(json_encode(['success' => true]));
+        } catch (Exception $e) {
+            print(json_encode(['success' => false, 'msg' => APPException::handleMessage($e->getMessage())]));
+        }
+    }
+    public function lazyLoadBankroll()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = session('openedSession');
+            $saldos = $pokerSessionProvider->getBankrollSession($openedSession['id'])['content'];
+            $this->dados['saldos'] = $saldos;
+            $html = $this->view->render('Session/Current/bankroll.twig', $this->dados);
+            print(json_encode(['html' => $html]));
+        } catch (Exception $e) {
+            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
+        }
+    }
     public function lazyLoadBuyInList()
     {
         try {

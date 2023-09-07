@@ -55,7 +55,26 @@
 						{% set classTextProfit = 'text-danger' %}
 					{% endif %}
 					<div class="d-flex flex-column">
-						<div class="container-summary-opened"></div>
+						<ul class="nav nav-tabs" id="tabCurrentSession" role="tablist">
+							<li class="nav-item" role="presentation">
+								<a class="nav-link active" id="resumo-tab" data-bs-toggle="tab" href="#resumo" role="tab" aria-controls="resumo" aria-selected="true">Resumo</a>
+							</li>
+							<li class="nav-item" role="presentation">
+								<a class="nav-link" id="bankroll-tab" data-bs-toggle="tab" href="#bankroll" role="tab" aria-controls="saldos" aria-selected="false">Bankroll</a>
+							</li>
+						</ul>
+						<div class="tab-content" id="tabContentCurrentSession">
+							<div class="tab-pane fade show active" id="resumo" role="tabpanel" aria-labelledby="resumo-tab">
+								<div class="container-summary-opened">
+									{% include "spinners/grow.twig" %}
+								</div>
+							</div>
+							<div class="tab-pane fade" id="bankroll" role="tabpanel" aria-labelledby="bankroll-tab">
+								<div class="container-bankroll-opened">
+									{% include "spinners/grow.twig" %}
+								</div>
+							</div>
+						</div>
 						<div class="card-footer p-0">
 							<div class="d-flex justify-content-end p-0 pb-2">
 								<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
@@ -71,7 +90,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="container-buyins-opened"></div>
+						<div class="container-buyins-opened">
+							{% include "spinners/grow.twig" %}
+						</div>
 					</div>
 				{% else %}
 					{% include 'Session/Current/form-abertura.twig' %}

@@ -85,6 +85,10 @@
     flex-direction: row;
 }
 
+.floating-icon .bi {
+    display: none;
+}
+
 .bg-grey span,
 .bg-danger span,
 .bg-info span,
@@ -94,7 +98,7 @@
 }
 
 .stopwatch-blink {
-    color: red !important; 
+    color: red !important;
     font-size: small;
     animation: .5s 0s infinite alternate stopwatch-blink;
 }

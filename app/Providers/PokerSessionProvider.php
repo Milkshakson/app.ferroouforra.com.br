@@ -10,6 +10,14 @@ class PokerSessionProvider extends APIFF
     {
         return $this->consumeEndpoint('GET', "/poker_session/current_open_v2");
     }
+    public function getBankrollSession($session_id)
+    {
+        return $this->consumeEndpoint('GET', "/poker_session/bankroll_session/?id=$session_id", []);
+    }
+    public function updateBankrollSession($poker_session_id, $bankroll)
+    {
+        return $this->consumeEndpoint('POST', "/poker_session/update_bankroll_session", ['poker_session_id' => $poker_session_id, 'bankroll' => $bankroll]);
+    }
     public function open($dados = [])
     {
         return $this->consumeEndpoint('POST', "/poker_session/create_v2", $dados);

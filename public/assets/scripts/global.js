@@ -22,9 +22,72 @@ $(function () {
     $('.money').mask('000.000.000.000.000,00', {
         reverse: true
     });
-    $('.money-dolar').mask('000000000000000.00', {
-        reverse: true
+    // $('.money-dolar').mask('000000000000000.00', {
+    //     reverse: true
+    // });
+
+    // $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
+    //     let sender = $(this);
+    //     if (sender.val().startsWith(".", 0)) {
+    //         let val = sender.val();
+    //         sender.val('0' + val);
+    //     }
+    // });
+
+
+
+    //Função para formatar o valor como dinheiro
+    function formatMoney(value) {
+        // Remove todos os caracteres, exceto números e pontos
+        value = value.replace(/,/g, '.');
+        value = value.replace(/[^\d.]/g, '');
+
+        // Substitui a vírgula pelo ponto (caso o usuário use vírgula como separador decimal)
+
+        // Formata o valor com duas casas decimais
+        var parts = value.split('.');
+        if (parts.length > 1) {
+            value = parts[0] + '.' + parts[1].substring(0, 2);
+        }
+
+        return value;
+    }
+
+
+
+    function formatMoney(value) {
+        // Remove todos os caracteres, exceto números e pontos
+        value = value.replace(/,/g, '.');
+        value = value.replace(/[^\d.]/g, '');
+
+        // Substitui a vírgula pelo ponto (caso o usuário use vírgula como separador decimal)
+
+        // Formata o valor com duas casas decimais
+        var parts = value.split('.');
+        if (parts.length > 1) {
+            //se existe o ponto
+            // value = parts[0] + '.' + parts[1].substring(0, 2);
+            value = parts[0] + '.' + parts[1].replace('.', '');
+            if (parts[1].length > 2) {
+                value = value.replace('.', '');
+                var leftValue = value.slice(0, -2);
+                var rightValue = value.slice(-2);
+                value = leftValue + '.' + rightValue;
+            }
+        }
+
+        return value;
+    }
+
+
+
+
+    // Adiciona um evento de digitação a todos os elementos com a classe "money-input"
+    $(document).on('input', '.money-dolar', function () {
+        $(this).val(formatMoney($(this).val()));
     });
+
+
     $('.markup').mask('?.??', {
         reverse: true,
         translation: {
@@ -73,13 +136,6 @@ $(function () {
 
     $('.alert-dismissible').each(function (e) {
         $(this).fadeOut(15000);
-    });
-    $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
-        let sender = $(this);
-        if (sender.val().startsWith(".", 0)) {
-            let val = sender.val();
-            sender.val('0' + val);
-        }
     });
 
     $(document).on('click', '.img-select-site', function () {
@@ -136,12 +192,31 @@ $(function () {
         $('.meus-buyins').remove();
     });
 
-    $(document).on('focus', ".markup,.percent-dot,.money-dolar", function () {
-        const val = $(this).val()
-        if (val == 0) {
-            $(this).val('')
-        } else {
-            $(this).select();
-        }
-    })
+    // Função para ativar as abas armazenadas no localStorage
+    function activateStoredTabs() {
+        var activeTabIds = JSON.parse(localStorage.getItem('activeTabIds')) || {};
+        // Iterar sobre as chaves (id da ul) da lista de activeTabIds
+        Object.keys(activeTabIds).forEach(function (ulId) {
+            var activeTabId = activeTabIds[ulId];
+
+            // Verificar se a aba existe na página e ativá-la
+            if ($('ul#' + ulId + ' a[data-bs-toggle="tab"][href="#' + activeTabId + '"]').length) {
+                $('ul#' + ulId + ' a[data-bs-toggle="tab"][href="#' + activeTabId + '"]').tab('show');
+            }
+        });
+    }
+
+    // Função para armazenar a aba ativa no localStorage ao clicar ou selecionar
+    $(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
+        var ulId = $(this).closest('ul').attr('id');
+        var activeTabId = $(e.target).attr('href').substr(1);
+
+        var activeTabIds = JSON.parse(localStorage.getItem('activeTabIds')) || {};
+        activeTabIds[ulId] = activeTabId;
+
+        localStorage.setItem('activeTabIds', JSON.stringify(activeTabIds));
+    });
+
+    // Ativar as abas armazenadas no localStorage ao carregar a página
+    activateStoredTabs();
 });
