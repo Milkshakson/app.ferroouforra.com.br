@@ -53,3 +53,31 @@ header.bg-twitch .dropdown-item span {
     width: 100%;
     z-index: 9999;
 }
+
+.site-grid {
+    display: grid !important;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.custom-pointer {
+    cursor: pointer;
+}
+
+
+/* Estilo para cartões não selecionados */
+.card.custom-pointer.site-selector:not(.border-success) {
+    opacity: 0.5;
+    /* Diminui a opacidade dos não selecionados */
+    transition: opacity 0.2s ease-in-out;
+    /* Adiciona uma transição suave de opacidade */
+}
+
+/* Estilo para cartões selecionados */
+.card.custom-pointer.site-selector.border-success {
+    border: 2px solid #28a745;
+    /* Borda mais espessa para os selecionados */
+    box-shadow: 0px 0px 10px rgba(40, 167, 69, 0.5);
+    /* Sombra para destacar os selecionados */
+}

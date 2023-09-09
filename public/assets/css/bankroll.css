@@ -1,0 +1,13 @@
+.floating-icon .bi {
+    display: none;
+}
+
+html,
+body {
+    height: 96% !important;
+}
+
+
+main {
+    height: 95% !important;
+}

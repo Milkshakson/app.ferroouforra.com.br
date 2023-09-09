@@ -1,0 +1,67 @@
+<div class="container mt-5">
+	<div class="mt-3">
+		<div class="d-flex flex-row justify-content-between">
+			<div>
+				<strong>Total Abertura:</strong>
+				<span id="total-saldo-inicial">$0.00</span>
+			</div>
+			<div>
+				<strong>Total Encerramento:</strong>
+				<span id="total-saldo-final">$0.00</span>
+			</div>
+			<div>
+				<strong>Lucro/Prejuízo:</strong>
+				<span id="lucro-prejuizo" class="text-success">Lucro</span>
+			</div>
+			<div>
+				<strong>Valor Lucro/Prejuízo:</strong>
+				<span id="valor-lucro-prejuizo">$0.00</span>
+			</div>
+		</div>
+	</div>
+	<table class="table table-bankroll">
+		<colgroup>
+			<col>
+			<col style="width: 25%;">
+			<col style="width: 25%;">
+		</colgroup>
+		<thead>
+			<tr>
+				<th class='d-flex flex-row'>Site
+
+					<!-- Ícone flutuante no canto superior direito -->
+					<div id="table-icon" class="floating-icon ms-2">
+						<i class="bi bi-exclamation-circle text-warning"></i>
+						<i class="bi bi-check-circle text-success"></i>
+						<!-- Ícone Bootstrap Icons (substitua pelo ícone desejado) -->
+					</div>
+				</th>
+				<th>Abertura</th>
+				<th>Encerramento</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for site in saldos %}
+				<tr class="atualiza-saldos">
+					<td>{{ site.nome_site }}</td>
+					<td>
+						<div class="input-group">
+							<span class="input-group-text">$</span>
+							<input type="text" class="form-control money-dolar" disabled value="{{ site.saldo_abertura }}" data-site="{{site.poker_site_id}}">
+							<input type="hidden" class="form-control money-dolar saldo-inicial" value="{{ site.saldo_abertura }}" data-site="{{site.poker_site_id}}">
+						</div>
+					</td>
+					<td>
+						<div class="input-group">
+							<span class="input-group-text">$</span>
+							<input type="text" class="form-control money-dolar saldo-final" value="{{ site.saldo_encerramento }}">
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="d-flex flex-col justify-content-center align-items-centerp-4">
+		<button id="salvar-btn" class="btn btn-primary">Salvar</button>
+	</div>
+</div>

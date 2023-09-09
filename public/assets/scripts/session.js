@@ -14,33 +14,36 @@ $(window).on('load', function () {
 $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
-  reloadBankroll($('.container-bankroll-opened'))
   $(document).on('click', '.btn-add-game', (e) => {
     // e.preventDefault()
     // lazyFormRegistration()
   })
 
-
-  $(document).on('keydown', '.table-bankroll .money-dolar', function (e) {
-    if (e.keyCode == 13) { // Verifica se a tecla pressionada é "Enter" (código 13)
-      e.preventDefault();
-      var $this = $(this);
-      var $td = $this.closest('td');
-      var $nextTd = $td.next('td');
-
-      if ($nextTd.length > 0) {
-        // Se existe um próximo campo na mesma linha, dê foco a ele
-        $nextTd.find('.money-dolar').focus();
-      } else {
-        // Se for o último campo da linha, encontre a próxima linha e dê foco ao primeiro campo dela
-        var $tr = $td.closest('tr');
-        var $nextTr = $tr.next('tr');
-
-        if ($nextTr.length > 0) {
-          $nextTr.find('.money-dolar').first().focus();
-        }
+  $(document).on('submit', '#form-encerramento-sessao', function (e) {
+    e.preventDefault();
+    const sender = $(this);
+    ifConfirm('Tem certeza que deseja encerrar a sessão? <br/>Você já confirmou os saldos do bankroll?', (confirmed) => {
+      if (confirmed) {
+        $.ajax({
+          method: 'post',
+          data: sender.serialize(),
+          beforeSend: () => waitingDialog.show('Aguarde enquanto a sessão é encerrada'),
+          dataType: 'json',
+          url: sender.attr('action'),
+          success: (response) => {
+            if (response.success) {
+              successAlert('Sessão encerrada com sucesso.', () => {
+                waitingDialog.show('Aguarde enquanto recarregamos');
+                location.href = response.redirectTo;
+              });
+            } else {
+              errorAlert(response.message);
+            }
+          }
+        }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
       }
-    }
+    })
+
   });
 
   $(document).on('click', '.btn-remove-buyin', function (e) {
@@ -58,114 +61,13 @@ $(document).ready(() => {
 
 })
 
-function reloadBankroll(target) {
-  $.ajax({
-    url: '/currentSession/lazyLoadBankroll',
-    dataType: 'json',
-    success: (json) => {
-      target.html(json.html);
-
-      // Calcular totais iniciais
-      calcularTotais();
-    }
-  })
-    .fail(() => target.html('Não foi possível recuperar o bankroll.'))
-}
-function calcularTotais() {
-  var totalSaldoInicial = 0;
-  var totalSaldoFinal = 0;
-
-  $('.saldo-inicial').each(function () {
-    var valor = parseFloat($(this).val().replace('$', '').replace(',', ''));
-    if (!isNaN(valor)) {
-      totalSaldoInicial += valor;
-    }
-  });
-
-  $('.saldo-final').each(function () {
-    var valor = parseFloat($(this).val().replace('$', '').replace(',', ''));
-    if (!isNaN(valor)) {
-      totalSaldoFinal += valor;
-    }
-  });
-
-  $('#total-saldo-inicial').text('$' + totalSaldoInicial.toFixed(2));
-  $('#total-saldo-final').text('$' + totalSaldoFinal.toFixed(2));
-
-  // Verificar se há Lucro ou Prejuízo
-  var lucroPrejuizo = totalSaldoFinal - totalSaldoInicial;
-  var lucroPrejuizoElement = $('#lucro-prejuizo');
-  var valorLucroPrejuizoElement = $('#valor-lucro-prejuizo');
-
-  if (lucroPrejuizo > 0) {
-    lucroPrejuizoElement.text('Lucro').removeClass('text-danger').addClass('text-success');
-    valorLucroPrejuizoElement.text('$' + lucroPrejuizo.toFixed(2)).removeClass('text-danger').addClass('text-success');
-  } else if (lucroPrejuizo < 0) {
-    lucroPrejuizoElement.text('Prejuízo').removeClass('text-success').addClass('text-danger');
-    valorLucroPrejuizoElement.text('$' + Math.abs(lucroPrejuizo).toFixed(2)).removeClass('text-success').addClass('text-danger');
-  } else {
-    lucroPrejuizoElement.text('Nenhum').removeClass('text-success text-danger');
-    valorLucroPrejuizoElement.text('$0.00').removeClass('text-success text-danger');
-  }
-}
-function salvaBankroll() {
-  var dadosBankroll = [];
-  $('.saldo-inicial').each(function (e) {
-    var index = $('.saldo-inicial').index(this);
-    // Verifique se os valores são válidos antes de salvar
-    var siteId = $(this).data('site');
-    var saldoInicial = $(this).val();
-    var saldoFinal = $('.saldo-final').eq(index).val();
-    dadosBankroll.push({
-      poker_site_id: siteId,
-      saldo_abertura: saldoInicial,
-      saldo_encerramento: saldoFinal
-    });
-  });
-  $.ajax({
-    url: '/currentSession/updateBankrollSession',
-    dataType: 'json',
-    method: 'post',
-    data: JSON.stringify(dadosBankroll),
-    success: (response) => {
-      if (response.success) {
-        $('#table-icon .bi-exclamation-circle').hide();
-        $('#table-icon .bi-check-circle').show();
-      } else {
-        $('#table-icon .bi-check-circle').hide();
-        $('#table-icon .bi-exclamation-circle').show();
-      }
-    }
-  })
-}
-// Chame a função de cálculo quando um campo de entrada for alterado
-$(document).on('input', '.money-dolar', function () {
-  $('#table-icon .bi-check-circle').hide();
-  $('#table-icon .bi-exclamation-circle').show();
-  calcularTotais();
-});
-
-$(document).on('click', '#salvar-btn', function () {
-  salvaBankroll();
-});
-$(document).on('blur change', '.saldo-inicial', function () {
-  var index = $(this).closest('tr').index(); // Obtém o índice da linha atual
-  var saldoFinalInput = $('.saldo-final').eq(index); // Obtém o campo de saldo_encerramento correspondente
-
-  // Verifica se o valor do saldo_encerramento está vazio
-  if (saldoFinalInput.val() === '') {
-    saldoFinalInput.val($(this).val()); // Define o valor do saldo_encerramento como o valor do saldo_abertura
-  }
-
-  calcularTotais(); // Recalcula os totais após a modificação
-});
-
 function reloadBuyInsOpen(target) {
   $.ajax({
     url: '/currentSession/lazyLoadBuyInList',
     dataType: 'json',
     success: (json) => {
       target.html(json.html);
+      updateAlertaMaxLateIcons();
     }
   })
     .fail(() => target.html('Não foi possível recuperar a lista de buy-ins.'))
@@ -241,3 +143,84 @@ function loadFormToAdd(content, title) {
   modal.show();
   return id;
 }
+
+
+
+
+// Função para verificar e vocalizar os elementos que começarão em 1 minuto ou menos
+function vocalizeUpcomingElements() {
+  // Selecione todos os elementos com a classe 'start-vocalize'
+  $('.start-vocalize').each(function () {
+    var codigoJogo = $(this).data('codigo-jogo');
+    var alertaMaxLateAtivo = localStorage.getItem('alerta-max-late-' + codigoJogo) === 'true';
+
+    if (alertaMaxLateAtivo) {
+      var $element = $(this);
+      var startTime = $element.data('start');
+      var currentTime = moment(); // Obtenha o momento atual
+      // Calcule a diferença de tempo em minutos
+      var minutesDiff = moment(startTime).diff(currentTime, 'minutes');
+
+      // Verifique se a diferença de tempo é menor ou igual a 1 minuto
+      if (minutesDiff > 4 && minutesDiff <= 5) {
+        vocalizeElement($element);
+      } else
+        if (minutesDiff > 0 && minutesDiff <= 1) {
+          // Vocalize o elemento
+          vocalizeElement($element);
+        }
+    }
+  });
+
+}
+
+// Função para vocalizar um elemento
+function vocalizeElement($element) {
+  // Aqui você pode implementar a lógica para vocalizar o elemento
+  // Por exemplo, você pode usar Text-to-Speech (TTS) API ou reproduzir um som de alerta
+
+  // Exemplo simples: Mostrar um alerta
+  vocalizarTexto('Alerta para registro tardio: ' + $element.text());
+}
+
+// Chame a função para verificar e vocalizar elementos a cada minuto
+setInterval(vocalizeUpcomingElements, 30000); // A cada minuto (60.000 milissegundos)
+
+
+function vocalizarTexto(texto) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(texto);
+    speechSynthesis.speak(utterance);
+  }
+}
+
+// Quando você clica no botão de liga/desliga
+$(document).on('click', '.btn-toggle-alerta-max-late', function () {
+  const $this = $(this);
+  const codigoJogo = $this.closest('.start-vocalize').data('codigo-jogo');
+
+  // Verifique se o botão está pressionado (ativo) ou não
+  const alertaMaxLateAtivo = $this.attr('aria-pressed') === 'false';
+
+  // Alterne o estado do botão
+  $this.attr('aria-pressed', alertaMaxLateAtivo ? 'true' : 'false');
+
+  // Armazene o estado no localStorage (opcional)
+  localStorage.setItem('alerta-max-late-' + codigoJogo, alertaMaxLateAtivo ? 'true' : 'false');
+
+  // Adicione ou remova a classe text-success com base no estado
+  $this.toggleClass('text-success', alertaMaxLateAtivo);
+});
+
+function updateAlertaMaxLateIcons() {
+  $('.start-vocalize').each(function () {
+    var codigoJogo = $(this).data('codigo-jogo');
+    var alertaMaxLateAtivo = localStorage.getItem('alerta-max-late-' + codigoJogo) === 'true';
+    // Adicione a classe de acordo com o estado do alerta
+    var $button = $(this).find('.btn-toggle-alerta-max-late');
+    $button.attr('aria-pressed', alertaMaxLateAtivo);
+    $button.toggleClass('text-success', alertaMaxLateAtivo);
+  });
+}
+
+// Chame a função para carregar o estado do alerta ao carregar a página

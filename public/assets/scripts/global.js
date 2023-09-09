@@ -22,9 +22,17 @@ $(function () {
     $('.money').mask('000.000.000.000.000,00', {
         reverse: true
     });
-    // $('.money-dolar').mask('000000000000000.00', {
-    //     reverse: true
-    // });
+    $('.money-dolar').mask('000000000000000.00', {
+        reverse: true
+    });
+
+    // Adiciona um evento de digitação a todos os elementos com a classe "money-input"
+    $(document).on('input', '.money-dolar', function () {
+        $(this).mask('000000000000000.00', {
+            reverse: true
+        });
+    });
+
 
     // $(document).on('keyup', '.markup,.money-dolar,.money,.percent,.percent-dot', function (k) {
     //     let sender = $(this);
@@ -55,37 +63,37 @@ $(function () {
 
 
 
-    function formatMoney(value) {
-        // Remove todos os caracteres, exceto números e pontos
-        value = value.replace(/,/g, '.');
-        value = value.replace(/[^\d.]/g, '');
+    // function formatMoney(value) {
+    //     // Remove todos os caracteres, exceto números e pontos
+    //     value = value.replace(/,/g, '.');
+    //     value = value.replace(/[^\d.]/g, '');
 
-        // Substitui a vírgula pelo ponto (caso o usuário use vírgula como separador decimal)
+    //     // Substitui a vírgula pelo ponto (caso o usuário use vírgula como separador decimal)
 
-        // Formata o valor com duas casas decimais
-        var parts = value.split('.');
-        if (parts.length > 1) {
-            //se existe o ponto
-            // value = parts[0] + '.' + parts[1].substring(0, 2);
-            value = parts[0] + '.' + parts[1].replace('.', '');
-            if (parts[1].length > 2) {
-                value = value.replace('.', '');
-                var leftValue = value.slice(0, -2);
-                var rightValue = value.slice(-2);
-                value = leftValue + '.' + rightValue;
-            }
-        }
+    //     // Formata o valor com duas casas decimais
+    //     var parts = value.split('.');
+    //     if (parts.length > 1) {
+    //         //se existe o ponto
+    //         // value = parts[0] + '.' + parts[1].substring(0, 2);
+    //         value = parts[0] + '.' + parts[1].replace('.', '');
+    //         if (parts[1].length > 2) {
+    //             value = value.replace('.', '');
+    //             var leftValue = value.slice(0, -2);
+    //             var rightValue = value.slice(-2);
+    //             value = leftValue + '.' + rightValue;
+    //         }
+    //     }
 
-        return value;
-    }
-
-
+    //     return value;
+    // }
 
 
-    // Adiciona um evento de digitação a todos os elementos com a classe "money-input"
-    $(document).on('input', '.money-dolar', function () {
-        $(this).val(formatMoney($(this).val()));
-    });
+
+
+    // // Adiciona um evento de digitação a todos os elementos com a classe "money-input"
+    // $(document).on('input', '.money-dolar', function () {
+    //     $(this).val(formatMoney($(this).val()));
+    // });
 
 
     $('.markup').mask('?.??', {
@@ -216,7 +224,66 @@ $(function () {
 
         localStorage.setItem('activeTabIds', JSON.stringify(activeTabIds));
     });
+    $(document).on('click', '.custom-pointer.site-selector', function (e) {
+        const sender = $(this);
+        const checkbox = sender.find('input:checkbox');
+        checkbox.prop('checked', !checkbox.prop('checked')); // Inverte o estado do checkbox
+        checkbox.trigger('change'); // Dispara o evento de mudança manualmente
+    });
+
+    $(document).on('change', '.custom-pointer.site-selector input:checkbox', function (e) {
+        const sender = $(this);
+        const cardId = sender.attr('id').replace('site-', '');
+        const card = $('.custom-pointer.site-selector[data-id="' + cardId + '"]');
+
+        if (sender.prop('checked')) {
+            card.addClass('border-success');
+        } else {
+            card.removeClass('border-success');
+        }
+    });
+
+    $(document).on('submit', '#form-sites-selecionados', function (e) {
+        e.preventDefault();
+        const form = $(this);
+        const data = form.serialize();
+        $.ajax({
+            method: 'post',
+            url: '/site/salvaSitesPessoa',
+            data,
+            dataType: 'json',
+            beforeSend: () => waitingDialog.show('Aguarde'),
+            success: function (response) {
+                if (response.success) {
+                    successAlert(response.message, () => location.reload());
+                } else {
+                    errorAlert(response.message);
+                }
+            }
+        })
+            .fail(() => errorAlert('Falha na requisição.'))
+            .always(() => waitingDialog.hide());
+    });
 
     // Ativar as abas armazenadas no localStorage ao carregar a página
     activateStoredTabs();
+    const targetSiteSelection = $('.container-site-selection');
+    if (targetSiteSelection.length)
+        loadSiteSelection(targetSiteSelection);
+
 });
+
+function loadSiteSelection(target) {
+    $.ajax({
+        url: '/site/lazyLoadSiteSelection',
+        dataType: 'json',
+        success: (response) => {
+            if (response.success) {
+                target.html(response.html);
+            } else {
+                errorAlert(response.message);
+            }
+        }
+    })
+        .fail(() => target.html('Não foi possível recuperar a lista de sites.'))
+}

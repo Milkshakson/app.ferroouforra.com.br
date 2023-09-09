@@ -85,10 +85,6 @@
     flex-direction: row;
 }
 
-.floating-icon .bi {
-    display: none;
-}
-
 .bg-grey span,
 .bg-danger span,
 .bg-info span,

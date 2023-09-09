@@ -30,7 +30,7 @@ function getSiteSrcImage($siteName = '')
     if (is_array($sitesLogo) && key_exists($siteName, $sitesLogo)) {
         return $sitesLogo[$siteName];
     } else {
-        return '';
+        return "/assets/img/poker-sites/no-image.png";
     }
 }
 

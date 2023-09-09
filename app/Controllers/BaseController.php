@@ -36,6 +36,7 @@ class BaseController extends Controller
     protected $jwtToken;
     protected $session;
     protected $dados = [];
+    protected $jsonRetorno = [];
 
     /**
      * An array of helpers to be loaded automatically upon
@@ -90,6 +91,7 @@ class BaseController extends Controller
             "sportingbet" => "/assets/img/poker-sites/sportingbet.jpg",
             "tiger gaming" => "/assets/img/poker-sites/tigergaming.png",
             "poker stars.es" => "/assets/img/poker-sites/pokerstars.es.png",
+            "outro" => "/assets/img/poker-sites/no-image.png",
         ];
 
         $this->dados['decodedToken'] = session('decodedTokenAcesso');

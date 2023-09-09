@@ -33,9 +33,21 @@
 									<div style="display:flex;justify-content:center;align-items:center;width:35px;height:35px;">
 										<i class='bx bx-stopwatch text-info {{stopwatchBlink}}'></i>
 									</div>
+								{% else %}
+									<div style="display:flex;justify-content:center;align-items:center;width:35px;height:35px;">
+										{% if bi.isClosed %}
+											<i class="bi bi-check2-all"></i>
+										{% else %}
+											<i class="bi bi-suit-club"></i>
+										{% endif %}
+									</div>
 								{% endif %}
 								<div class="card-title {{ classLucro }} d-flex flex-row align-items-center flex-grow-1 w-100 m-0 p-1">
-									<span>
+									<span class='start-vocalize' data-codigo-jogo="{{bi.buyinId}}" data-start="{{startDate.format('Y-m-d H:i:s')}}">
+										<button class="btn btn-toggle-alerta-max-late" title="Alerta de registro tardio">
+											<i class="bi bi-megaphone"></i>
+										</button>
+
 										{% if bi.position == '1' %}
 											<i class="bx bxs-trophy text-golden" title="{{bi.position}}º Lugar"></i>
 										{% elseif (bi.position>1 and bi.position <10 ) %}

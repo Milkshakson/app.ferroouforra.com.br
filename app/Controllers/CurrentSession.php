@@ -53,8 +53,23 @@ class CurrentSession extends BaseController
             $pokerSessionProvider = new PokerSessionProvider();
             $openedSession = session('openedSession');
             $saldos = $pokerSessionProvider->getBankrollSession($openedSession['id'])['content'];
+            $pokerSites = $pokerSessionProvider->getPokerSites();
             $this->dados['saldos'] = $saldos;
-            $html = $this->view->render('Session/Current/bankroll.twig', $this->dados);
+            $this->dados['sites'] = $pokerSites['content'];
+            $html = $this->view->render('Session/Current/bankroll-abertura.twig', $this->dados);
+            print(json_encode(['html' => $html]));
+        } catch (Exception $e) {
+            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
+        }
+    }
+    public function lazyLoadBankrollEncerramento()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = session('openedSession');
+            $saldos = $pokerSessionProvider->getBankrollSession($openedSession['id'])['content'];
+            $this->dados['saldos'] = $saldos;
+            $html = $this->view->render('Session/Current/bankroll-encerramento.twig', $this->dados);
             print(json_encode(['html' => $html]));
         } catch (Exception $e) {
             print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));

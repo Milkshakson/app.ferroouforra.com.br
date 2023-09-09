@@ -1,9 +1,8 @@
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">Dados do encerramento</h5>
-
 		<!-- Multi Columns Form -->
-		<form method="post" class="row g-3">
+		<form method="post" class="row g-3" id="form-encerramento-sessao">
 			<input type='hidden' name="sessionId" value="{{openedSession['id']}}">
 			<div class="col-md-6">
 				{{box_bi('Descrição',openedSession['description'])}}
@@ -14,11 +13,13 @@
 
 			<div class="col-md-6">
 				<label for="endDate" class="form-label">Data do encerramento</label>
-				<input type="date" name="endDate" class="form-control" id="endDate" value="{{set_value('endDate')}}" required>
+				{% set currentDate = date('Y-m-d') %}
+				{% set currentTime = date('H:i') %}
+				<input type="date" name="endDate" class="form-control" id="endDate" value="{{set_value('endDate',currentDate)}}" required>
 			</div>
 			<div class="col-md-6">
 				<label for="endTime" class="form-label">Hora do encerramento</label>
-				<input type="time" name="endTime" class="form-control" id="endTime" value="{{set_value('endTime')}}" required>
+				<input type="time" name="endTime" class="form-control" id="endTime" value="{{set_value('endTime',currentTime)}}" required>
 			</div>
 
 

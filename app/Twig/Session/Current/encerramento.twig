@@ -24,23 +24,45 @@
 	<!-- End Page Title -->
 	<section class="section dashboard">
 		<div class="row">
-			<div class='col-lg-6'>
+			<div class='col-lg-7 col-md-12'>
 				{% if (is_array(openedSession) and not openedSession is empty) %}
-					{% include 'Session/Current/form-encerramento.twig' %}
-				{% else %}
-					{% include 'Session/Current/form-abertura.twig' %}
-				{% endif %}
-			</div>
-			<div class='col-lg-6'>
-				{% if (is_array(openedSession) and not openedSession is empty) %}
-					<div class='row'>
-						{% include 'Session/Current/cards-sumary.twig' %}
+					<ul class="nav nav-tabs" id="tabSessionEncerramento" role="tablist">
+						<li class="nav-item" role="presentation">
+							<a class="nav-link active" id="bankroll-tab" data-bs-toggle="tab" href="#bankroll" role="tab" aria-controls="bankroll" aria-selected="false">Bankroll</a>
+						</li>
+
+						<li class="nav-item" role="presentation">
+							<a class="nav-link" id="encerramento-tab" data-bs-toggle="tab" href="#encerramento" role="tab" aria-controls="encerramento" aria-selected="false">Encerramento</a>
+						</li>
+					</ul>
+
+					<div class="tab-content d-flex h-100 w-100 " id="tabContentSessionEncerramento">
+						<div class="tab-pane fade active show w-100" id="bankroll" role="tabpanel" aria-labelledby="bankroll-tab">
+							<div class="container-bankroll-encerramento">
+								{% include "Spinners/grow.twig" %}
+							</div>
+						</div>
+
+						<div class="tab-pane fade w-100" id="encerramento" role="tabpanel" aria-labelledby="encerramento-tab">
+							{% include 'Session/Current/form-encerramento.twig' %}
+						</div>
 					</div>
 				{% endif %}
+			</div>
+			<div class='col-lg-5 col-md-12'>
 				<div class='row'>
 					{% include 'Common/faq.twig' %}
 				</div>
 			</div>
 		</div>
 	</section>
+{% endblock %}
+{% block css %}
+	{{parent()}}
+	<link href="/assets/css/bankroll.css?version={{versionScripts}}" rel="stylesheet">
+{% endblock %}
+{% block scriptsFooter %}
+	{{parent()}}
+	<script src="/assets/scripts/session.js?version={{versionScripts}}"></script>
+	<script src="/assets/scripts/bankroll.js?version={{versionScripts}}"></script>
 {% endblock %}

@@ -420,7 +420,9 @@ class Session extends BaseController
                 throw new APPException("Erro ao recuperar a lista de sites");
             }
 
-            $this->dados['pokerSites'] = $pokerSites['content'];
+            $this->dados['pokerSites'] = array_filter($pokerSites['content'], function ($site) {
+                return !empty($site['id_pessoa']);
+            });
         } catch (APPException $exception) {
             return $this->exitSafe($exception->getHandledMessage(), 'home/index');
         }
@@ -479,7 +481,7 @@ class Session extends BaseController
             }
             $html .= implode(array_unique($lines));
         } else {
-            $html = '**s*';
+            $html = '';
         }
         return $html;
     }
@@ -595,9 +597,9 @@ class Session extends BaseController
     }
     public function encerrar()
     {
-        try {
-            $pokerSessionProvider = new PokerSessionProvider();
-            if ($this->request->getMethod() == 'post') {
+        $pokerSessionProvider = new PokerSessionProvider();
+        if ($this->request->getMethod() == 'post') {
+            try {
                 $input = $this->getRequestInput($this->request);
                 if (!empty($input)) {
                     $rules = [
@@ -624,19 +626,21 @@ class Session extends BaseController
                         if ($fechamento['statusCode'] == 202) {
                             $this->session->remove("openedSession");
                             $this->session->setFlashdata('sucessos', 'Sessão encerrada com sucesso.');
-                            $this->response->redirect('/Session/listClosed');
+                            print(json_encode(['success' => true, 'redirectTo' => '/Session/listClosed', 'title' => 'Adição de buy-in']));
+                            exit;
                         } else {
-                            $this->dados['erros'] = APPException::handleMessage($fechamento['content']['erros']);
+                            throw new Exception(APPException::handleMessage($fechamento['content']['erros']), 1);
                         }
                     } else {
-                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                        throw new Exception(implode('<br />', $this->validator->getErrors()), 1);
                     }
                 } else {
-                    $this->dados['erros'] = "Dados não enviados.";
+                    throw new Exception("Dados não enviados.", 1);
                 }
+            } catch (Exception $e) {
+                print(json_encode(['success' => false, 'message' => APPException::handleMessage($e->getMessage())]));
+                exit;
             }
-        } catch (APPException $exception) {
-            $this->dados['erros'] = $exception->getHandledMessage();
         }
         $this->view->display('Session/Current/encerramento.twig', $this->dados);
     }
