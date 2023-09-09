@@ -1,7 +1,10 @@
 {% if saldos and count(saldos) %}
 	<div class="container mt-5">
 		<div class="mt-3">
-			<div class="d-flex flex-row justify-content-between">
+			<div class="d-flex flex-row justify-content-between mb-2">
+				<div>
+					<button type="button" class="btn btn-light btn-outline-secondary btn-import-last-bankroll">Importar da última sessão</button>
+				</div>
 				<div>
 					<strong>Total Saldo Abertura:</strong>
 					<span id="total-saldo-inicial">$0.00</span>

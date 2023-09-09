@@ -145,8 +145,6 @@ function loadFormToAdd(content, title) {
 }
 
 
-
-
 // Função para verificar e vocalizar os elementos que começarão em 1 minuto ou menos
 function vocalizeUpcomingElements() {
   // Selecione todos os elementos com a classe 'start-vocalize'
@@ -224,3 +222,15 @@ function updateAlertaMaxLateIcons() {
 }
 
 // Chame a função para carregar o estado do alerta ao carregar a página
+
+
+window.addEventListener('beforeunload', function (e) {
+  // Personalize a mensagem de confirmação
+  var confirmationMessage = 'Tem certeza que deseja sair desta página? Se voc~e tiver algum timer nesta página ele não exibirá o alerta.';
+
+  // Define a mensagem de confirmação na janela do navegador
+  e.returnValue = confirmationMessage;
+
+  // Retorne a mensagem de confirmação (opcional, pois a maioria dos navegadores ignora isso)
+  return confirmationMessage;
+});

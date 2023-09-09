@@ -64,6 +64,31 @@ function calcularTotais() {
     }
 }
 
+
+
+
+function importLastClosedBankroll() {
+    $.ajax({
+        url: '/currentSession/lastClosedBankroll',
+        dataType: 'json',
+        beforeSend: () => waitingDialog.show('Aguarde'),
+        success: (response) => {
+            if (response.success) {
+                response.bankroll.forEach((site) => {
+                    // Selecione os elementos com a classe saldo-inicial e o data-site correspondente
+                    var $saldoInicialElement = $(`.saldo-inicial[data-site="${site.poker_site_id}"]`);
+
+                    // Defina o valor de site.saldo_abertura nesses elementos
+                    $saldoInicialElement.val(site.saldo_encerramento);
+                });
+            } else {
+
+            }
+        }
+    }).always(() => waitingDialog.hide());
+}
+
+
 function salvaBankroll() {
     var dadosBankroll = [];
     $('.saldo-inicial').each(function (e) {
@@ -96,7 +121,9 @@ function salvaBankroll() {
     }).always(() => waitingDialog.hide())
 }
 $(document).ready(function () {
-
+    $(document).on('click', '.btn-import-last-bankroll', function (e) {
+        importLastClosedBankroll();
+    });
     $(document).on('keydown', '.table-bankrolls .money-dolar', function (e) {
         if (e.keyCode == 13) { // Verifica se a tecla pressionada é "Enter" (código 13)
             e.preventDefault();

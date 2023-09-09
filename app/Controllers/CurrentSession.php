@@ -47,6 +47,19 @@ class CurrentSession extends BaseController
             print(json_encode(['success' => false, 'msg' => APPException::handleMessage($e->getMessage())]));
         }
     }
+
+    public function lastClosedBankroll()
+    {
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $lastSession =  $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed')['content'];
+            $bankroll = $pokerSessionProvider->getBankrollSession($lastSession['id'])['content'];
+            print(json_encode(['success' => true, 'bankroll' => $bankroll]));
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     public function lazyLoadBankroll()
     {
         try {
