@@ -213,7 +213,12 @@ $(function () {
             }
         });
     }
-
+    $(document).on('click', ".toggle-token", function () {
+        console.log('opa');
+        var tokenElement = $(this).parent().find('.token-value');
+        // Alterne a classe para mostrar/ocultar o token
+        tokenElement.toggleClass("token-visible");
+    });
     // Função para armazenar a aba ativa no localStorage ao clicar ou selecionar
     $(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
         var ulId = $(this).closest('ul').attr('id');

@@ -14,6 +14,9 @@ class Home extends BaseController
         if ($logout) {
             $this->dados['avisos'] = 'Você saiu do sistema';
         }
+        $pokerSessionProvider = new PokerSessionProvider();
+        $this->session->set('openedSession', $pokerSessionProvider->getCurrentOpen()['content']);
+
         $this->view->display('Home/index', $this->dados);
     }
 }

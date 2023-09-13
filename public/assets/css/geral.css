@@ -81,3 +81,14 @@ header.bg-twitch .dropdown-item span {
     box-shadow: 0px 0px 10px rgba(40, 167, 69, 0.5);
     /* Sombra para destacar os selecionados */
 }
+
+/* Estilo inicial para ocultar o token com desfoque */
+.token-value {
+    filter: blur(4px); /* Aplica um efeito de desfoque inicial */
+    transition: filter 0.3s ease; /* Adiciona uma transição suave */
+}
+
+/* Estilo para mostrar o token quando o ícone de "olho" é clicado */
+.token-visible.token-value {
+    filter: none; /* Remove o desfoque quando o token é visível */
+}
