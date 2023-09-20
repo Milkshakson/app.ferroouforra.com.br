@@ -1,0 +1,54 @@
+<div class="d-flex flex-column">
+	<div class="d-flex flex-row border w-100 gap-1 p-1">
+		<div class='col-3'>Torneio</div>
+		<div class='col-2'>Buy-in</div>
+		<div class='col-3'>Horário de Início</div>
+		<div class='col-3'>Registro tardio</div>
+		<div class='col-1'>Ações</div>
+	</div>
+
+
+	{% for index, tournament in tournaments %}
+		<form method="post" name="form_{{tournament.id }}" class="m-0 p-0">
+			<div class="d-flex flex-row align-items-center border w-100 gap-1 p-1">
+				<div class="col-3">
+					<div class="d-flex flex-row gap-1">
+						<i class='bi icone-registro'></i>
+						<input type="hidden" name="id" ="{{tournament.id}}">
+						{{tournament.nome }}/{{tournament.site_short_name }}
+					</div>
+				</div>
+				<div class='col-2'>
+					<div class="input-group">
+						<span class="input-group-text">$</span>
+						<input type="text" class="form-control money-dolar" name="buyn" value="{{ tournament.buyin }}">
+					</div>
+				</div>
+				<div class='col-3'>
+					<input class='form-control' type="datetime-local" name="data_hora_inicio" value="{{ tournament.data_hora_inicio }}">
+				</div>
+				<div class='col-3'>
+					<input class='form-control' type="datetime-local" name="data_hora_registro" value="{{ tournament.data_hora_registro }}">
+				</div>
+				<div class='col-1 container'>
+					<div class="d-flex flex-1 flex-row justify-content-end align-items-center pe-1">
+						<div class="btn-group">
+							<button type="button" class="btn btn-light btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="bi bi-three-dots-vertical"></i>
+								<!-- Ícone de três pontos verticais -->
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#" onclick="removerDaGrade('{{tournament.id}}')">Remover da grade</a>
+								<a class="dropdown-item" href="#" onclick="registrar('{{tournament.id}}')">Registrar início</a>
+								<a class="dropdown-item" href="#">Registrar início com ticket</a>
+								<a class="dropdown-item" href="#">Registrar tardio</a>
+								<a class="dropdown-item" href="#">Registrar tardio com ticket</a>
+								<a class="dropdown-item" href="#">Salvar alterações</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	{% endfor %}
+</div>

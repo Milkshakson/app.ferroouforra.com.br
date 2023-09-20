@@ -8,8 +8,6 @@ use App\Providers\PokerSessionProvider;
 use App\Providers\PokerSiteProvider;
 use Exception;
 
-use function PHPUnit\Framework\throwException;
-
 class Site extends BaseController
 {
     public function index()
@@ -23,10 +21,12 @@ class Site extends BaseController
             $input = $this->getRequestInput($this->request);
             $update = $pokerSiteProvider->updateSitesUsuario(['sites' => $input['sites']]);
 
-            if ($update)
+            if ($update) {
                 print(json_encode(['success' => true, 'message' => 'Atualização efetuada com sucesso']));
-            else
+            } else {
                 throw new Exception(json_encode($update), 1);
+            }
+
         } catch (Exception $e) {
             print(json_encode(['success' => false, 'message' => APPException::handleMessage($e->getMessage())]));
         }

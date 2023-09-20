@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\APIFF;
 use App\Libraries\View;
+use App\Traits\Api;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -27,6 +28,8 @@ use Psr\Log\LoggerInterface;
  */
 class BaseController extends Controller
 {
+
+    use Api;
     /**
      * Instance of the main Request object.
      *
@@ -129,7 +132,7 @@ class BaseController extends Controller
                 if ($payload) {
                     $falhas = [];
                     $falhas = array_filter(['sub', 'localId', 'iat', 'exp_data', 'environment'], function ($key) use ($payload) {
-                        return  !property_exists($payload, $key);
+                        return !property_exists($payload, $key);
                     });
                     $expDate = Time::createFromTimestamp($payload->exp, app_timezone());
                     $payload->expDate = $expDate->format('d/m/Y H:i:s');

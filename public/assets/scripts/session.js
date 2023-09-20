@@ -14,11 +14,31 @@ $(window).on('load', function () {
 $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
+  lazyLoadGrade($('.container-grade'))
   $(document).on('click', '.btn-add-game', (e) => {
-    // e.preventDefault()
-    // lazyFormRegistration()
+    e.preventDefault()
+    lazyFormRegistration()
   })
-
+  $(document).on('submit', '[name=formSalvaBuyIn]', function (e) {
+    e.preventDefault();
+    const sender = $(this);
+    $.ajax({
+      method: 'post',
+      data: sender.serialize(),
+      beforeSend: () => waitingDialog.show('Aguarde enquanto o buy-in é salvo'),
+      dataType: 'json',
+      url: '/session/saveBuyIn',
+      success: (response) => {
+        if (response.success) {
+          $("#buyInModal").modal('hide');
+          reloadBuyInsOpen($('.container-buyins-opened'));
+          successAlert('Buy-in salvo com sucesso');
+        } else {
+          errorAlert(response.message)
+        }
+      }
+    }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
+  });
   $(document).on('submit', '#form-encerramento-sessao', function (e) {
     e.preventDefault();
     const sender = $(this);
@@ -83,19 +103,29 @@ function reloadSummaryOpen(target) {
   }).fail(() => target.html('Não foi possível recuperar o resumo da sessão.'))
 }
 
-function lazyFormRegistration() {
+function lazyFormRegistration(idBuyIN) {
+  const modal = $('#buyInModal');
+  let url = '/currentSession/lazyFormRegistration/'
+  if (idBuyIN != undefined) {
+    url += idBuyIN
+  }
   $.ajax({
-    url: '/currentSession/lazyFormRegistration',
-    beforeSend: () => idForm = loadFormToAdd('...aguarde...', '...'),
+    url,
+    beforeSend: () => waitingDialog.show('Aguarde...'),
     dataType: 'json',
-    success: (data) => {
-      $('#' + idForm).find('.modal-body').html(data.html)
-      $('#' + idForm).find('.modal-title').html(data.title)
+    success: (response) => {
+      if (response.success) {
+        modal.find('.modal-body').html(response.html)
+        modal.modal('show');
+      } else {
+        errorAlert(response.message)
+      }
     }
-  }).fail(() => {
-    $('#' + idForm).find('.modal-title').html('Falha')
-    $('#' + idForm).find('.modal-body').html('Não foi possível recuperar o formulário.')
   })
+    .fail(() => {
+      errorAlert('Houve uma falha ao abrir o formulário.')
+    })
+    .always(() => waitingDialog.hide())
 }
 
 function loadMyBuyIns() {
@@ -108,43 +138,6 @@ function loadMyBuyIns() {
     success: (data) => $('.content-my-buyins').html(data)
   })
 }
-function loadFormToAdd(content, title) {
-  let id = Date.now().toString().replace(/\D/g, "")
-  let classModalSize = ''
-  let classBgTitle = 'text-center bg-twitch text-light'
-  let classTitle = 'text-center'
-  let labelClose = 'Sair'
-  modalForm = document.createElement('div')
-  modalForm.classList.add('modal-container')
-  modalForm.innerHTML = `
-      <div class="modal  modal-form fade" id="${id}" tabindex="-1" data-bs-backdrop="false">
-        <div class="modal-dialog modal-dialog-centered ${classModalSize}">
-          <div class="modal-content">
-            <div class="modal-header ${classBgTitle}">
-              <h5 class="modal-title ${classTitle}">${title}</h5>
-              <button type="button" class="btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              ${content}
-            </div>
-            <div class="modal-footer bg-light">
-              <button type="button" class="btn btn-dark modal-success-btn" data-bs-dismiss="modal">${labelClose}</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-
-  modalForm.querySelector('.modal-success-btn').onclick = () => { modalForm.remove }
-
-  document.body.append(modalForm);
-
-  var modal = new bootstrap.Modal(modalForm.querySelector('.modal'));
-  modal.show();
-  return id;
-}
-
-
 // Função para verificar e vocalizar os elementos que começarão em 1 minuto ou menos
 function vocalizeUpcomingElements() {
   // Selecione todos os elementos com a classe 'start-vocalize'

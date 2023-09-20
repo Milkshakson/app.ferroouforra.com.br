@@ -24,7 +24,7 @@ class APIFF extends Curl
         }
         $header = [
             "Content-Type: application/json",
-            "App-Version: " . config('App')->appVersion
+            "App-Version: " . config('App')->appVersion,
         ];
         $this->setTokenAcesso(session('tokenAcesso'));
         $this->setHeader($header, 1);
@@ -42,10 +42,12 @@ class APIFF extends Curl
 
     public function endPoint($route = '')
     {
-        if (stripos($route, '/') === (int) 0)
+        if (stripos($route, '/') === (int) 0) {
             return $this->APIURL . $route;
-        else
+        } else {
             return $this->APIURL . '/' . $route;
+        }
+
     }
 
     public function consumeEndpoint($requestType = '', $route = '', $params = [])
@@ -57,7 +59,7 @@ class APIFF extends Curl
                 'POST',
                 'PUT',
                 'PATCH',
-                'DELETE'
+                'DELETE',
             ])) {
                 throw new APPException("Não foi informado o tipo de requisição para a API.");
             }
@@ -76,7 +78,7 @@ class APIFF extends Curl
         }
     }
 
-    protected function getGenericResponse()
+    protected function getGenericResponse(array | Int $codeSuccess = 200)
     {
         $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null, 'raw' => $this->__tostring()];
         try {
@@ -101,7 +103,7 @@ class APIFF extends Curl
     {
         if (!empty($this->tokenAcesso)) {
             $this->setHeader([
-                "Authorization: Bearer $this->tokenAcesso"
+                "Authorization: Bearer $this->tokenAcesso",
             ], true);
         }
         $this->createCurl($endpoint);

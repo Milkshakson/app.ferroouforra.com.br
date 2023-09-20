@@ -8,6 +8,7 @@
 	{{ parent() }}
 	<script defer src="\assets\scripts\session.js?version={{ versionScripts }}"></script>
 	<script src="/assets/scripts/bankroll.js?version={{versionScripts}}"></script>
+	<script src="/assets/scripts/schedule.js?version={{versionScripts}}"></script>
 {% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList = [] %}
@@ -72,14 +73,19 @@
 								<a class="nav-link" id="sites-tab" data-bs-toggle="tab" href="#sites" role="tab" aria-controls="sites" aria-selected="false">Seleção de sites</a>
 							</li>
 
+							<li class="nav-item" role="presentation">
+								<a class="nav-link" id="grade-tab" ondblclick="lazyLoadGrade($('.container-grade'))" data-bs-toggle="tab" href="#grade" role="tab" aria-controls="sites" aria-selected="false">Minhas grades</a>
+							</li>
+
 						</ul>
+
 
 						<div class="tab-content d-flex h-100 w-100 " id="tabContentCurrentSession">
 							<div class="tab-pane fade active w-100" id="buyins" role="tabpanel" aria-labelledby="buyins-tab">
 								<div class="card-footer p-0">
 									<div class="d-flex justify-content-end p-0 pb-2">
 										<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
-											<a class="btn text-success btn-add-game" title="Adicionar jogo" href="/session/saveBuyIn">
+											<a class="btn text-success btn-add-game" title="Adicionar jogo">
 												<i class="bi bi-plus-circle-fill"></i>
 											</a>
 											<a class="btn text-success" title="Importar Grade" href="/session/importarGrade">
@@ -112,6 +118,12 @@
 								</div>
 							</div>
 
+							<div class="tab-pane fade w-100" id="grade" role="tabpanel" aria-labelledby="grade-tab">
+								<div class="container-grade h-100 d-flex align-items-center justify-content-center">
+									{% include "Spinners/grow.twig" %}
+								</div>
+							</div>
+
 						</div>
 					</div>
 				{% else %}
@@ -131,4 +143,7 @@
 			</div>
 		</div>
 	</section>
+
+	{% include "Session/Current/modais.twig" %}
+
 {% endblock %}

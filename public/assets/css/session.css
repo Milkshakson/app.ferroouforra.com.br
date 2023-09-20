@@ -111,7 +111,17 @@
     }
 }
 
+.grid-grades-jogador {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
 @media(max-width:455px) {
+    .grid-grades-jogador {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
     .grid-summary-current-session {
         size: 0.3rem;
         display: grid !important;
@@ -128,4 +138,73 @@
         padding-top: 3px;
         padding-bottom: 3px;
     }
+}
+
+
+/* Classe para criar uma grade com 1 coluna */
+.d-grid.grid-1 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+/* Classe para criar uma grade com 2 colunas */
+.d-grid.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Classe para criar uma grade com 3 colunas */
+.d-grid.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Classe para criar uma grade com 4 colunas */
+.d-grid.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Classe para criar uma grade com 5 colunas */
+.d-grid.grid-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+/* Classe para criar uma grade com 6 colunas */
+.d-grid.grid-6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+/* Classe para criar uma grade com 7 colunas */
+.d-grid.grid-7 {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+/* Classe para criar uma grade com 8 colunas */
+.d-grid.grid-8 {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+/* Classe para criar uma grade com 9 colunas */
+.d-grid.grid-9 {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+}
+
+/* Classe para criar uma grade com 10 colunas */
+.d-grid.grid-10 {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+#retorno-lista-jogos {
+position: absolute;
+width:95%;
+z-index:999;
+background-color:white;
+padding: 10px;
 }

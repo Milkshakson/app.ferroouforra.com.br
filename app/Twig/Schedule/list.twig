@@ -1,0 +1,66 @@
+<div class="d-flex flex-1 flex-column w-100 h-100">
+	<div class="d-flex flex-1 flex-column pt-2">
+
+		<div class="d-flex justify-content-between">
+			<h2>Lista de grades</h2>
+			<button class="btn btn-light btn-outline-success" onclick="openScheduleCreateModal()">
+				<i class="bi bi-plus"></i>
+				Adicionar uma grade
+			</button>
+		</div>
+		{% if grades %}
+			<div class="d-flex flex-column gap-2">
+				{% for grade in grades %}
+					<div class="card w-100 h-100" id="grade_{{grade.id}}">
+						<div class="card-body">
+							<div class="d-flex gap-3 flex-column">
+								<div class="d-flex flex-column">
+									<strong>Nome</strong>
+									{{grade.nome_grade}}
+								</div>
+								<div class="d-flex gap-4">
+									<div class="d-flex flex-column">
+										<strong>Criada em</strong>
+										{{ci_time(grade.data_hora_criacao).format('d/m/Y H:i')}}
+									</div>
+									<div class="d-flex flex-column">
+										<strong>Atualizada em</strong>
+										{{ci_time(grade.data_hora_atualizacao).format('d/m/Y H:i')}}
+									</div>
+								</div>
+								<div class="d-flex flex-column">
+									<strong>Descrição</strong>
+									{{nl2br(grade.descricao_grade)}}
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="d-flex justify-content-between">
+								<div>
+									<button class="btn btn-light btn-outline-primary" onclick="openScheduleTournamentsModal('{{grade.id}}')">
+										<i class="bi bi-calendar"></i>
+										<!-- Ícone de calendário para "Torneios" -->
+										Torneios
+									</button>
+									<button class="btn btn-light btn-outline-primary" onclick="openScheduleEditModal('{{grade.id}}')">
+										<i class="bi bi-pencil"></i>
+										<!-- Ícone de lápis para "Editar esta grade" -->
+										Editar esta grade
+									</button>
+								</div>
+								<button class="btn btn-light btn-outline-danger" onclick="removerGrade('{{grade.id}}')">
+									<i class="bi bi-trash"></i>
+									<!-- Ícone de lixeira para "Remover esta grade" -->
+									Remover esta grade
+								</button>
+							</div>
+
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<p class="alert alert-danger">Nenhuma grade encontrada</p>
+		{% endif %}
+	</div>
+</div>

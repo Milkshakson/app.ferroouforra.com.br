@@ -4,7 +4,7 @@
 			Esta sessão não possui nenhum registro
 		</div>
 	{% endif %}
-	{% set now  = ci_time() %}
+	{% set now  = ci_time('now') %}
 	{% for bi in buyInList %}
 		{% set classLucro = bi.isClosed ?  (bi.profit > 0 ? 'text-success' : ((bi.profit < 0) ? 'text-danger' : '')) : 'text-dark' %}
 		{% set classBgLucro = bi.isClosed ?  (bi.profit > 0 ? 'bg-success' : ((bi.profit < 0) ? 'bg-danger' : 'bg-primary text-light')) : 'bg-grey' %}

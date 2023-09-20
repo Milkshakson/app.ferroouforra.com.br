@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
 use Exception;
+use Throwable;
 
 class CurrentSession extends BaseController
 {
@@ -20,12 +21,12 @@ class CurrentSession extends BaseController
                 return ci_time($bi['startDate'])->isBefore(ci_time('now')) && $bi['endDate'] == null;
             }));
 
-            $this->dados['countFuturo']  = count(array_filter($buyInList, function ($bi) {
+            $this->dados['countFuturo'] = count(array_filter($buyInList, function ($bi) {
                 return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
             }));
             $this->dados['sumary'] = $openedSession['sumary'];
-            $this->dados['countEncerrados']  = count(array_filter($buyInList, function ($bi) {
-                return  !is_null($bi['endDate']);
+            $this->dados['countEncerrados'] = count(array_filter($buyInList, function ($bi) {
+                return !is_null($bi['endDate']);
             }));
             $this->dados['sitesJogados'] = array_unique(array_column($buyInList, 'siteName'));
             $html = $this->view->render('Session/Current/summary.twig', $this->dados);
@@ -52,7 +53,7 @@ class CurrentSession extends BaseController
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
-            $lastSession =  $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed')['content'];
+            $lastSession = $pokerSessionProvider->consumeEndpoint('get', '/poker_session/last_closed')['content'];
             $bankroll = $pokerSessionProvider->getBankrollSession($lastSession['id'])['content'];
             print(json_encode(['success' => true, 'bankroll' => $bankroll]));
         } catch (Exception $e) {
@@ -104,15 +105,118 @@ class CurrentSession extends BaseController
         }
     }
 
-    public function lazyFormRegistration()
+    public function saveBuyIN()
     {
-        try {
-            $idBuyIN = null;
+        if ($this->request->getMethod() == 'post') {
             $pokerSessionProvider = new PokerSessionProvider();
-            $openedSession = session('openedSession');
-            if (!$openedSession) {
+            $input = $this->getRequestInput($this->request);
+            if (!empty($input)) {
+                $rules = [
+                    "buyinValue" => [
+                        "label" => "Valor do buy in",
+                        "rules" => 'required',
+                    ],
+                    "tipoBuyIn" => [
+                        "label" => "Tipo do buy in",
+                        "rules" => 'required',
+                    ],
+                    'sessionPokerid' =>
+                    [
+                        'label' => "Id da Sessão",
+                        'rules' => 'required',
+                    ],
+
+                    'gameName' =>
+                    [
+                        'label' => "Nome do jogo",
+                        'rules' => 'required',
+                    ],
+                    'pokerSiteId' =>
+                    [
+                        'label' => "Site",
+                        'rules' => 'required',
+                    ],
+                    'startDate' =>
+                    [
+                        'label' => "Data de início",
+                        'rules' => 'required',
+                    ],
+                    'startTime' =>
+                    [
+                        'label' => "Hora de início",
+                        'rules' => 'required',
+                    ],
+                ];
+
+                if ($this->validate($rules)) {
+                    $input = array_map(function ($data) {
+                        return (!is_null($data) && trim($data)) == '' ? null : mb_strtoupper($data);
+                    }, $input);
+
+                    if (empty($input['startDate'])) {
+                        $startDate = null;
+                    } else {
+                        $startDate = ($input['startDate'] . ' ' . $input['startTime']) ?? null;
+                    }
+                    $buyInList = [];
+                    $idBuyIN = null;
+                    throw new Exception("Arrumar aqui", 1);
+
+                    $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+
+                    $buyinValue = $input['buyinValue'] ?? null;
+                    $reentryBuyIn = $input['reentryBuyIn'] ?? null;
+                    $gameName = $input['gameName'] ?? null;
+                    $tipoBuyIn = $input['tipoBuyIn'] ?? null;
+                    $pokerSiteId = $input['pokerSiteId'] ?? null;
+
+                    $buyinId = $input['buyinId'] ? $input['buyinId'] : null;
+                    $dataPost = [
+                        'buyinId' => $buyinId,
+                        'startDate' => $startDate,
+                        'tipoBuyIn' => $tipoBuyIn,
+                        'pokerSiteId' => $pokerSiteId,
+                        'buyinValue' => $buyinValue,
+                        'sessionPokerid' => $input['sessionPokerid'],
+                        'reentryBuyIn' => $reentryBuyIn,
+                        'currencyName' => 'dolar', //Somente dolar neste momento
+                        'gameName' => $gameName,
+                    ];
+                    $dataPost = array_merge($currentBI, $dataPost);
+                    unset($dataPost['gameId']);
+                    $adiciona = $pokerSessionProvider->salvaBuyIn($dataPost);
+                    if ($adiciona['statusCode'] == 201) {
+                        $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
+                        $this->response->redirect('/session/current');
+                    } else {
+                        $this->dados['erros'] = APPException::handleMessage($adiciona['content']['erros']);
+                    }
+                } else {
+                    $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                }
+            } else {
+                $this->dados['erros'] = 'Dados não enviados.';
             }
-            $buyInList = key_exists('buyInList', $openedSession) ? $openedSession['buyInList'] : [];
+        }
+    }
+
+    public function lazyFormRegistration($idBuyIN = null, $pokerSiteId = null)
+    {
+
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $openedSession = $pokerSessionProvider->getCurrentOpen();
+            if ($openedSession['statusCode'] != 202) {
+                throw new APPException("Erro ao recuperar a sessão aberta");
+            }
+            $buyInList = $openedSession['content']['buyInList'];
+
+            $this->dados['openedSession'] = $openedSession['content'];
+            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+            if ($currentBI == [] and !is_null($pokerSiteId)) {
+                $currentBI['pokerSiteId'] = $pokerSiteId;
+            }
+            $this->dados['bi'] = $currentBI;
             $tiposBuyIn = $pokerSessionProvider->getTiposBuyIn();
             if ($tiposBuyIn['statusCode'] != 200) {
                 throw new APPException("Erro ao recuperar os tipos de buy in");
@@ -124,18 +228,15 @@ class CurrentSession extends BaseController
                 throw new APPException("Erro ao recuperar a lista de sites");
             }
 
-            $this->dados['pokerSites'] = $pokerSites['content'];
-            $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
-            if ($currentBI == []) {
-                $currentBI['sessionPokerid'] = $openedSession['id'];
-            }
-            $this->dados['bi'] = $currentBI;
+            $this->dados['pokerSites'] = array_filter($pokerSites['content'], function ($site) {
+                return !empty($site['id_pessoa']);
+            });
 
+            $html = $this->view->render('Session/BuyIns/form-cadastro.twig', $this->dados);
+            print(json_encode(['success' => true, 'html' => $html, 'title' => 'Opaaaa']));
 
-            $html = $this->view->render('Session\BuyIns\lazy-form.twig', $this->dados);
-            print(json_encode(['html' => $html, 'title' => 'Adição de buy-in']));
-        } catch (Exception $e) {
-            print(json_encode(['html' => APPException::handleMessage($e->getMessage())]));
+        } catch (Throwable $th) {
+            print(json_encode(['success' => false, 'message' => $th->getMessage()]));
         }
     }
 }
