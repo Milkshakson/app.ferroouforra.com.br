@@ -4,13 +4,6 @@ const intervalreload = setInterval(() => {
   reloadSummaryOpen($('.container-summary-opened'))
 }, timeToReload)
 
-
-
-$(window).on('load', function () {
-  // loadMyBuyIns()
-});
-
-
 $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
@@ -19,6 +12,34 @@ $(document).ready(() => {
     e.preventDefault()
     lazyFormRegistration()
   })
+
+
+
+  $(document).on('click', '.btn-remove-buyin', function (e) {
+    var sender = $(this)
+    e.preventDefault()
+    ifConfirm('Tem certeza que deseja remover este registro?', (confirmed) => {
+      if (confirmed) {
+        $.ajax({
+          url: sender.attr('href'),
+          dataType: 'json',
+          beforeSend: () => waitingDialog.show('Aguarde...'),
+          success: (response) => {
+            if (response.success) {
+              setTimeout(
+                reloadBuyInsOpen($('.container-buyins-opened')), 200);
+              successAlert(response.message);
+            } else {
+              errorAlert(response.message)
+            }
+          }
+        })
+          .fail(() => errorAlert('Falha na requisição'))
+          .always(() => waitingDialog.hide())
+      }
+    })
+  });
+
   $(document).on('submit', '[name=formSalvaBuyIn]', function (e) {
     e.preventDefault();
     const sender = $(this);
@@ -66,19 +87,6 @@ $(document).ready(() => {
 
   });
 
-  $(document).on('click', '.btn-remove-buyin', function (e) {
-    var sender = $(this)
-    if (!sender.hasClass('confirmed')) {
-      e.preventDefault()
-      ifConfirm('Tem certeza que deseja remover este registro?', (confirmed) => {
-        if (confirmed) {
-          sender.addClass('confirmed')
-          location.href = sender.attr('href')
-        }
-      })
-    }
-  });
-
 })
 
 function reloadBuyInsOpen(target) {
@@ -87,18 +95,28 @@ function reloadBuyInsOpen(target) {
     dataType: 'json',
     success: (json) => {
       target.html(json.html);
+      setTimeout(reloadSummaryOpen($('.container-summary-opened')), 200)
       updateAlertaMaxLateIcons();
     }
   })
     .fail(() => target.html('Não foi possível recuperar a lista de buy-ins.'))
 }
+function clonaResumoItens(selector = ".grid-summary-current-session > div:lt(4)") {
+  var $divsToClone = $(selector);
 
+  // Clone os divs selecionados
+  var $clonedDivs = $divsToClone.clone();
+
+  // Adicione os divs clonados ao elemento com a classe 'other-element'
+  $(".clone-resumo").html($clonedDivs);
+}
 function reloadSummaryOpen(target) {
   $.ajax({
     url: '/currentSession/lazyLoadSummary',
     dataType: 'json',
     success: (json) => {
       target.html(json.html);
+      setTimeout(clonaResumoItens(), 200);
     }
   }).fail(() => target.html('Não foi possível recuperar o resumo da sessão.'))
 }

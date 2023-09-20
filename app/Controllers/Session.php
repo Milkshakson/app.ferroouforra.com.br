@@ -107,14 +107,14 @@ class Session extends BaseController
 
     public function removeBuyIn($idBuyIN = 0)
     {
-        $pokerSessionProvider = new PokerSessionProvider();
-        $dataPost = ['id' => $idBuyIN];
-        $remove = $pokerSessionProvider->removeBuyIn($dataPost);
-        if ($remove['statusCode'] == 204) {
-            $this->session->setFlashdata('sucessos', 'Registro removido com sucesso.');
-            $this->response->redirect('/session/current');
-        } else {
-            $this->dados['erros'] = 'Falha ao remover o buyin.';
+        try {
+            $pokerSessionProvider = new PokerSessionProvider();
+            $dataPost = ['id' => $idBuyIN];
+            $remove = $pokerSessionProvider->removeBuyIn($dataPost);
+            $this->checkResponse($remove, 204);
+            print(json_encode(['success' => true, 'message' => 'Registro removido com sucesso.']));
+        } catch (Exception $e) {
+            print(json_encode(['success' => false, 'message' => APPException::handleMessage($e->getMessage())]));
         }
     }
     public function endBuyIn($idBuyIN)
