@@ -112,13 +112,13 @@ class Grade extends BaseController
                 $jogo = $input;
 
                 $rules = [
-                    "data_hora_registro" => [
-                        "label" => "Registro tardio",
-                        "rules" => 'required|valid_date',
+                    "hora_registro" => [
+                        "label" => "hora Registro",
+                        "rules" => 'required',
                     ],
-                    "data_hora_inicio" => [
-                        "label" => "Início",
-                        "rules" => 'required|valid_date',
+                    "hora_inicio" => [
+                        "label" => "Hora Início",
+                        "rules" => 'required',
                     ],
                 ];
                 if (!$this->validate($rules)) {
@@ -132,12 +132,9 @@ class Grade extends BaseController
                 ) {
                     unset($jogo['gameName']);
                 } else {
+                    $jogo['gameName'] = upper($jogo['gameName']);
                     unset($jogo['poker_jogos_id']);
                 }
-                $jogo['data_hora_inicio'] = ci_time($jogo['data_hora_inicio'])->format('Y-m-d H:i:s');
-                $jogo['data_hora_registro'] = ci_time($jogo['data_hora_registro'])->format('Y-m-d H:i:s');
-
-                // throw new Exception($this->dataToString($jogo, 'json'), 1);
                 $pokerGradeProvider = new PokerGradeProvider();
                 $add = $pokerGradeProvider->addTournaments($idGrade, [$jogo]);
                 $this->checkResponse($add, 201, 'Falha ao adicionar o torneio.');
@@ -184,14 +181,67 @@ class Grade extends BaseController
     public function registrar()
     {
         try {
+
             if ($this->request->getMethod() == 'post') {
+                $pokerSessionProvider = new PokerSessionProvider();
                 $input = $this->getRequestInput($this->request);
-                throw new Exception(json_encode($input));
+                $openedSession = $pokerSessionProvider->getCurrentOpen();
+                $input['sessionPokerid'] = $openedSession['content']['id'];
+                $startDate = ci_time('now');
+                $startTime = $input['startTime'];
+                $startDateTime = ci_time($startDate->format('Y-m-d') . ' ' . $startTime);
+                unset($input['startTime']);
+                $input['startDate'] = $startDateTime->format('Y-m-d H:i:s');
+                $rules = [
+                    "buyinValue" => [
+                        "label" => "Valor do buy in",
+                        "rules" => 'required',
+                    ],
+                    "tipoBuyIn" => [
+                        "label" => "Tipo do buy in",
+                        "rules" => 'required',
+                    ],
+                    'sessionPokerid' =>
+                    [
+                        'label' => "Id da Sessão",
+                        'rules' => 'required|integer',
+                    ],
+
+                    'gameName' =>
+                    [
+                        'label' => "Nome do jogo",
+                        'rules' => 'required',
+                    ],
+                    'pokerSiteId' =>
+                    [
+                        'label' => "Site",
+                        'rules' => 'required',
+                    ],
+                    'startDate' =>
+                    [
+                        'label' => "Data de início",
+                        'rules' => 'required',
+                    ],
+                ];
+                $validation = \Config\Services::validation();
+                $validation->setRules($rules);
+
+                if (!$validation->run($input)) {
+                    throw new Exception($this->dataToString($validation->getErrors()), 1);
+                }
+                $input['currencyName'] = 'dolar'; //Somente dolar neste momento
+                $buyInList = [];
+                $idBuyIN = null;
+                $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
+                $dataPost = array_merge($currentBI, $input);
+                unset($dataPost['gameId']);
+                $adiciona = $pokerSessionProvider->salvaBuyIn($dataPost);
+                $this->checkResponse($adiciona, 201);
+                print(json_encode(['success' => true, 'message' => 'Buy-in salvo com sucesso']));
             } else {
                 throw new Exception("Requisição inválida");
             }
-
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             print(json_encode(['message' => APPException::handleMessage($e->getMessage())]));
         }
     }

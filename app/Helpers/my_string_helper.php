@@ -7,8 +7,14 @@ if (!function_exists('containsAll')) {
         foreach ($array as $value) {
             if (false !== stripos($haystack, $value)) {
                 ++$count;
-            };
+            }
+            ;
         }
         return $count == count($array);
     }
+}
+
+function upper($string)
+{
+    return mb_strtoupper($string);
 }

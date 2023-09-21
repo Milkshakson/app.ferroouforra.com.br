@@ -142,15 +142,16 @@ function registrar(id) {
                 method: 'post',
                 url: `/grade/registrar`,
                 dataType: 'json',
-                beforeSend: () => waitingDialog.show('Aguarde a remoção'),
+                beforeSend: () => waitingDialog.show('Aguarde o registro.'),
                 success: (response) => {
                     if (response.success) {
-                        formRegistro.remove();
+                        reloadBuyInsOpen($('.container-buyins-opened'));
+                        successAlert(response.message);
                     } else {
                         errorAlert(response.message);
                     }
                 }
-            }).fail(() => errorAlert('Falha ao remover.')).always(() => waitingDialog.hide())
+            }).fail(() => errorAlert('Falha ao registrar.')).always(() => waitingDialog.hide())
         }
     });
 }

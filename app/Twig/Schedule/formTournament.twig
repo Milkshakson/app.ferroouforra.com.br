@@ -36,22 +36,22 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<label>Buy-in</label>
-			<div class="input-group">
-				<span class="input-group-text">$</span>
-				<input type="text" class="form-control money-dolar buyinValue" name="buyin" value="{{ tournament.buyin }}">
+		<div class='d-flex n gap-1'>
+			<div>
+				<label>Buy-in</label>
+				<div class="input-group">
+					<span class="input-group-text">$</span>
+					<input type="text" class="form-control money-dolar buyinValue" name="buyin" value="{{ tournament.buyin }}">
+				</div>
 			</div>
-		</div>
 
-		<div class="d-flex gap-2">
 			<div>
-				<label>Início</label>
-				<input class='form-control' type="datetime-local" name="data_hora_inicio" value="{{ tournament.data_hora_inicio }}">
+				<label>Hora Início</label>
+				<input class='form-control' type="time" name="hora_inicio" value="{{ tournament.hora_inicio }}">
 			</div>
 			<div>
-				<label>Registro tardio</label>
-				<input class='form-control' type="datetime-local" name="data_hora_registro" value="{{ tournament.data_hora_registro }}">
+				<label>Hora registro</label>
+				<input class='form-control' type="time" name="hora_registro" value="{{ tournament.hora_registro }}">
 			</div>
 		</div>
 		<button class='btn btn-outline-success' type="submit">Salvar na grade</button>

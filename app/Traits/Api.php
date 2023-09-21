@@ -39,10 +39,11 @@ trait Api
     /**
      * Lança uma Exception baseada no retorno
      */
-    private function throwFromResponse($response, $default = null)
+    protected function throwFromResponse($response, $default = null)
     {
         throw new Exception($this->handleResponse($response, $default), $response['statusCode']);
     }
+
     protected function handleResponse($response, $defaultMessage = null)
     {
         try {

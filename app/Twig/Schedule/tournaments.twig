@@ -1,15 +1,12 @@
 <div class="d-flex flex-column">
 
 	<div class="d-flex flex-row border w-100 gap-1 p-1">
-		<div class='col-3'>
+		<div class='col-5'>
 			Torneio
-			<button class="btn btn-outline-primary" onclick="openModalAddTournamentSchedule()">
-				Adicionar
-			</button>
 		</div>
 		<div class='col-2'>Buy-in</div>
-		<div class='col-3'>Horário de Início</div>
-		<div class='col-3'>Registro tardio</div>
+		<div class='col-2'>Horário de Início</div>
+		<div class='col-2'>Horário de registro</div>
 		<div class='col-1'>Ações</div>
 	</div>
 
@@ -17,10 +14,15 @@
 	{% for index, tournament in tournaments %}
 		<form method="post" name="form_{{tournament.id }}" class="m-0 p-0">
 			<div class="d-flex flex-row align-items-center border w-100 gap-1 p-1">
-				<div class="col-3">
+				<div class="col-5">
 					<div class="d-flex flex-row gap-1">
 						<i class='bi icone-registro'></i>
 						<input type="hidden" name="id" value="{{tournament.id}}">
+						<input type="hidden" name="tipoBuyIn" value="{{tournament.id_tipo_buyin}}">
+						<input type="hidden" name="gameName" value="{{tournament.nome}}">
+						<input type="hidden" name="pokerSiteId" value="{{tournament.poker_site_id}}">
+						<input type="hidden" name="buyinValue" value="{{ tournament.buyin }}">
+						<input type="hidden" name="startTime" value="{{ tournament.hora_registro }}">
 						<div class="d-flex flex-column gap-1" title="{{tournament.tipo_buyin }}">
 							{{tournament.nome }}
 							/
@@ -31,14 +33,16 @@
 				<div class='col-2'>
 					<div class="input-group">
 						<span class="input-group-text">$</span>
-						<input type="text" class="form-control money-dolar" name="buyn" value="{{ tournament.buyin }}">
+						<span class="form-control">{{ tournament.buyin }}</span>
 					</div>
 				</div>
-				<div class='col-3'>
-					<input class='form-control' type="datetime-local" name="data_hora_inicio" value="{{ tournament.data_hora_inicio }}">
+				<div class='col-2'>
+					<span class='form-control'>
+						{{substr(tournament.hora_inicio,0,5)}}</span>
 				</div>
-				<div class='col-3'>
-					<input class='form-control' type="datetime-local" name="data_hora_registro" value="{{ tournament.data_hora_registro }}">
+				<div class='col-2'>
+					<span class='form-control'>
+						{{substr(tournament.hora_registro,0,5)}}</span>
 				</div>
 				<div class='col-1 container'>
 					<div class="d-flex flex-1 flex-row justify-content-end align-items-center pe-1">
@@ -49,11 +53,7 @@
 							</button>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="#" onclick="removerDaGrade('{{tournament.id}}')">Remover da grade</a>
-								<a class="dropdown-item" href="#" onclick="registrar('{{tournament.id}}')">Registrar início</a>
-								<a class="dropdown-item" href="#">Registrar início com ticket</a>
-								<a class="dropdown-item" href="#">Registrar tardio</a>
-								<a class="dropdown-item" href="#">Registrar tardio com ticket</a>
-								<a class="dropdown-item" href="#">Salvar alterações</a>
+								<a class="dropdown-item" href="#" onclick="registrar('{{tournament.id}}')">Registrar</a>
 							</div>
 						</div>
 					</div>
