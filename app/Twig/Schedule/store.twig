@@ -8,14 +8,14 @@
 
 	<div class="mb-3">
 		<label for="nome_grade" class="form-label">Nome da Grade</label>
-		<input type="text" class="form-control" maxlength="50" id="nome_grade" name="nome_grade" value="{{grade.nome_grade}}" required>
+		<input autocomplete="off" placeholder="O nome que deseja dar para sua grade. Exemplo: WSOP GG Online" type="text" class="form-control" maxlength="50" id="nome_grade" name="nome_grade" value="{{grade.nome_grade}}" required>
 		<div class="form-text">
 			<span class="char-count">&nbsp;</span>
 		</div>
 	</div>
 	<div class="mb-3">
 		<label for="descricao_grade" class="form-label">Descrição da Grade (Limite de 100 caracteres)</label>
-		<textarea class="form-control noresize" id="descricao_grade" name="descricao_grade" rows="4" maxlength="100" required>
+		<textarea placeholder="Uma breve descrição da sua grade, com palavras chaves." class="form-control no-resize" id="descricao_grade" name="descricao_grade" rows="4" maxlength="100" required>
 			{{grade.descricao_grade}}
 		</textarea>
 		<div class="form-text">

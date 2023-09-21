@@ -12,6 +12,13 @@ $(document).ready(() => {
     e.preventDefault()
     lazyFormRegistration()
   })
+  $(document).on('click', '.btn-edit-buy-in', function (e) {
+    e.preventDefault()
+    const idBuyIn = $(this).data('codigo');
+    lazyFormRegistration(idBuyIn);
+  })
+
+
 
   $(document).on('click', '.btn-remove-buyin', function (e) {
     var sender = $(this)

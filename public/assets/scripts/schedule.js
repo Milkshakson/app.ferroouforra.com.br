@@ -6,14 +6,16 @@ function openScheduleTournamentsModal(idGrade) {
     $.ajax({
         url: '/grade/loadTournaments/' + idGrade,
         beforeSend: function () {
-            target.html('Aguarde...');
-            modal.modal('show');
+            waitingDialog.show(spinnerWaiting);
         },
         dataType: 'json',
         success: (json) => {
             target.html(json.html);
+            modal.modal('show');
         }
-    }).fail(() => target.html('Bad beat, não foi possível concluir a transação...'))
+    })
+        .fail(() => target.html('Bad beat, não foi possível concluir a transação...'))
+        .always(() => waitingDialog.hide())
 }
 
 function removerGrade(idGrade) {
@@ -50,7 +52,7 @@ function openModalAddTournamentSchedule(idGrade) {
     $.ajax({
         url: '/grade/addTournament/' + idGrade,
         dataType: 'json',
-        beforeSend: () => waitingDialog.show('Aguarde...'),
+        beforeSend: () => waitingDialog.show(spinnerWaiting),
         success: (response) => {
             if (response.success) {
                 const modal = $('#addTorneioGradeModal');
@@ -73,7 +75,7 @@ function openScheduleEditModal(idGrade) {
     $.ajax({
         url: '/grade/salvar/' + idGrade,
         beforeSend: function () {
-            target.html('');
+            waitingDialog.show(spinnerWaiting);
         },
         dataType: 'json',
         success: (response) => {
@@ -100,7 +102,13 @@ function lazyLoadGrade(target) {
     $.ajax({
         url: '/grade/lazyLoad',
         beforeSend: function () {
-            target.html('Aguarde...')
+            target.html(
+                `<div class="d-flex justify-content-center align-items-center p-5 w-100 h-100">
+                <div class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>`
+            )
         },
         dataType: 'json',
         success: (json) => {
@@ -142,7 +150,7 @@ function registrar(id) {
                 method: 'post',
                 url: `/grade/registrar`,
                 dataType: 'json',
-                beforeSend: () => waitingDialog.show('Aguarde o registro.'),
+                beforeSend: () => waitingDialog.show(spinnerWaiting),
                 success: (response) => {
                     if (response.success) {
                         reloadBuyInsOpen($('.container-buyins-opened'));

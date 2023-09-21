@@ -1,15 +1,14 @@
 <div class="d-flex flex-1 flex-column w-100 h-100">
 	<div class="d-flex flex-1 flex-column pt-2">
 
-		<div class="d-flex justify-content-between">
-			<h2>Lista de grades</h2>
+		<div class="d-flex justify-content-end">
 			<button class="btn btn-light btn-outline-success" onclick="openScheduleCreateModal()">
 				<i class="bi bi-plus"></i>
 				Adicionar uma grade
 			</button>
 		</div>
 		{% if grades %}
-			<div class="d-flex flex-column gap-2">
+			<div class="d-flex flex-column gap-2 mt-1">
 				{% for grade in grades %}
 					<div class="card w-100 h-100" id="grade_{{grade.id}}">
 						<div class="card-body">

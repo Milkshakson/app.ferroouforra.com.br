@@ -289,3 +289,9 @@ function loadSiteSelection(target) {
     })
         .fail(() => target.html('Não foi possível recuperar a lista de sites.'))
 }
+
+const spinnerWaiting = `<div class="d-flex justify-content-center align-items-center p-5 w-100 h-100">
+<div class="spinner-grow" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+</div>`;
