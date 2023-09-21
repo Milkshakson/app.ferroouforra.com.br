@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\APPException;
 use App\Providers\PokerSessionProvider;
 use Exception;
+use Throwable;
 
 class Session extends BaseController
 {
@@ -117,7 +118,7 @@ class Session extends BaseController
             print(json_encode(['success' => false, 'message' => APPException::handleMessage($e->getMessage())]));
         }
     }
-    public function endBuyIn($idBuyIN)
+    public function endBuyIn($idBuyIN = null)
     {
         try {
             $pokerSessionProvider = new PokerSessionProvider();
@@ -187,29 +188,27 @@ class Session extends BaseController
                             $currentBI['position'] = filter_var($input['position'], FILTER_VALIDATE_INT);
                             $currentBI['finalTable'] = key_exists('finalTable', $input) ? filter_var($input['finalTable'], FILTER_VALIDATE_INT) : false;
                             $currentBI['endDate'] = $endDate;
-                            $adiciona = $pokerSessionProvider->salvaBuyIn($currentBI);
-                            if ($adiciona['statusCode'] == 201) {
-                                $this->session->setFlashdata('sucessos', 'Buy in salvo com sucesso.');
-                                $this->response->redirect('/session/current');
-                            } else {
-                                $this->dados['erros'] = APPException::handleMessage($adiciona['content']['erros']);
-                            }
+                            $encerra = $pokerSessionProvider->salvaBuyIn($currentBI);
+                            $this->checkResponse($encerra, 201);
+                            print(json_encode(['success' => true, 'message' => 'Buy-in encerrado com sucesso.']));
                         } else {
-                            $this->dados['erros'] = 'Buy-in não encontrado na sua sessão.';
+                            throw new Exception('Buy-in não encontrado na sua sessão.', 1);
                         }
                     } else {
-                        $this->dados['erros'] = implode('<br />', $this->validator->getErrors());
+                        throw new Exception($this->dataToString($this->validator->getErrors()), 1);
                     }
                 } else {
-                    $this->dados['erros'] = 'Dados não enviados.';
+                    throw new Exception('Dados não enviados.', 1);
                 }
+            } else {
+
+                $this->dados['bi'] = $currentBI;
+                $html = $this->view->render('Session/BuyIns/Ending/index.twig', $this->dados);
+                print(json_encode(['success' => true, 'html' => $html]));
             }
-        } catch (APPException $exception) {
-            return $this->exitSafe($exception->getHandledMessage(), 'home/index');
+        } catch (Throwable $exception) {
+            print(json_encode(['success' => false, 'message' => $exception->getMessage()]));
         }
-        $this->dados['bi'] = $currentBI;
-        $html = $this->view->render('Session/BuyIns/Ending/index.twig', $this->dados);
-        print(json_encode(['success' => true, 'html' => $html]));
     }
 
     public function stakingBuyIn($idBuyIN = null)

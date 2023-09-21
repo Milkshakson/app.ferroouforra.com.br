@@ -54,16 +54,21 @@ trait Api
 
     }
 
-    public function dataToString(array $data, $separator = '<br/>')
+    public function dataToString(array $data, $separator = '<br/>', bool $withKey = false)
     {
         try {
             $finalData = [];
             if ($separator == 'json') {
                 return (json_encode($data));
             }
-            foreach ($data as $key => $value) {
-                $finalData[] = "$key: $value";
+            if ($withKey) {
+                foreach ($data as $key => $value) {
+                    $finalData[] = "$key: $value";
+                }
+            } else {
+                $finalData = $data;
             }
+
             return implode($separator, $finalData);
         } catch (\Throwable $th) {
             throw $th;

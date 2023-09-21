@@ -23,7 +23,51 @@ $(document).ready(() => {
     lazyFormStaking(idBuyIn);
   })
 
+  $(document).on('submit', '[name=form-end-buy-in]', function (e) {
+    const url = `/session/endBuyIn`;
+    e.preventDefault();
+    const modal = $("#buyInModal");
+    $.ajax({
+      url,
+      beforeSend: () => waitingDialog.show('Aguarde..'),
+      dataType: 'json',
+      method: 'post',
+      data: $(this).serialize(),
+      success: response => {
+        if (response.success) {
+          reloadBuyInsOpen($('.container-buyins-opened'));
+          modal.modal('hide');
+          successAlert(response.message);
+        } else {
+          errorAlert(response.message);
+        }
+      }
+    })
+      .fail(() => errorAlert('Falha na requisição'))
+      .always(waitingDialog.hide())
+  })
 
+  $(document).on('click', '.btn-end-buyin', function (e) {
+    const idBuyIn = $(this).data('codigo');
+    const url = `/session/endBuyIn/${idBuyIn}`;
+    e.preventDefault();
+    const modal = $("#buyInModal");
+    $.ajax({
+      url,
+      beforeSend: () => waitingDialog.show('Aguarde..'),
+      dataType: 'json',
+      success: response => {
+        if (response.success) {
+          modal.find('.modal-body').html(response.html);
+          modal.modal('show');
+        } else {
+          errorAlert(response.message);
+        }
+      }
+    })
+      .fail(() => errorAlert('Falha na requisição'))
+      .always(waitingDialog.hide())
+  })
 
   $(document).on('click', '.btn-remove-buyin', function (e) {
     var sender = $(this)
