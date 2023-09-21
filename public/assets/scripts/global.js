@@ -267,6 +267,23 @@ $(function () {
             .always(() => waitingDialog.hide());
     });
 
+    /**Enter por tab */
+
+    $(document).on('keydown', 'form :input:visible:not(textarea)', function (e) {
+        if (e.keyCode == 13) { // Verifica se a tecla pressionada é "Enter" (código 13)
+            e.preventDefault();
+            var $this = $(this);
+            var $form = $this.closest('form');
+            var $inputs = $form.find(':input:visible:not(textarea)');
+            var currentIndex = $inputs.index(this);
+
+            if (currentIndex < $inputs.length - 1) {
+                var $nextInput = $inputs.eq(currentIndex + 1);
+                $nextInput.focus().select();
+            }
+        }
+    });
+
     // Ativar as abas armazenadas no localStorage ao carregar a página
     activateStoredTabs();
     const targetSiteSelection = $('.container-site-selection');
@@ -290,7 +307,7 @@ function loadSiteSelection(target) {
         .fail(() => target.html('Não foi possível recuperar a lista de sites.'))
 }
 
-const spinnerWaiting = `<div class="d-flex justify-content-center align-items-center p-5 w-100 h-100">
+const spinnerWaiting = `<div class="waiting-spinner d-flex justify-content-center align-items-center p-5 w-100 h-100">
 <div class="spinner-grow" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>

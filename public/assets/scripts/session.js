@@ -17,6 +17,11 @@ $(document).ready(() => {
     const idBuyIn = $(this).data('codigo');
     lazyFormRegistration(idBuyIn);
   })
+  $(document).on('click', '.btn-edit-staking', function (e) {
+    e.preventDefault()
+    const idBuyIn = $(this).data('codigo');
+    lazyFormStaking(idBuyIn);
+  })
 
 
 
@@ -65,35 +70,63 @@ $(document).ready(() => {
       }
     }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
   });
-  url: '/grade/addTournament',
 
-    $(document).on('submit', '#form-encerramento-sessao', function (e) {
-      e.preventDefault();
-      const sender = $(this);
-      ifConfirm('Tem certeza que deseja encerrar a sessão? <br/>Você já confirmou os saldos do bankroll?', (confirmed) => {
-        if (confirmed) {
-          $.ajax({
-            method: 'post',
-            data: sender.serialize(),
-            beforeSend: () => waitingDialog.show('Aguarde enquanto a sessão é encerrada'),
-            dataType: 'json',
-            url: sender.attr('action'),
-            success: (response) => {
-              if (response.success) {
-                successAlert('Sessão encerrada com sucesso.', () => {
-                  waitingDialog.show('Aguarde enquanto recarregamos');
-                  location.href = response.redirectTo;
-                });
-              } else {
-                errorAlert(response.message);
-              }
-            }
-          }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
+  $(document).on('submit', '[name=form-save-staking]', function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/session/stakingBuyIn',
+      data: $(this).serialize(),
+      dataType: 'json',
+      method: 'post',
+      beforeSend: () => waitingDialog.show('Aguarde...'),
+      success: (response) => {
+        if (response.success) {
+          const modal = $('#buyInModal');
+          modal.modal('hide');
+          reloadBuyInsOpen($('.container-buyins-opened'));
+          successAlert(response.message);
+        } else {
+          errorAlert(response.message);
         }
-      })
+      }
+    }).fail(() => errorAlert('Falha ao salvar.'))
+      .always(() => waitingDialog.hide())
+  })
 
-    });
 
+  $(document).on('change', '[name=stakingSelling]', function (e) {
+    const stakingSoldElement = $('[name=stakingSold]');
+    if (stakingSoldElement.val() == '') {
+      stakingSoldElement.val($(this).val());
+    }
+  });
+
+  $(document).on('submit', '#form-encerramento-sessao', function (e) {
+    e.preventDefault();
+    const sender = $(this);
+    ifConfirm('Tem certeza que deseja encerrar a sessão? <br/>Você já confirmou os saldos do bankroll?', (confirmed) => {
+      if (confirmed) {
+        $.ajax({
+          method: 'post',
+          data: sender.serialize(),
+          beforeSend: () => waitingDialog.show('Aguarde enquanto a sessão é encerrada'),
+          dataType: 'json',
+          url: sender.attr('action'),
+          success: (response) => {
+            if (response.success) {
+              successAlert('Sessão encerrada com sucesso.', () => {
+                waitingDialog.show('Aguarde enquanto recarregamos');
+                location.href = response.redirectTo;
+              });
+            } else {
+              errorAlert(response.message);
+            }
+          }
+        }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
+      }
+    })
+
+  });
 })
 
 function reloadBuyInsOpen(target) {
@@ -141,6 +174,40 @@ function lazyFormRegistration(idBuyIN) {
     success: (response) => {
       if (response.success) {
         modal.find('.modal-body').html(response.html)
+        modal.modal('show');
+      } else {
+        errorAlert(response.message)
+      }
+    }
+  })
+    .fail(() => {
+      errorAlert('Houve uma falha ao abrir o formulário.')
+    })
+    .always(() => waitingDialog.hide())
+}
+function lazyFormStaking(idBuyIN) {
+  const modal = $('#buyInModal');
+  let url = `/session/stakingBuyIn/${idBuyIN}`
+  $.ajax({
+    url,
+    beforeSend: () => waitingDialog.show('Aguarde...'),
+    dataType: 'json',
+    success: (response) => {
+      if (response.success) {
+        modal.find('.modal-body').html(response.html)
+        $('.percent-dot').mask('##0.00', {
+          reverse: true
+        });
+        $('.markup').mask('?.??', {
+          reverse: true,
+          translation: {
+            '?': {
+              pattern: /[0-9]+([\.][0-9]{0,2})?/,
+              optional: true
+            }
+          }
+        });
+
         modal.modal('show');
       } else {
         errorAlert(response.message)

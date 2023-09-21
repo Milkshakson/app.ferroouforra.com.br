@@ -42,6 +42,7 @@
     "post-update-cmd": [
       "CodeIgniter\\ComposerScripts::postUpdate"
     ],
+    "local": "php spark serve -port 80",
     "test": "phpunit",
     "post-package-install": [
       "php -r \"exec('cp -r /var/www/app.ferroouforra.com.br/vendor/twbs/bootstrap/* /var/www/app.ferroouforra.com.br/public/bootstrap');\""

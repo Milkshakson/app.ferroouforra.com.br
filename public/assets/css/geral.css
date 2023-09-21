@@ -92,3 +92,6 @@ header.bg-twitch .dropdown-item span {
 .token-visible.token-value {
     filter: none; /* Remove o desfoque quando o token é visível */
 }
+h3:has(.waiting-spinner){
+    width:100% !important;
+}
