@@ -201,7 +201,7 @@
     grid-template-columns: repeat(10, 1fr);
 }
 
-#retorno-lista-jogos {
+.retorno-lista-jogos {
 position: absolute;
 width:95%;
 z-index:999;

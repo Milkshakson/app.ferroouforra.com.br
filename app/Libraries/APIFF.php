@@ -52,6 +52,7 @@ class APIFF extends Curl
 
     public function consumeEndpoint($requestType = '', $route = '', $params = [])
     {
+
         try {
             $requestType = strtoupper($requestType);
             if (!in_array($requestType, [
@@ -72,15 +73,18 @@ class APIFF extends Curl
             }
             $this->setRequestType($requestType, $params);
             $this->curlExec($this->endPoint($route));
-            return $this->getGenericResponse();
+            return $this->getGenericResponse($params);
         } catch (AppException $e) {
             throw $e;
         }
     }
 
-    protected function getGenericResponse(array | Int $codeSuccess = 200)
+    protected function getGenericResponse($dataSent = null)
     {
         $retorno = ['statusCode' => $this->getHttpStatus(), 'content' => null, 'raw' => $this->__tostring()];
+        if ($dataSent) {
+            $retorno['dataSent'] = $dataSent;
+        }
         try {
             $jsonString = $this->__tostring();
             $content = json_decode($jsonString, 1);

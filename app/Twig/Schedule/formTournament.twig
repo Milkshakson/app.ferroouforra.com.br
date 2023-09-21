@@ -1,0 +1,59 @@
+<form method="post" name="form_add_tournament" class="m-0 p-0">
+	<div class="d-flex flex-column border w-100 gap-2 p-1">
+		<div class="d-flex gap-2">
+			<div class="col-md-6 col-lg-6">
+				<label for="tipoBuyIn">Tipo do buy in</label>
+				<select class="form-select tipoBuyIn" name="id_tipo_buyin" id="tipoBuyIn" required>
+					<option></option>
+					{% for optionTipoBuyIn in tiposBuyIn %}
+						<option value='{{optionTipoBuyIn.id}}' {{ tipoBuyIn == optionTipoBuyIn.id ? 'selected' : '' }}>
+							{{optionTipoBuyIn.name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="col-md-6 col-lg-6">
+				<label>Site</label>
+				<select class="form-select pokerSiteId" id="pokerSiteId" name="poker_site_id">
+					<option></option>
+					{% for optionPokerSiteId in pokerSites %}
+						<option value='{{optionPokerSiteId.id}}' {{ pokerSiteId==optionPokerSiteId.id ? 'selected' : '' }}>
+							{{optionPokerSiteId.name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+
+		<div>
+			<div class="d-flex flex-column gap-1">
+				<input type="hidden" name="poker_jogos_id">
+				<input type="hidden" name="grade_id" value="{{idGrade}}">
+				<label for="">Nome do torneio</label>
+				<input type="text" autocomplete="off" class="form-control find-game-name gameName" name="gameName">
+				<div class='mb-3'>
+					<div class="retorno-lista-jogos"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<label>Buy-in</label>
+			<div class="input-group">
+				<span class="input-group-text">$</span>
+				<input type="text" class="form-control money-dolar buyinValue" name="buyin" value="{{ tournament.buyin }}">
+			</div>
+		</div>
+
+		<div class="d-flex gap-2">
+			<div>
+				<label>Início</label>
+				<input class='form-control' type="datetime-local" name="data_hora_inicio" value="{{ tournament.data_hora_inicio }}">
+			</div>
+			<div>
+				<label>Registro tardio</label>
+				<input class='form-control' type="datetime-local" name="data_hora_registro" value="{{ tournament.data_hora_registro }}">
+			</div>
+		</div>
+		<button class='btn btn-outline-success' type="submit">Salvar na grade</button>
+	</div>
+</form>

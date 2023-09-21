@@ -155,14 +155,14 @@ $(function () {
 
     $(document).on('focusout', '[name="gameName"]', function (e) {
         $('.container-grid-poker-sitesJogados').show();
-        setTimeout(() => $('#retorno-lista-jogos').html(''), 1000);
+        setTimeout(() => $('.retorno-lista-jogos').html(''), 1000);
     });
 
     $(document).on('focus', '[name="gameName"]', function (e) {
         $('.container-grid-poker-sitesJogados').hide();
     });
 
-    $(document).on('keyup', '[name="gameName"]', function (e) {
+    $(document).on('input', '.find-game-name', function (e) {
         let sender = $(this);
         let busca = sender.val();
         var html = '';
@@ -175,13 +175,9 @@ $(function () {
                 },
                 method: 'post',
                 url: '/session/meusBuyIns',
-                beforeSend: () => {
-                    let meusBuyIns = $('<div class="meus-buyins col-lg-12 col-md-12"><div class="d-flex align-items-center justify-content-center">..buscando seus torneios favoritos da forra..</div></div>');
-                    $('#retorno-lista-jogos').html(meusBuyIns);
-                },
                 success: function (retorno) {
                     let meusBuyIns = $('<div class="meus-buyins col-lg-12 col-md-12">' + retorno + '</div>');
-                    $('#retorno-lista-jogos').html(meusBuyIns);
+                    $('.retorno-lista-jogos').html(meusBuyIns);
                 }
             }).fail(function () {
                 html = 'Erro';
@@ -193,11 +189,12 @@ $(function () {
     $(document).on('click', '.seleciona-buy-in', function (e) {
         e.preventDefault();
         let sender = $(this);
-        $('[name="gameName"]').val(sender.data('gameName'));
-        $('[name="pokerSiteId"]').val(sender.data('site'));
-        $('[name="tipoBuyIn"]').val(sender.data('tipoBuyIn'));
-        $('[name="buyinValue"]').val(sender.data('buyIn'));
-        $('.meus-buyins').remove();
+        let $form = sender.closest('form');
+        $form.find('.gameName').val(sender.data('gameName'));
+        $form.find('.pokerSiteId').val(sender.data('site'));
+        $form.find('.tipoBuyIn').val(sender.data('tipoBuyIn'));
+        $form.find('.buyinValue').val(sender.data('buyIn'));
+        $form.find('.meus-buyins').remove();
     });
 
     // Função para ativar as abas armazenadas no localStorage

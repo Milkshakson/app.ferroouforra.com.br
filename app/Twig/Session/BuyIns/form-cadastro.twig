@@ -55,7 +55,7 @@
 
 			<div class="col-md-6 col-lg-6">
 				<label for="tipoBuyIn" class="form-label">Tipo do buy in</label>
-				<select class="form-select" name="tipoBuyIn" id="tipoBuyIn" required>
+				<select class="form-select tipoBuyIn" name="tipoBuyIn" id="tipoBuyIn" required>
 					<option></option>
 					{% for optionTipoBuyIn in tiposBuyIn %}
 						<option value='{{optionTipoBuyIn.id}}' {{set_value('tipoBuyIn', tipoBuyIn)==optionTipoBuyIn.id ? 'selected' : '' }}>
@@ -65,7 +65,7 @@
 			</div>
 			<div class="col-md-6 col-lg-6">
 				<label for="pokerSiteId" class="form-label">Site</label>
-				<select class="form-select" name="pokerSiteId" id="pokerSiteId" required>
+				<select class="form-select pokerSiteId" name="pokerSiteId" id="pokerSiteId" required>
 					<option></option>
 					{% for optionPokerSiteId in pokerSites %}
 						<option value='{{optionPokerSiteId.id}}' {{set_value('pokerSiteId', pokerSiteId)==optionPokerSiteId.id ? 'selected' : '' }}>
@@ -75,8 +75,8 @@
 			</div>
 			<div class="col-md-12 col-12 col-lg-12 col-sm-12 ">
 				<label for="gameName" class="form-label">Nome do jogo</label>
-				<input autocomplete="off" type="text" name="gameName" class="form-control" id="gameName" value="{{set_value('gameName', gameName)}}" required>
-				<div id="retorno-lista-jogos"></div>
+				<input autocomplete="off" type="text" name="gameName" class="form-control gameName find-game-name" id="gameName" value="{{set_value('gameName', gameName)}}" required>
+				<div class="retorno-lista-jogos"></div>
 			</div>
 			<div class="col-6 col-sm-6 col-md-6 col-lg-3">
 				<label for="buyinValue" class="form-label">Valor do buy in</label>
@@ -84,7 +84,7 @@
 					<span class="input-group-text" id="IGPBuyinValue">
 						<i data-bs-toggle="tooltip" title="Valor em dólar americano" class="bi bi-currency-dollar"></i>
 					</span>
-					<input autocomplete="off" type="text" inputmode="numeric" name="buyinValue" class="form-control money-dolar" id="buyinValue" value="{{set_value('buyinValue', buyinValue)}}" required>
+					<input autocomplete="off" type="text" inputmode="numeric" name="buyinValue" class="form-control money-dolar buyinValue" id="buyinValue" value="{{set_value('buyinValue', buyinValue)}}" required>
 				</div>
 			</div>
 

@@ -43,4 +43,10 @@ class PokerGradeProvider extends APIFF
     {
         return $this->consumeEndpoint('POST', "/poker_grade/remove_from_grade", $data);
     }
+
+    public function addTournaments(int $idGrade, array $jogos)
+    {
+        $data = ['grade_id' => $idGrade, 'jogos' => $jogos];
+        return $this->consumeEndpoint('POST', "/poker_grade/add_to_grade", $data);
+    }
 }

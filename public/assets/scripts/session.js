@@ -13,8 +13,6 @@ $(document).ready(() => {
     lazyFormRegistration()
   })
 
-
-
   $(document).on('click', '.btn-remove-buyin', function (e) {
     var sender = $(this)
     e.preventDefault()
@@ -60,32 +58,34 @@ $(document).ready(() => {
       }
     }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
   });
-  $(document).on('submit', '#form-encerramento-sessao', function (e) {
-    e.preventDefault();
-    const sender = $(this);
-    ifConfirm('Tem certeza que deseja encerrar a sessão? <br/>Você já confirmou os saldos do bankroll?', (confirmed) => {
-      if (confirmed) {
-        $.ajax({
-          method: 'post',
-          data: sender.serialize(),
-          beforeSend: () => waitingDialog.show('Aguarde enquanto a sessão é encerrada'),
-          dataType: 'json',
-          url: sender.attr('action'),
-          success: (response) => {
-            if (response.success) {
-              successAlert('Sessão encerrada com sucesso.', () => {
-                waitingDialog.show('Aguarde enquanto recarregamos');
-                location.href = response.redirectTo;
-              });
-            } else {
-              errorAlert(response.message);
-            }
-          }
-        }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
-      }
-    })
+  url: '/grade/addTournament',
 
-  });
+    $(document).on('submit', '#form-encerramento-sessao', function (e) {
+      e.preventDefault();
+      const sender = $(this);
+      ifConfirm('Tem certeza que deseja encerrar a sessão? <br/>Você já confirmou os saldos do bankroll?', (confirmed) => {
+        if (confirmed) {
+          $.ajax({
+            method: 'post',
+            data: sender.serialize(),
+            beforeSend: () => waitingDialog.show('Aguarde enquanto a sessão é encerrada'),
+            dataType: 'json',
+            url: sender.attr('action'),
+            success: (response) => {
+              if (response.success) {
+                successAlert('Sessão encerrada com sucesso.', () => {
+                  waitingDialog.show('Aguarde enquanto recarregamos');
+                  location.href = response.redirectTo;
+                });
+              } else {
+                errorAlert(response.message);
+              }
+            }
+          }).fail(() => errorAlert('Falha na requisição')).always(() => waitingDialog.hide());
+        }
+      })
+
+    });
 
 })
 

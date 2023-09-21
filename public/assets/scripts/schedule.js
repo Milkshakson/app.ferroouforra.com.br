@@ -45,6 +45,26 @@ function removerGrade(idGrade) {
         })
 }
 
+
+function openModalAddTournamentSchedule(idGrade) {
+    $.ajax({
+        url: '/grade/addTournament/' + idGrade,
+        dataType: 'json',
+        beforeSend: () => waitingDialog.show('Aguarde...'),
+        success: (response) => {
+            if (response.success) {
+                const modal = $('#addTorneioGradeModal');
+                modal.find('.modal-body').html(response.html);
+                modal.modal('show');
+            } else {
+                errorAlert(response.message);
+            }
+        }
+    })
+        .fail(() => errorAlert('Falha ao carregar o formulário'))
+        .always(() => waitingDialog.hide())
+}
+
 function openScheduleEditModal(idGrade) {
     // Defina o ID da grade no modal, se necessário
     // Suponha que haja um campo no modal com o ID 'gradeId'
@@ -96,7 +116,7 @@ function removerDaGrade(id) {
             const formName = `form_${id}`;
             const formRegistro = $('[name=' + formName + ']');
             $.ajax({
-                url: `/grade/removerTorneio/${id}`,
+                url: `/grade/removeTournament/${id}`,
                 dataType: 'json',
                 beforeSend: () => waitingDialog.show('Aguarde a remoção'),
                 success: (response) => {
@@ -137,6 +157,31 @@ function registrar(id) {
 
 
 $(document).ready(() => {
+    $(document).on('submit', '[name=form_add_tournament]', function (e) {
+        e.preventDefault();
+        const data = $(this).serialize();
+        $.ajax({
+            url: '/grade/addTournament',
+            method: 'post',
+            dataType: 'json',
+            data,
+            beforeSend: () => waitingDialog.show('Aguarde...'),
+            success: (response) => {
+                if (response.success) {
+                    openScheduleTournamentsModal(response.idGrade);
+                    successAlert(response.message, () => {
+                        const modal = $('#addTorneioGradeModal');
+                        modal.modal('hide');
+                    });
+                } else {
+                    errorAlert(response.message);
+                }
+            }
+        })
+            .fail(() => errorAlert('Falha ao salvar o torneio'))
+            .always(() => waitingDialog.hide())
+    });
+
     $(document).on('submit', "[name=cadastroGrade]", function (e) {
         e.preventDefault();
         const data = $(this).serialize();
@@ -158,6 +203,7 @@ $(document).ready(() => {
             }
         }).fail(() => errorAlert('Falha ao salvar.')).always(() => waitingDialog.hide())
     });
+
     $(document).on("input", "[name=cadastroGrade] input,textarea", function () {
         var $input = $(this);
         var charCountElement = $input.next('.form-text').find(".char-count");

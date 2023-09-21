@@ -1,6 +1,12 @@
 <div class="d-flex flex-column">
+
 	<div class="d-flex flex-row border w-100 gap-1 p-1">
-		<div class='col-3'>Torneio</div>
+		<div class='col-3'>
+			Torneio
+			<button class="btn btn-outline-primary" onclick="openModalAddTournamentSchedule()">
+				Adicionar
+			</button>
+		</div>
 		<div class='col-2'>Buy-in</div>
 		<div class='col-3'>Horário de Início</div>
 		<div class='col-3'>Registro tardio</div>
@@ -14,8 +20,12 @@
 				<div class="col-3">
 					<div class="d-flex flex-row gap-1">
 						<i class='bi icone-registro'></i>
-						<input type="hidden" name="id" ="{{tournament.id}}">
-						{{tournament.nome }}/{{tournament.site_short_name }}
+						<input type="hidden" name="id" value="{{tournament.id}}">
+						<div class="d-flex flex-column gap-1" title="{{tournament.tipo_buyin }}">
+							{{tournament.nome }}
+							/
+							{{tournament.site_short_name }}
+						</div>
 					</div>
 				</div>
 				<div class='col-2'>
