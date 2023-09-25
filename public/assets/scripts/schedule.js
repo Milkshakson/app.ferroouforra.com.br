@@ -177,10 +177,10 @@ $(document).ready(() => {
             beforeSend: () => waitingDialog.show('Aguarde...'),
             success: (response) => {
                 if (response.success) {
-                    openScheduleTournamentsModal(response.idGrade);
                     successAlert(response.message, () => {
                         const modal = $('#addTorneioGradeModal');
                         modal.modal('hide');
+                        openScheduleTournamentsModal(response.idGrade);
                     });
                 } else {
                     errorAlert(response.message);
