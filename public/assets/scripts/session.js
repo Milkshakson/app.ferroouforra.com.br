@@ -177,19 +177,16 @@ $(document).ready(() => {
     const data = $(this).serialize();
     const mensagemSelecionada = selecionarMensagemAleatoria();
     $.ajax({
-      url: '/donation/',
+      url: '/donation/create',
       method: 'post',
       data,
       dataType: 'json',
       beforeSend: () => waitingDialog.show(mensagemSelecionada),
       success: (response) => {
         if (response.success) {
-          $('.container-colaboracao').html(response.html);
-          $('textarea').each(function () {
-            $(this).val($(this).val().trim());
-          }
-          );
-          successAlert(response.message);
+          successAlert(response.message, () => {
+            lazyLoadColaboracao($('.container-colaboracao'), response.txId);
+          });
         } else {
           errorAlert(response.message);
         }

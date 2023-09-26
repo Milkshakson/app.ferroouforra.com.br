@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Providers\DonationProvider;
 use App\Providers\PagamentoProvider;
 use Exception;
+use Throwable;
 
 class Donation extends BaseController
 {
@@ -55,19 +56,18 @@ class Donation extends BaseController
                     $this->checkResponse($update, 200, 'Confirmação não pode ser efetuada');
                     $success = true;
                 } else {
-                    throw new Exception("Não foi possível identificar o pagamento ainda", 1);
+                    throw new Exception("Ainda não foi possível identificar o pagamento.", 1);
                 }
-
+            } else {
+                throw new Exception("Ainda não foi possível identificar o pagamento", 1);
             }
         } catch (\Throwable $th) {
             $message = $th->getMessage();
         }
         print(json_encode(['success' => $success, 'message' => $message]));
     }
-    public function index($txId = null)
+    public function create()
     {
-        $message = '';
-        $success = true;
         try {
             if ($this->request->getMethod() == 'post') {
                 $mensagensAgradecimento = [
@@ -128,10 +128,27 @@ class Donation extends BaseController
                     $inputDonation['identificador'] = $txId;
                     $donationProvider = new DonationProvider();
                     $donation = $donationProvider->createDonation($inputDonation);
+                    print(json_encode(['success' => true, 'message' => 'Sucesso', 'txId' => $txId]));
+                    exit;
                 } else {
                     throw new Exception(implode('<br>', $validation->getErrors()), 1);
                 }
+            } else {
+                throw new Exception('Falha na requisição ao salvar', 1);
             }
+        } catch (Throwable $th) {
+            print(json_encode(['success' => false, 'message' => $th->getMessage()]));
+            exit;
+        }
+
+        print(json_encode(['success' => false, 'message' => 'falha ao salvar']));
+
+    }
+    public function index($txId = null)
+    {
+        $message = '';
+        $success = true;
+        try {
             $this->consultar($txId);
         } catch (\Throwable $th) {
             $success = false;

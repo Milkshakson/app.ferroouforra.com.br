@@ -44,6 +44,7 @@ $routes->add('registration/password-recovery', 'Registration::passwordRecovery')
 $routes->group('donation', function ($routes) {
     $routes->get('(:segment)', 'Donation::index/$1');
     $routes->get('/', 'Donation::index');
+    $routes->post('/create', 'Donation::create');
     $routes->get('confirmar/(:segment)', 'Donation::confirmarPagamento/$1');
 });
 $routes->add('/profile', 'Profile::index');
