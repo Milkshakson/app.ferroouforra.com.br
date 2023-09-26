@@ -1,0 +1,110 @@
+<div class="w-100 d-flex flex-column align-items-center mt-3 gap-3 ">
+	{% if erro %}
+		<p class="alert alert-danger">
+			{{erro}}
+		</p>
+	{% endif %}
+	{% if cobranca %}
+		<div class='card w-75 h-100'>
+			<div class="card-header text-center {{cobranca.status =='CONCLUIDA'?'bg-success text-light':''}}">
+				<div>
+					{{cobranca.solicitacaoPagador}}
+				</div>
+			</div>
+
+			<div class='card-body d-flex justify-content-between gap-3'>
+				<div class="d-flex flex-column col-5 gap-3 flex-1 justify-content-between">
+					<div class="d-flex flex-column gap-3">
+						<div>
+							Criada em:
+							{{dateUTCToLocale(ci_time(cobranca.calendario.criacao)).format('d/m/Y H:i')}}
+						</div>
+						<div>
+							Expira em:
+							{{dateUTCToLocale(ci_time(cobranca.calendario.criacao)).addSeconds(cobranca.calendario.expiracao).format('d/m/Y H:i')}}
+						</div>
+
+						<div>
+							Contribuinte:
+							{{cobranca.devedor.nome}}
+						</div>
+						<div>
+							Status:
+							{{cobranca.status}}
+						</div>
+						<div>
+							Valor
+							<span>R$:{{cobranca.valor.original}}</span>
+						</div>
+					</div>
+
+					<div class="d-flex flex-column align-items-center justify-content-center  gap-3">
+						<div class="d-flex flex-row gap-2">
+							<a class='btn btn-outline-success' href="{{cobranca.location.linkVisualizacao}}" target="_blank">Visualizar detalhes</a>
+							{% if not cobranca.recebido %}
+								<button type='button' class='btn btn-outline-success' onclick="confirmarPagamento('{{cobranca.txid}}')">Já paguei, prosseguir</button>
+							{% endif %}
+							<button type="button" class='btn btn-outline-success' onclick="lazyLoadColaboracao($('.container-colaboracao'))">Criar nova</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+					{% if not cobranca.recebido %}
+						{% if cobranca.location.imagemQrcode %}
+
+							<div class='d-flex'>
+								<img width="350px;" class='img-fluid' src="{{cobranca.location.imagemQrcode}}" alt="QRCODE Pix">
+							</div>
+
+							<div>
+								<div class="d-flex flex-column">
+									<strong>Copie o qrcode abaixo para o Pix copie/cole ou leia a imagem com o leitor</strong>
+									<textarea class='form-control' name="qrcode" rows="5">
+										{{cobranca.location.qrcode}}
+									</textarea>
+								</div>
+							</div>
+						{% endif %}
+						<div style="font-size:45px" class="d-flex gap-3 text-success">
+							<i class="bi bi-emoji-heart-eyes"></i>
+							<i class="bi bi-suit-heart"></i>
+							<i class="bi bi-emoji-smile"></i>
+						</div>
+					{% else %}
+						<div class='d-flex flex-column justify-content-center align-items-center w-100 h-100 text-success'>
+							Pagamento efetuado em
+							{{dateUTCToLocale(ci_time(cobranca.pix[0].horario)).format('d/m/Y H:i')}}
+							<div style="font-size:45px" class="d-flex gap-3">
+								<i class="bi bi-emoji-heart-eyes-fill"></i>
+								<i class="bi bi-suit-heart-fill"></i>
+								<i class="bi bi-emoji-smile-fill"></i>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<form name="form-donation" method="post" class='col-4 col-sm-12 col-md-3 gap-3 h-100 d-flex flex-column justify-content-center'>
+			<div class="card">
+				<div class="card-header bg-twitch text-light text-center p-2">
+					<small class=' p-2'>{{cabecalhoDonation}}</psmall>
+				</div>
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-center p-3">
+						<i class="bi bi-emoji-heart-eyes"></i>
+						<i class="bi bi-suit-heart"></i>
+						<i class="bi bi-emoji-smile"></i>
+					</div>
+					<div class="w-100 d-flex flex-column gap-3">
+						<input type="text" autocomplete="off" name="cpf" class="form-control" placeholder="Informe seu cpf" value="{{set_value('cpf')}}">
+						<input type="text" inputmode="numeric" class="form-control money-dolar" autocomplete="off" name="valor" placeholder="Informe o valor da contribuição" value="{{set_value('valor')}}" title="Informe um valor monetário válido">
+						<textarea style="resize: none" class='form-control' name="mensagem" placeholder="Deixe uma mensagem de apoio ao Milk (ou não)" cols="30" rows="5"></textarea>
+						<button type='submit' class='btn btn-outline-success'>Enviar contribuição</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	{% endif %}
+</div>

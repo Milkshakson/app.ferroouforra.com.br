@@ -17,3 +17,21 @@ if (!function_exists('ci_time')) {
         return $time;
     }
 }
+
+function dateUTCToLocale($dateTime)
+{
+    if (!is_object($dateTime)) {
+        return '';
+    }
+    $dateTimeLocal = $dateTime->setTimezone('America/Sao_Paulo');
+    return $dateTimeLocal;
+}
+
+function dateLocalToUTC(Time $dateTime)
+{
+    if (!is_object($dateTime)) {
+        return '';
+    }
+    $dateTimeUTC = $dateTime->setTimezone('UTC');
+    return $dateTimeUTC;
+}

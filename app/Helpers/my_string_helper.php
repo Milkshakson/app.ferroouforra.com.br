@@ -18,3 +18,12 @@ function upper($string)
 {
     return mb_strtoupper($string);
 }
+
+function formatarValorMonetario($valor)
+{
+    // Remove qualquer vírgula do valor
+    $valor = str_replace(',', '', $valor);
+
+    // Formata o número com 2 casas decimais e usa o ponto como separador decimal
+    return number_format($valor, 2, '.', '.');
+}

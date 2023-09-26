@@ -41,6 +41,11 @@ $routes->add('registration/password-recovery', 'Registration::passwordRecovery')
 //     $routes->add('saveBuyIn', 'PokerSession::saveBuyIn');
 //     $routes->add('stakingBuyIn', 'PokerSession::stakingBuyIn');
 // });
+$routes->group('donation', function ($routes) {
+    $routes->get('(:segment)', 'Donation::index/$1');
+    $routes->get('/', 'Donation::index');
+    $routes->get('confirmar/(:segment)', 'Donation::confirmarPagamento/$1');
+});
 $routes->add('/profile', 'Profile::index');
 /*
  * --------------------------------------------------------------------

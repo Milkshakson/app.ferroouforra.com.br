@@ -67,7 +67,7 @@ class BaseController extends Controller
         $this->session = \Config\Services::session();
         $this->apiApp = new APIFF();
         $path = $this->request->getPath();
-        helper(['url', 'form', 'date', 'template', 'my_string']);
+        helper(['url', 'form', 'validation', 'date', 'template', 'my_string']);
 
         $excecao = [
             'home/index', 'home/index/1', '/',
@@ -99,6 +99,39 @@ class BaseController extends Controller
 
         $this->dados['decodedToken'] = session('decodedTokenAcesso');
         $this->dados['title'] = 'Ferro ou Forra';
+        $titulosDonation = ['Colaboração', '!suacu', '!bemtevi', '!sextou', '!bergamota', '!mimimi'];
+        $indiceAleatorio = array_rand($titulosDonation);
+        $this->dados['titleDonation'] = $titulosDonation[$indiceAleatorio];
+
+        $mensagensEngracadas = [
+            "Só mais um clique e você vai se tornar uma pessoa muito generosa!",
+            "Apoie-nos e ajude a manter o café fluindo!",
+            "Doações: porque pagar com sorrisos não é uma opção.",
+            "Você pode não ser um super-herói, mas pode ser um super-doador!",
+            "Doar é a coisa mais legal que você pode fazer hoje!",
+            "Você pode não ser rico, mas pode ser generoso!",
+            "Ajude-nos a alcançar nossas metas de doação!",
+            "Nada é mais doce do que doar!",
+            "Um pequeno gesto de bondade pode fazer uma grande diferença.",
+            "Doar é o segredo para a felicidade eterna!",
+            "Seja um doador hoje e ganhe nosso eterno agradecimento!",
+            "Doar é um ato de amor, e o amor é a resposta!",
+            "Doar: porque dar é viver!",
+            "Ajude-nos a continuar fazendo o que amamos!", "Ajude a alimentar nossos 10 gatos famintos e um cachorro comilão!",
+            "Doar é o que nos permite manter nosso exército de 10 gatos e um cachorro feliz!",
+            "Nossos 10 gatos e um cachorro estão contando com a sua generosidade!",
+            "Você não quer deixar 10 gatos e um cachorro tristes, certo? Faça uma doação!",
+            "Apoie-nos para que possamos cuidar bem dos nossos 10 gatos e um cachorro sorridente!",
+            "Com 10 gatos e um cachorro para cuidar, toda doação é bem-vinda!",
+            "Doar é o melhor presente que você pode dar aos nossos 10 gatos e um cachorro!",
+            "Nossos 10 gatos e um cachorro agradecem sua ajuda!",
+            "Junte-se a nós para manter 10 gatos e um cachorro vivendo uma vida feliz!",
+            "10 gatos e um cachorro: muita fofura para cuidar, sua doação faz a diferença!",
+        ];
+        $indiceAleatorio = array_rand($mensagensEngracadas);
+        // Agora você pode escolher uma mensagem aleatoriamente quando precisar exibi-la no cabeçalho do formulário.
+
+        $this->dados['cabecalhoDonation'] = $mensagensEngracadas[$indiceAleatorio];
         $this->session->set('sitesLogo', $sitesLogo);
         //deve ser a última coisa a executar
         $this->view = new View($this->dados);
@@ -160,9 +193,13 @@ class BaseController extends Controller
     }
     protected function exitSafe($msg = '', $route = 'login/index')
     {
-        $this->session->setFlashdata('erros', $msg);
-        $redirect = site_url($route);
-        header("location: $redirect", 1);
+        if ($this->request->isAJAX()) {
+            print(json_encode(['success' => false, 'message' => $msg, 'html' => $msg]));
+        } else {
+            $this->session->setFlashdata('erros', $msg);
+            $redirect = site_url($route);
+            header("location: $redirect", 1);
+        }
         exit;
     }
     public function getResponse(

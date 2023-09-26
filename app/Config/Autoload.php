@@ -34,7 +34,7 @@ class Autoload extends AutoloadConfig
      *```
      *   $psr4 = [
      *       'CodeIgniter' => SYSTEMPATH,
-     *       'App'	       => APPPATH
+     *       'App'           => APPPATH
      *   ];
      *```
      *
@@ -42,7 +42,7 @@ class Autoload extends AutoloadConfig
      */
     public $psr4 = [
         APP_NAMESPACE => APPPATH, // For custom app namespace
-        'Config'      => APPPATH . 'Config',
+        'Config' => APPPATH . 'Config',
     ];
 
     /**
@@ -76,8 +76,8 @@ class Autoload extends AutoloadConfig
      *
      * Prototype:
      * ```
-     *	  $files = [
-     *	 	   '/path/to/my/file.php',
+     *      $files = [
+     *            '/path/to/my/file.php',
      *    ];
      * ```
      *

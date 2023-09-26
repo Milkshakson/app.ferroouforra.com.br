@@ -7,7 +7,8 @@ const intervalreload = setInterval(() => {
 $(document).ready(() => {
   reloadSummaryOpen($('.container-summary-opened'))
   reloadBuyInsOpen($('.container-buyins-opened'))
-  lazyLoadGrade($('.container-grade'))
+  lazyLoadGrade($('.container-grade'));
+  lazyLoadColaboracao($('.container-colaboracao'));
   $(document).on('click', '.btn-add-game', (e) => {
     e.preventDefault()
     lazyFormRegistration()
@@ -171,7 +172,60 @@ $(document).ready(() => {
     })
 
   });
+  $(document).on('submit', '[name=form-donation]', function (e) {
+    e.preventDefault();
+    const data = $(this).serialize();
+    const mensagemSelecionada = selecionarMensagemAleatoria();
+    $.ajax({
+      url: '/donation/',
+      method: 'post',
+      data,
+      dataType: 'json',
+      beforeSend: () => waitingDialog.show(mensagemSelecionada),
+      success: (response) => {
+        if (response.success) {
+          $('.container-colaboracao').html(response.html);
+          $('textarea').each(function () {
+            $(this).val($(this).val().trim());
+          }
+          );
+          successAlert(response.message);
+        } else {
+          errorAlert(response.message);
+        }
+      }
+    })
+      .always(() => waitingDialog.hide())
+      .fail(() => errorAlert('Falha na requisição'));
+  })
 })
+
+const mensagensEngracadas = [
+  "Aguardando com tanta ansiedade que o relógio está com ciúmes.",
+  "Nosso sistema está trabalhando duro para te atender, mas não está suando, prometemos!",
+  "Aqui estamos, aguardando como se fosse a hora do almoço em um dia de trabalho.",
+  "Estamos contando os segundos, mas não vamos contar para ninguém!",
+  "Enquanto isso, nossos servidores estão fazendo uma pausa para o café.",
+  "Aguardando... e esperando... e aguardando... até que você volte!",
+  "Nosso programa está pensando em piadas para te entreter enquanto aguarda.",
+  "Se fosse possível, nosso sistema estaria roendo as unhas agora.",
+  "Aguardando pacientemente como um flamingo em uma perna só.",
+  "Aguardando com a mesma ansiedade de uma criança na véspera de Natal.",
+  "Nosso sistema está mais ansioso para te atender do que um cachorro esperando por um passeio.",
+  "Aguardando com a graça de um pinguim deslizando pelo gelo.",
+  "Enquanto você espera, nossos servidores estão fazendo uma dança da chuva virtual.",
+  "Aguardando com a tranquilidade de uma tartaruga em um dia ensolarado.",
+  "Nosso sistema está pensando em charadas para te divertir enquanto espera.",
+  "Aguardando... e esperando... e aguardando... até que você retorne!",
+  "Se nosso sistema pudesse fazer um chá, ele já teria preparado uma xícara.",
+  "Aguardando com a mesma empolgação de um fã em um show de rock.",
+];
+
+// Função para selecionar uma mensagem aleatória do array
+function selecionarMensagemAleatoria() {
+  const indiceAleatorio = Math.floor(Math.random() * mensagensEngracadas.length);
+  return mensagensEngracadas[indiceAleatorio];
+}
 
 function reloadBuyInsOpen(target) {
   $.ajax({
@@ -228,6 +282,46 @@ function lazyFormRegistration(idBuyIN) {
       errorAlert('Houve uma falha ao abrir o formulário.')
     })
     .always(() => waitingDialog.hide())
+}
+
+function confirmarPagamento(txId) {
+  var url = `/donation/confirmar/${txId}`;
+  $.ajax({
+    url,
+    dataType: 'json',
+    beforeSend: () => waitingDialog.show('Aguarde...'),
+    success: response => {
+      if (response.success) {
+        lazyLoadColaboracao($('.container-colaboracao'), txId);
+      } else {
+        errorAlert(response.message);
+      }
+    }
+  })
+    .always(() => waitingDialog.hide())
+    .fail(() => errorAlert('Falha na requisição'));
+}
+
+function lazyLoadColaboracao(target, txId) {
+  var url = '/donation/';
+  if (txId != undefined)
+    url += txId;
+  $.ajax({
+    url,
+    dataType: 'json',
+    beforeSend: () => target.html(spinnerWaiting),
+    success: response => {
+      if (response.success) {
+        target.html(response.html);
+        $('textarea').each(function () {
+          $(this).val($(this).val().trim());
+        }
+        );
+      } else {
+        errorAlert(response.message);
+      }
+    }
+  }).fail(() => target.html('Falha na requisição'));
 }
 function lazyFormStaking(idBuyIN) {
   const modal = $('#buyInModal');

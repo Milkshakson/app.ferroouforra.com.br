@@ -74,7 +74,12 @@
 							</li>
 
 							<li class="nav-item" role="presentation">
-								<a class="nav-link" id="grade-tab" ondblclick="lazyLoadGrade($('.container-grade'))" data-bs-toggle="tab" href="#grade" role="tab" aria-controls="sites" aria-selected="false">Minhas grades</a>
+								<a class="nav-link" id="grade-tab" ondblclick="lazyLoadGrade($('.container-grade'))" data-bs-toggle="tab" href="#grade" role="tab" aria-controls="grade" aria-selected="false">Minhas grades</a>
+							</li>
+
+							<li class="nav-item" role="presentation">
+								<a class="nav-link" id="colaboracao-tab" ondblclick="lazyLoadColaboracao($('.container-colaboracao'))" data-bs-toggle="tab" href="#colaboracao" role="tab" aria-controls="colaboracao" aria-selected="false">Colaboração voluntária
+									{{titleDonation}}</a>
 							</li>
 
 						</ul>
@@ -124,7 +129,11 @@
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
-
+							<div class="tab-pane fade w-100" id="colaboracao" role="tabpanel" aria-labelledby="colaboracao-tab">
+								<div class="container-colaboracao h-100 d-flex">
+									{% include "Spinners/grow.twig" %}
+								</div>
+							</div>
 						</div>
 					</div>
 				{% else %}
