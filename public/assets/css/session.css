@@ -1,88 +1,87 @@
 .grid-container-cards-session {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.grid-container-cards-session>div {
-    padding: 5px;
+.grid-container-cards-session > div {
+  padding: 5px;
 }
 
 .grid-container-cards-session .card {
-    height: 100%;
+  height: 100%;
 }
 
 .btn-group-session i {
-    font-size: 1.4rem !important;
-    font-weight: 400 !important;
+  font-size: 1.4rem !important;
+  font-weight: 400 !important;
 }
 
 .btn-group-session a {
-    padding: 0 !important;
-    margin-left: 25px !important;
-    height: 25px;
+  padding: 0 !important;
+  margin-left: 25px !important;
+  height: 25px;
 }
 
 .btn-group-session {
-    padding: 0px !important;
-    align-items: baseline !important;
+  padding: 0px !important;
+  align-items: baseline !important;
 }
 
 .summary-current-session {
-    padding: 0 0 0 0 !important;
+  padding: 0 0 0 0 !important;
 }
 
 .grid-summary-current-session {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
 }
 
-.summary-current-session>.card-body,
+.summary-current-session > .card-body,
 .grid-summary-current-session,
-.grid-summary-current-session>div {
-    margin: 0 !important;
-    left: 0 !important;
-    top: 0 !important;
-    padding: 0 !important;
+.grid-summary-current-session > div {
+  margin: 0 !important;
+  left: 0 !important;
+  top: 0 !important;
+  padding: 0 !important;
 }
 
 .bg-grey {
-    background-color: lightslategray;
+  background-color: lightslategray;
 }
 
-.grid-summary-current-session>div>span:first-child {
-    background-color: rgb(229, 238, 232) !important;
-    color: #849bc4;
-    font-weight: bold;
+.grid-summary-current-session > div > span:first-child {
+  background-color: rgb(229, 238, 232) !important;
+  color: #849bc4;
+  font-weight: bold;
 }
 
-.grid-summary-current-session>div>span {
-    padding: 3px;
-    white-space: nowrap;
+.grid-summary-current-session > div > span {
+  padding: 3px;
+  white-space: nowrap;
 }
 
 .grid-poker-site {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
 }
-
 
 .container-info-bi,
 .container-btn-group-bi {
-    background-color: #F8F8FF;
-    color: white !important;
+  background-color: #f8f8ff;
+  color: white !important;
 }
 
 .container-btn-group-bi {
-    justify-content: end;
+  justify-content: end;
 }
 
 .body-bi-improved {
-    border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .container-top-card-bi {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .bg-grey span,
@@ -90,121 +89,125 @@
 .bg-info span,
 .bg-primary span,
 .bg-success span {
-    color: white !important;
+  color: white !important;
 }
 
 .stopwatch-blink {
-    color: red !important;
-    font-size: small;
-    animation: .5s 0s infinite alternate stopwatch-blink;
+  color: red !important;
+  font-size: small;
+  animation: .5s 0s infinite alternate stopwatch-blink;
 }
 
 @keyframes stopwatch-blink {
-    from {
-        color: red;
-        font-size: small;
-    }
+  from {
+    color: red;
+    font-size: small;
+  }
 
-    to {
-        color: blueviolet;
-        font-size: large;
-    }
+  to {
+    color: blueviolet;
+    font-size: large;
+  }
 }
 
 .grid-grades-jogador {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
 }
 
-@media(max-width:455px) {
-    .grid-grades-jogador {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-    
-    .grid-summary-current-session {
-        size: 0.3rem;
-        display: grid !important;
-        row-gap: 2px;
-        grid-template-columns: repeat(4, 1fr) !important;
-    }
+@media (max-width: 455px) {
+  .card-donation {
+    width: 100%;
+  }
 
-    .container-top-card-bi {
-        display: grid !important;
-        grid-template-columns: repeat(1, 1fr);
-    }
+  .grid-grades-jogador {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 
-    .container-btn-group-bi {
-        padding-top: 3px;
-        padding-bottom: 3px;
-    }
+  .grid-summary-current-session {
+    size: 0.3rem;
+    display: grid !important;
+    row-gap: 2px;
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .container-top-card-bi {
+    display: grid !important;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .container-btn-group-bi {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
 }
 
 
 /* Classe para criar uma grade com 1 coluna */
 .d-grid.grid-1 {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
 
 /* Classe para criar uma grade com 2 colunas */
 .d-grid.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* Classe para criar uma grade com 3 colunas */
 .d-grid.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* Classe para criar uma grade com 4 colunas */
 .d-grid.grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 /* Classe para criar uma grade com 5 colunas */
 .d-grid.grid-5 {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 /* Classe para criar uma grade com 6 colunas */
 .d-grid.grid-6 {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 
 /* Classe para criar uma grade com 7 colunas */
 .d-grid.grid-7 {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
 
 /* Classe para criar uma grade com 8 colunas */
 .d-grid.grid-8 {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
 }
 
 /* Classe para criar uma grade com 9 colunas */
 .d-grid.grid-9 {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
 }
 
 /* Classe para criar uma grade com 10 colunas */
 .d-grid.grid-10 {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
 }
 
 .retorno-lista-jogos {
-position: absolute;
-width:95%;
-z-index:999;
-background-color:white;
-padding: 10px;
+  position: absolute;
+  width: 95%;
+  z-index: 999;
+  background-color: white;
+  padding: 10px;
 }

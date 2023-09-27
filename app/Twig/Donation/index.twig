@@ -5,10 +5,13 @@
 		</p>
 	{% endif %}
 	{% if cobranca %}
-		<div class='card w-75 h-100'>
+		<div class='card card-donation h-100'>
 			<div class="card-header text-center {{cobranca.status =='CONCLUIDA'?'bg-success text-light':''}}">
-				<div>
-					{{cobranca.solicitacaoPagador}}
+				<div class='d-flex flex-column'>
+					<p>{{cobranca.solicitacaoPagador}}</p>
+					{% if cobranca.recebido %}
+						<p>{{mensagemAgradecimento}}</p>
+					{% endif %}
 				</div>
 			</div>
 
@@ -86,8 +89,8 @@
 			</div>
 		</div>
 	{% else %}
-		<form name="form-donation" method="post" class='col-4 col-sm-12 col-md-3 gap-3 h-100 d-flex flex-column justify-content-center'>
-			<div class="card">
+		<form name="form-donation" method="post" class='col-lg-5 col-xs-12 col-sm-12 col-md-5 gap-3 h-100 d-flex flex-column justify-content-center'>
+			<div class="card card-donation">
 				<div class="card-header bg-twitch text-light text-center p-2">
 					<small class=' p-2'>{{cabecalhoDonation}}</psmall>
 				</div>
@@ -98,8 +101,8 @@
 						<i class="bi bi-emoji-smile"></i>
 					</div>
 					<div class="w-100 d-flex flex-column gap-3">
-						<input type="text" autocomplete="off" name="cpf" class="form-control" placeholder="Informe seu cpf" value="{{set_value('cpf')}}">
-						<input type="text" inputmode="numeric" class="form-control money-dolar" autocomplete="off" name="valor" placeholder="Informe o valor da contribuição" value="{{set_value('valor')}}" title="Informe um valor monetário válido">
+						<input type="text" autocomplete="off" name="cpf" class="form-control" placeholder="Informe seu cpf" value="{{set_value('cpf')}}" required>
+						<input type="text" inputmode="numeric" class="form-control money-dolar" autocomplete="off" name="valor" placeholder="Informe o valor da contribuição" value="{{set_value('valor')}}" title="Informe um valor monetário válido" required>
 						<textarea style="resize: none" class='form-control' name="mensagem" placeholder="Deixe uma mensagem de apoio ao Milk (ou não)" cols="30" rows="5"></textarea>
 						<button type='submit' class='btn btn-outline-success'>Enviar contribuição</button>
 					</div>

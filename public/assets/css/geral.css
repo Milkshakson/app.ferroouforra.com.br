@@ -1,97 +1,122 @@
 :root {
-    --twitch-bg-color: #5c16c5;
+  --twitch-bg-color: #5c16c5;
 }
 
 img.sub {
-    border: 4px solid goldenrod;
+  border: 4px solid goldenrod;
 }
 
 .btn-twitch,
 .btn-twitch:hover {
-    background-color: var(--twitch-bg-color) !important;
+  background-color: var(--twitch-bg-color) !important;
 }
 
 .bg-twitch {
-    background-color: var(--twitch-bg-color) !important;
+  background-color: var(--twitch-bg-color) !important;
 }
 
 .nowrap {
-    white-space: nowrap !important;
+  white-space: nowrap !important;
 }
 
 .text-white {
-    color: white !important;
+  color: white !important;
 }
 
 header.bg-twitch span,
 header.bg-twitch .toggle-sidebar-btn,
 header.bg-twitch a,
 header.bg-twitch h5.card-title span {
-    color: white !important;
+  color: white !important;
 }
 
 header.bg-twitch .dropdown-item,
 header.bg-twitch .badge-time-left-token,
 header.bg-twitch .dropdown-item span {
-    color: #5c16c5 !important;
+  color: #5c16c5 !important;
 }
 
 .site-selected {
-    background-color: var(--twitch-bg-color);
-    border: 1px solid var(--twitch-bg-color);
-    color: white;
+  background-color: var(--twitch-bg-color);
+  border: 1px solid var(--twitch-bg-color);
+  color: white;
 }
 
 .text-golden {
-    color: gold;
+  color: gold;
 }
 
 .alert-dismissible {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-}
-
-.site-grid {
-    display: grid !important;
-    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
 }
 
 .custom-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 
 /* Estilo para cartões não selecionados */
 .card.custom-pointer.site-selector:not(.border-success) {
-    opacity: 0.5;
-    /* Diminui a opacidade dos não selecionados */
-    transition: opacity 0.2s ease-in-out;
-    /* Adiciona uma transição suave de opacidade */
+  opacity: 0.5;
+  /* Diminui a opacidade dos não selecionados */
+  transition: opacity 0.2s ease-in-out;
+  /* Adiciona uma transição suave de opacidade */
 }
 
 /* Estilo para cartões selecionados */
 .card.custom-pointer.site-selector.border-success {
-    border: 2px solid #28a745;
-    /* Borda mais espessa para os selecionados */
-    box-shadow: 0px 0px 10px rgba(40, 167, 69, 0.5);
-    /* Sombra para destacar os selecionados */
+  border: 2px solid #28a745;
+  /* Borda mais espessa para os selecionados */
+  box-shadow: 0px 0px 10px rgba(40, 167, 69, 0.5);
+  /* Sombra para destacar os selecionados */
 }
 
 /* Estilo inicial para ocultar o token com desfoque */
 .token-value {
-    filter: blur(4px); /* Aplica um efeito de desfoque inicial */
-    transition: filter 0.3s ease; /* Adiciona uma transição suave */
+  filter: blur(4px); /* Aplica um efeito de desfoque inicial */
+  transition: filter 0.3s ease; /* Adiciona uma transição suave */
 }
 
 /* Estilo para mostrar o token quando o ícone de "olho" é clicado */
 .token-visible.token-value {
-    filter: none; /* Remove o desfoque quando o token é visível */
+  filter: none; /* Remove o desfoque quando o token é visível */
 }
-h3:has(.waiting-spinner){
-    width:100% !important;
+
+h3:has(.waiting-spinner) {
+  width: 100% !important;
+}
+
+.site-grid {
+  display: grid !important;
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 576px) {
+  .site-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .site-grid {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
 }

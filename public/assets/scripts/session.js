@@ -184,9 +184,7 @@ $(document).ready(() => {
       beforeSend: () => waitingDialog.show(mensagemSelecionada),
       success: (response) => {
         if (response.success) {
-          successAlert(response.message, () => {
-            lazyLoadColaboracao($('.container-colaboracao'), response.txId);
-          });
+          lazyLoadColaboracao($('.container-colaboracao'), response.txId);
         } else {
           errorAlert(response.message);
         }

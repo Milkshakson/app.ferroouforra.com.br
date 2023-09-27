@@ -70,33 +70,6 @@ class Donation extends BaseController
     {
         try {
             if ($this->request->getMethod() == 'post') {
-                $mensagensAgradecimento = [
-                    "Sua doação é como um raio de sol em nosso dia! Muito obrigado!",
-                    "Com você ao nosso lado, podemos alcançar grandes feitos. Obrigado por sua generosidade!",
-                    "Seu ato de bondade não passou despercebido. Agradecemos do fundo do coração.",
-                    "Sua doação aqueceu nossos corações. Muito obrigado por fazer a diferença!",
-                    "Com pessoas incríveis como você, nosso trabalho se torna mais significativo. Obrigado!",
-                    "Sua doação é um presente precioso que nos inspira a continuar. Agradecemos muito!",
-                    "Você é um herói para nós. Obrigado por sua doação incrível!",
-                    "Seu apoio é a energia que nos impulsiona a avançar. Muito obrigado!",
-                    "Agradecemos por ser uma parte valiosa de nossa comunidade de apoio.",
-                    "Sua generosidade é um farol de esperança para nós. Obrigado!",
-                    "Com doadores como você, podemos fazer a diferença no mundo. Agradecemos!",
-                    "Seu ato de bondade é como uma luz brilhante em nossas vidas. Muito obrigado!",
-                    "Agradecemos por acreditar em nossa causa e nos ajudar a crescer.",
-                    "Sua doação é uma prova de que juntos podemos alcançar grandes coisas. Obrigado!",
-                    "Com gratidão em nossos corações, agradecemos por seu apoio contínuo.",
-                    "Sua contribuição é o que nos permite continuar nossa missão. Agradecemos muito!",
-                    "Obrigado por ser uma fonte constante de inspiração e apoio.",
-                    "Sua doação é um lembrete de que o mundo está cheio de bondade. Muito obrigado!",
-                    "Com você ao nosso lado, estamos construindo um futuro melhor. Obrigado!",
-                    "Agradecemos por ser um anjo em nossas vidas. Sua doação é incrível!",
-                ];
-                $indiceAleatorio = array_rand($mensagensAgradecimento);
-                // Agora você pode escolher uma mensagem aleatoriamente quando precisar exibi-la no cabeçalho do formulário.
-
-                $message = $mensagensAgradecimento[$indiceAleatorio];
-
                 $input = $this->request->getPost();
                 $rules =
                     [
@@ -113,11 +86,12 @@ class Donation extends BaseController
                     $decodedToken = $this->dados['decodedToken'];
 
                     $inputPix['nome'] = $decodedToken->nome;
-                    $inputPix['titulo'] = 'Doação voluntária';
+                    $inputPix['titulo'] = 'Doação voluntária de ' . $decodedToken->nome;
 
                     unset($inputPix['mensagem']);
                     $inputDonation = $input;
                     $inputDonation['pessoa_id'] = $decodedToken->localId;
+                    $inputDonation['tipo'] = 'Donation';
                     unset($inputDonation['cpf']);
 
                     $pix = $pagamentoProvider->cobrarViaPIX($inputPix);
@@ -155,6 +129,50 @@ class Donation extends BaseController
             $this->dados['erro'] = $th->getMessage();
             $message = $th->getMessage();
         }
+        $mensagensAgradecimento = [
+            "Sua doação é como um raio de sol em nosso dia! Muito obrigado!",
+            "Com você ao nosso lado, podemos alcançar grandes feitos. Obrigado por sua generosidade!",
+            "Seu ato de bondade não passou despercebido. Agradecemos do fundo do coração.",
+            "Sua doação aqueceu nossos corações. Muito obrigado por fazer a diferença!",
+            "Com pessoas incríveis como você, nosso trabalho se torna mais significativo. Obrigado!",
+            "Sua doação é um presente precioso que nos inspira a continuar. Agradecemos muito!",
+            "Você é um herói para nós. Obrigado por sua doação incrível!",
+            "Seu apoio é a energia que nos impulsiona a avançar. Muito obrigado!",
+            "Agradecemos por ser uma parte valiosa de nossa comunidade de apoio.",
+            "Sua generosidade é um farol de esperança para nós. Obrigado!",
+            "Com doadores como você, podemos fazer a diferença no mundo. Agradecemos!",
+            "Seu ato de bondade é como uma luz brilhante em nossas vidas. Muito obrigado!",
+            "Agradecemos por acreditar em nossa causa e nos ajudar a crescer.",
+            "Sua doação é uma prova de que juntos podemos alcançar grandes coisas. Obrigado!",
+            "Com gratidão em nossos corações, agradecemos por seu apoio contínuo.",
+            "Sua contribuição é o que nos permite continuar nossa missão. Agradecemos muito!",
+            "Obrigado por ser uma fonte constante de inspiração e apoio.",
+            "Sua doação é um lembrete de que o mundo está cheio de bondade. Muito obrigado!",
+            "Com você ao nosso lado, estamos construindo um futuro melhor. Obrigado!",
+            "Agradecemos por ser um anjo em nossas vidas. Sua doação é incrível!",
+            "Você é simplesmente incrível! Muito obrigado pela sua generosidade.",
+            "Agradeço do fundo do meu coração por ser tão maravilhoso.",
+            "Você é um anjo disfarçado de pessoa. Obrigado por tudo!",
+            "Meu dia ficou mais brilhante com a sua ajuda. Obrigado!",
+            "A gratidão transborda aqui! Muito obrigado, você é demais.",
+            "Sua gentileza não passa despercebida. Obrigado por ser tão incrível.",
+            "Você fez o meu dia (e o meu coração) mais feliz. Muito obrigado!",
+            "Só tenho uma coisa a dizer: você é incrível! Obrigado!",
+            "Você é a estrela brilhante do meu dia. Obrigado pela sua bondade.",
+            "Sua generosidade é um presente que vou valorizar para sempre. Muito obrigado!",
+            "Agradeço por iluminar o meu caminho com a sua ajuda. Você é incrível!",
+            "Você tornou o mundo um lugar melhor. Obrigado por ser tão especial.",
+            "Cada ato de gentileza faz a diferença. Obrigado por fazer a sua parte!",
+            "Sua bondade é um raio de sol em um dia nublado. Muito obrigado!",
+            "Não consigo expressar o quanto sua ajuda significa para mim. Obrigado!",
+
+        ];
+
+        $indiceAleatorio = array_rand($mensagensAgradecimento);
+        // Agora você pode escolher uma mensagem aleatoriamente quando precisar exibi-la no cabeçalho do formulário.
+
+        $mensagemAgradecimento = $mensagensAgradecimento[$indiceAleatorio];
+        $this->dados['mensagemAgradecimento'] = $mensagemAgradecimento;
         $html = $this->view->render('Donation/index', $this->dados);
         print(json_encode(['success' => $success, 'message' => $message, 'html' => $html]));
     }

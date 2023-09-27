@@ -7,7 +7,7 @@ use Exception;
 class APPException extends Exception
 {
 
-    function __construct($message, $code = 500, $previous = null)
+    public function __construct($message, $code = 500, $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -22,7 +22,7 @@ class APPException extends Exception
             'Erro ao recuperar a lista de sites',
             'Erro ao recuperar os tipos de buy in',
             'Erro ao recuperar a sessão aberta',
-            'Id do jogo não encontrado'
+            'Id do jogo não encontrado',
         ]);
         $APIMessages = [
             'INVALID_TOKEN' => 'Token de acesso inválido',
@@ -38,11 +38,7 @@ class APPException extends Exception
         if (key_exists($message, $messages)) {
             return $messages[$message];
         } else {
-            if (ENVIRONMENT != 'production') {
-                return $message;
-            } else {
-                return 'Ocorreu um erro na operação.';
-            }
+            return $message;
         }
     }
 }
