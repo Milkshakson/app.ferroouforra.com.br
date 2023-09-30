@@ -390,6 +390,25 @@ function vocalizeUpcomingElements() {
 
 }
 
+function lazyLoadGrade(target) {
+  $.ajax({
+    url: '/grade/lazyLoad',
+    beforeSend: function () {
+      target.html(
+        `<div class="d-flex justify-content-center align-items-center p-5 w-100 h-100">
+              <div class="spinner-grow" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div>
+          </div>`
+      )
+    },
+    dataType: 'json',
+    success: (json) => {
+      target.html(json.html);
+    }
+  })
+    .fail(() => target.html('Não foi possível recuperar a grade.'))
+}
 // Função para vocalizar um elemento
 function vocalizeElement($element) {
   // Aqui você pode implementar a lógica para vocalizar o elemento
@@ -439,16 +458,3 @@ function updateAlertaMaxLateIcons() {
   });
 }
 
-// Chame a função para carregar o estado do alerta ao carregar a página
-
-
-window.addEventListener('beforeunload', function (e) {
-  // Personalize a mensagem de confirmação
-  var confirmationMessage = 'Tem certeza que deseja sair desta página? Se voc~e tiver algum timer nesta página ele não exibirá o alerta.';
-
-  // Define a mensagem de confirmação na janela do navegador
-  e.returnValue = confirmationMessage;
-
-  // Retorne a mensagem de confirmação (opcional, pois a maioria dos navegadores ignora isso)
-  return confirmationMessage;
-});

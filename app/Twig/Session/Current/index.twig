@@ -1,34 +1,51 @@
 {% extends 'templateBase.twig' %}
 {% block css %}
 	{{ parent() }}
-	<link rel="stylesheet" href="\assets\css\session.css?version={{ versionScripts }}" rel="stylesheet"/>
-	<link href="/assets/css/bankroll.css?version={{versionScripts}}" rel="stylesheet">
+	<link
+		rel="stylesheet"
+		href="\assets\css\session.css?version={{ versionScripts }}"
+		rel="stylesheet"/>
+	<link
+		href="/assets/css/bankroll.css?version={{versionScripts}}"
+		rel="stylesheet">
 {% endblock %}
 {% block scriptsFooter %}
 	{{ parent() }}
-	<script defer src="\assets\scripts\session.js?version={{ versionScripts }}"></script>
-	<script src="/assets/scripts/bankroll.js?version={{versionScripts}}"></script>
-	<script src="/assets/scripts/schedule.js?version={{versionScripts}}"></script>
+	<script
+		defer
+		src="\assets\scripts\session.js?version={{ versionScripts }}"></script>
+	<script
+		src="/assets/scripts/bankroll.js?version={{versionScripts}}"></script>
+	<script
+		src="/assets/scripts/schedule.js?version={{versionScripts}}"></script>
 {% endblock %}
 {% set openedSession = session('openedSession') %}
 {% set buyInList = [] %}
 {% block content %}
-	<div class="pagetitle">
+	<div
+		class="pagetitle">
 		<nav>
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a href="#">
+			<ol
+				class="breadcrumb">
+				<li
+					class="breadcrumb-item">
+					<a
+						href="#">
 						Sessão
 					</a>
 				</li>
 				{% if openedSession is not empty %}
-					<li class="breadcrumb-item">
-						<a href="#">
+					<li
+						class="breadcrumb-item">
+						<a
+							href="#">
 							{{ openedSession['description'] }}
 						</a>
 					</li>
-					<li class="breadcrumb-item">
-						<a href="#">
+					<li
+						class="breadcrumb-item">
+						<a
+							href="#">
 							{{ ci_time(openedSession['startDate'], 'Y-m-d H:i:s').format('d/m/Y H:i') }}
 						</a>
 					</li>
@@ -37,9 +54,12 @@
 		</nav>
 	</div>
 	<!-- End Page Title -->
-	<section class="section dashboard h-100 mb-5">
-		<div class="row h-100">
-			<div class="col-lg-12 h-100">
+	<section
+		class="section dashboard h-100 mb-5">
+		<div
+			class="row h-100">
+			<div
+				class="col-lg-12 h-100">
 				{% if is_array(openedSession) and openedSession is not empty %}
 					{% set buyInList = openedSession['buyInList'] %}
 					{% set sitesJogados = [] %}
@@ -57,79 +77,189 @@
 					{% else %}
 						{% set classTextProfit = 'text-danger' %}
 					{% endif %}
-					<div class="d-flex flex-column h-100">
-						<ul class="nav nav-tabs" id="tabCurrentSession" role="tablist">
-							<li class="nav-item active" role="presentation">
-								<a class="nav-link" id="buyins-tab" data-bs-toggle="tab" href="#buyins" role="tab" aria-controls="buyins" aria-selected="false">Buy-ins</a>
+					<div
+						class="d-flex flex-column h-100">
+						<ul
+							class="nav nav-tabs"
+							id="tabCurrentSession"
+							role="tablist">
+							<li
+								class="nav-item active"
+								role="presentation">
+								<a
+									class="nav-link"
+									id="buyins-tab"
+									data-bs-toggle="tab"
+									href="#buyins"
+									role="tab"
+									aria-controls="buyins"
+									aria-selected="false">Buy-ins</a>
 							</li>
 
-							<li class="nav-item" role="presentation">
-								<a class="nav-link " id="resumo-tab" data-bs-toggle="tab" href="#resumo" role="tab" aria-controls="resumo" aria-selected="true">Resumo</a>
+							<li
+								class="nav-item"
+								role="presentation">
+								<a
+									class="nav-link "
+									id="resumo-tab"
+									data-bs-toggle="tab"
+									href="#resumo"
+									role="tab"
+									aria-controls="resumo"
+									aria-selected="true">Resumo</a>
 							</li>
-							<li class="nav-item" role="presentation">
-								<a class="nav-link" id="bankroll-tab" data-bs-toggle="tab" href="#bankroll" role="tab" aria-controls="saldos" aria-selected="false">Bankroll</a>
+							<li
+								class="nav-item"
+								role="presentation">
+								<a
+									class="nav-link"
+									id="bankroll-tab"
+									data-bs-toggle="tab"
+									href="#bankroll"
+									role="tab"
+									aria-controls="saldos"
+									aria-selected="false">Bankroll</a>
 							</li>
-							<li class="nav-item" role="presentation">
-								<a class="nav-link" id="sites-tab" data-bs-toggle="tab" href="#sites" role="tab" aria-controls="sites" aria-selected="false">Seleção de sites</a>
+							<li
+								class="nav-item"
+								role="presentation">
+								<a
+									class="nav-link"
+									id="sites-tab"
+									data-bs-toggle="tab"
+									href="#sites"
+									role="tab"
+									aria-controls="sites"
+									aria-selected="false">Seleção de sites</a>
 							</li>
 
-							<li class="nav-item" role="presentation">
-								<a class="nav-link" id="grade-tab" ondblclick="lazyLoadGrade($('.container-grade'))" data-bs-toggle="tab" href="#grade" role="tab" aria-controls="grade" aria-selected="false">Minhas grades</a>
+							<li
+								class="nav-item"
+								role="presentation">
+								<a
+									class="nav-link"
+									id="grade-tab"
+									ondblclick="lazyLoadGrade($('.container-grade'))"
+									data-bs-toggle="tab"
+									href="#grade"
+									role="tab"
+									aria-controls="grade"
+									aria-selected="false">Minhas grades</a>
 							</li>
-							<li class="nav-item" role="presentation">
-								<a class="nav-link" id="colaboracao-tab" ondblclick="lazyLoadColaboracao($('.container-colaboracao'))" data-bs-toggle="tab" href="#colaboracao" role="tab" aria-controls="colaboracao" aria-selected="false">Colaboração voluntária
-									{{titleDonation}}</a>
+							<li
+								class="nav-item"
+								role="presentation">
+								<a
+									class="nav-link"
+									id="colaboracao-tab"
+									ondblclick="lazyLoadColaboracao($('.container-colaboracao'))"
+									data-bs-toggle="tab"
+									href="#colaboracao"
+									role="tab"
+									aria-controls="colaboracao"
+									aria-selected="false">
+									Colaboração voluntária
+								</a>
 							</li>
 
 						</ul>
 
 
-						<div class="tab-content d-flex h-100 w-100 " id="tabContentCurrentSession">
-							<div class="tab-pane fade active w-100" id="buyins" role="tabpanel" aria-labelledby="buyins-tab">
-								<div class="card-footer p-0">
-									<div class="clone-resumo d-flex flex-row justify-content-between"></div>
-									<div class="d-flex justify-content-end p-0 pb-2">
-										<div class="btn-group d-flex btn-group-session align-items-center justify-content-end" role="group" aria-label="Botões ação Sessão">
-											<a class="btn text-success btn-add-game" title="Adicionar jogo">
-												<i class="bi bi-plus-circle-fill"></i>
+						<div
+							class="tab-content d-flex h-100 w-100 "
+							id="tabContentCurrentSession">
+							<div
+								class="tab-pane fade active w-100"
+								id="buyins"
+								role="tabpanel"
+								aria-labelledby="buyins-tab">
+								<div
+									class="card-footer p-0">
+									<div
+										class="clone-resumo d-flex flex-row justify-content-between"></div>
+									<div
+										class="d-flex justify-content-end p-0 pb-2">
+										<div
+											class="btn-group d-flex btn-group-session align-items-center justify-content-end"
+											role="group"
+											aria-label="Botões ação Sessão">
+											<a
+												class="btn text-success btn-add-game"
+												title="Adicionar jogo">
+												<i
+													class="bi bi-plus-circle-fill"></i>
 											</a>
-											<a class="btn text-success" title="Importar Grade" href="/session/importarGrade">
-												<i class="bi bi-grid-3x3-gap-fill"></i>
+											<a
+												class="btn text-success"
+												title="Importar Grade"
+												href="/session/importarGrade">
+												<i
+													class="bi bi-grid-3x3-gap-fill"></i>
 											</a>
-											<a class="btn text-success" title="Encerrar a sessão" href="/session/encerrar">
-												<i class="bi bi-save2-fill"></i>
+											<a
+												class="btn text-success"
+												title="Encerrar a sessão"
+												href="/session/encerrar">
+												<i
+													class="bi bi-save2-fill"></i>
 											</a>
 										</div>
 									</div>
 								</div>
-								<div class="container-buyins-opened">
+								<div
+									class="container-buyins-opened">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
 
-							<div class="tab-pane fade show w-100" id="resumo" role="tabpanel" aria-labelledby="resumo-tab">
-								<div class="container-summary-opened">
+							<div
+								class="tab-pane fade show w-100"
+								id="resumo"
+								role="tabpanel"
+								aria-labelledby="resumo-tab">
+								<div
+									class="container-summary-opened">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
-							<div class="tab-pane fade w-100" id="bankroll" role="tabpanel" aria-labelledby="bankroll-tab">
-								<div class="container-bankroll-abertura">
+							<div
+								class="tab-pane fade w-100"
+								id="bankroll"
+								role="tabpanel"
+								aria-labelledby="bankroll-tab">
+								<div
+									class="container-bankroll-abertura">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
-							<div class="tab-pane fade h-100 w-100 justify-content-center align-items-center p-3" id="sites" role="tabpanel" aria-labelledby="sites-tab">
-								<div class="container-site-selection d-flex p-3">
+							<div
+								class="tab-pane fade h-100 w-100 justify-content-center align-items-center p-3"
+								id="sites"
+								role="tabpanel"
+								aria-labelledby="sites-tab">
+								<div
+									class="container-site-selection d-flex p-3">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
 
-							<div class="tab-pane fade w-100" id="grade" role="tabpanel" aria-labelledby="grade-tab">
-								<div class="container-grade h-100 d-flex align-items-center justify-content-center">
+							<div
+								class="tab-pane fade w-100"
+								id="grade"
+								role="tabpanel"
+								aria-labelledby="grade-tab">
+								<div
+									class="container-grade h-100 d-flex align-items-center justify-content-center">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
-							<div class="tab-pane fade w-100" id="colaboracao" role="tabpanel" aria-labelledby="colaboracao-tab">
-								<div class="container-colaboracao h-100 d-flex">
+							<div
+								class="tab-pane fade w-100"
+								id="colaboracao"
+								role="tabpanel"
+								aria-labelledby="colaboracao-tab">
+								<div
+									class="container-colaboracao h-100 d-flex">
 									{% include "Spinners/grow.twig" %}
 								</div>
 							</div>
@@ -139,16 +269,23 @@
 					{% include 'Session/Current/form-abertura.twig' %}
 				{% endif %}
 			</div>
-			<div class="col-lg-12">
-				<div class="d-flex flex-column">
-					<form action="" name="formFilterMyBuyIns"></form>
+			<div
+				class="col-lg-12">
+				<div
+					class="d-flex flex-column">
+					<form
+						action=""
+						name="formFilterMyBuyIns"></form>
 					<h2>
 						{# Meus Buyins #}
 					</h2>
-					<div class="content-my-buyins"></div>
+					<div
+						class="content-my-buyins"></div>
 				</div>
-				<div class="row mobile-hidden"></div>
-				<div class="row mobile-hidden"></div>
+				<div
+					class="row mobile-hidden"></div>
+				<div
+					class="row mobile-hidden"></div>
 			</div>
 		</div>
 	</section>

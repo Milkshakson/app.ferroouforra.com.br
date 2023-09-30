@@ -1,19 +1,28 @@
 <div class="d-flex flex-column">
-
+	<div class="filtro-grade"></div>
 	<div class="d-flex flex-row border w-100 gap-1 p-1">
-		<div class='col-5'>
-			Torneio
-		</div>
-		<div class='col-2'>Buy-in</div>
 		<div class='col-2'>Horário de Início</div>
 		<div class='col-2'>Horário de registro</div>
+		<div class='col-5'>
+			Torneio
+			<input type="text" class="form-control filtro-torneio" placeholder="Fltro torneio para filtrar. para filtra por site, digite :<site>">
+		</div>
+		<div class='col-2'>Buy-in</div>
 		<div class='col-1'>Ações</div>
 	</div>
 
-
 	{% for index, tournament in tournaments %}
-		<form method="post" name="form_{{tournament.id }}" class="m-0 p-0">
+		<form method="post" name="form_{{tournament.id }}" class="tournament-form m-0 p-0">
 			<div class="d-flex flex-row align-items-center border w-100 gap-1 p-1">
+				<div class='col-2'>
+					<span class='form-control'>
+						{{substr(tournament.hora_inicio,0,5)}}</span>
+				</div>
+				<div class='col-2'>
+					<span class='form-control'>
+						{{substr(tournament.hora_registro,0,5)}}</span>
+				</div>
+
 				<div class="col-5">
 					<div class="d-flex flex-row gap-1">
 						<i class='bi icone-registro'></i>
@@ -23,11 +32,13 @@
 						<input type="hidden" name="pokerSiteId" value="{{tournament.poker_site_id}}">
 						<input type="hidden" name="buyinValue" value="{{ tournament.buyin }}">
 						<input type="hidden" name="startTime" value="{{ tournament.hora_registro }}">
-						<div class="d-flex flex-column gap-1" title="{{tournament.tipo_buyin }}">
+						{% apply spaceless %}
+						<div class="d-flex flex-column gap-1 tournament-name" title="{{tournament.tipo_buyin }}">
 							{{tournament.nome }}
 							/
 							{{tournament.site_short_name }}
 						</div>
+						{% endapply %}
 					</div>
 				</div>
 				<div class='col-2'>
@@ -36,14 +47,7 @@
 						<span class="form-control">{{ tournament.buyin }}</span>
 					</div>
 				</div>
-				<div class='col-2'>
-					<span class='form-control'>
-						{{substr(tournament.hora_inicio,0,5)}}</span>
-				</div>
-				<div class='col-2'>
-					<span class='form-control'>
-						{{substr(tournament.hora_registro,0,5)}}</span>
-				</div>
+
 				<div class='col-1 container'>
 					<div class="d-flex flex-1 flex-row justify-content-end align-items-center pe-1">
 						<div class="btn-group">

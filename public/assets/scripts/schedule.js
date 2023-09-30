@@ -6,7 +6,7 @@ function openScheduleTournamentsModal(idGrade) {
     $.ajax({
         url: '/grade/loadTournaments/' + idGrade,
         beforeSend: function () {
-            waitingDialog.show(spinnerWaiting);
+            waitingDialog.show('Aguarde...');
         },
         dataType: 'json',
         success: (json) => {
@@ -52,7 +52,7 @@ function openModalAddTournamentSchedule(idGrade) {
     $.ajax({
         url: '/grade/addTournament/' + idGrade,
         dataType: 'json',
-        beforeSend: () => waitingDialog.show(spinnerWaiting),
+        beforeSend: () => waitingDialog.show('Aguarde...'),
         success: (response) => {
             if (response.success) {
                 const modal = $('#addTorneioGradeModal');
@@ -75,7 +75,7 @@ function openScheduleEditModal(idGrade) {
     $.ajax({
         url: '/grade/salvar/' + idGrade,
         beforeSend: function () {
-            waitingDialog.show(spinnerWaiting);
+            waitingDialog.show('Aguarde...');
         },
         dataType: 'json',
         success: (response) => {
@@ -96,26 +96,6 @@ function openScheduleEditModal(idGrade) {
 
 function openScheduleCreateModal() {
     openScheduleEditModal(null)
-}
-
-function lazyLoadGrade(target) {
-    $.ajax({
-        url: '/grade/lazyLoad',
-        beforeSend: function () {
-            target.html(
-                `<div class="d-flex justify-content-center align-items-center p-5 w-100 h-100">
-                <div class="spinner-grow" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>`
-            )
-        },
-        dataType: 'json',
-        success: (json) => {
-            target.html(json.html);
-        }
-    })
-        .fail(() => target.html('Não foi possível recuperar a grade.'))
 }
 
 function removerDaGrade(id) {
@@ -150,7 +130,7 @@ function registrar(id) {
                 method: 'post',
                 url: `/grade/registrar`,
                 dataType: 'json',
-                beforeSend: () => waitingDialog.show(spinnerWaiting),
+                beforeSend: () => waitingDialog.show('Aguarde...'),
                 success: (response) => {
                     if (response.success) {
                         reloadBuyInsOpen($('.container-buyins-opened'));
@@ -190,7 +170,14 @@ $(document).ready(() => {
             .fail(() => errorAlert('Falha ao salvar o torneio'))
             .always(() => waitingDialog.hide())
     });
-
+    $(document).on('change', '[name=form_add_tournament] [name=hora_inicio]', function () {
+        const sender = $(this);
+        console.log(sender);
+        const target = $('[name=form_add_tournament] [name=hora_registro]');
+        if (target.val() == '') {
+            target.val(sender.val());
+        }
+    });
     $(document).on('submit', "[name=cadastroGrade]", function (e) {
         e.preventDefault();
         const data = $(this).serialize();
@@ -223,5 +210,19 @@ $(document).ready(() => {
             var charsRemaining = maxLength - charCount;
             charCountElement.text(charsRemaining + " caracteres restantes");
         }
+    });
+
+    $(document).on("input", ".filtro-torneio", function () {
+        //filtra a grade
+        const searchText = $(this).val().trim().replace(':', '/ ').toLowerCase();
+        const form = $('.tournament-form ');
+        form.each(function (e) {
+            const tournament = $(this).find('.tournament-name').text().trim()
+                .replace(/\s+/g, ' ').toLowerCase();
+            if (tournament.includes(searchText))
+                $(this).removeClass('invisible');
+            else
+                $(this).addClass('invisible');
+        });
     });
 });

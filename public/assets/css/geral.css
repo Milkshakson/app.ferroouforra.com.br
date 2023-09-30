@@ -58,6 +58,11 @@ header.bg-twitch .dropdown-item span {
   cursor: pointer;
 }
 
+#bootstrapWaitingforModal .modal-header h3 {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
 
 /* Estilo para cartões não selecionados */
 .card.custom-pointer.site-selector:not(.border-success) {
