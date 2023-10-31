@@ -32,9 +32,9 @@ $(document).ready(() => {
 });
 function removeBuyIn(buyinId) {
     $('#card_' + buyinId).remove();
-    const countBuiIns = $(".buyin-to-import").length;
-    $("#count-registros").text(countBuiIns);
-    if (countBuiIns > 0) {
+    const countBuyIns = $(".buyin-to-import").length;
+    $("#count-registros").text(countBuyIns);
+    if (countBuyIns > 0) {
         $('#btn-importar').show();
     } else {
         $('#btn-importar').hide();
