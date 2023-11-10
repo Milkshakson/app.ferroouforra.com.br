@@ -1,6 +1,6 @@
 {% set openedSession = session('openedSession') %}
 {% if openedSession %}
-	{% set sumary = session('openedSession')['sumary'] %}
+	{% set summary = session('openedSession')['summary'] %}
 	{% set sitesJogados = [] %}
 	{% for bi  in buyInList %}
 		{% set sitesJogados = sitesJogados|merge([bi['pokerSiteName']]) %}
@@ -8,10 +8,10 @@
 	{% set sitesJogados = array_unique(sitesJogados) %}
 	{% set distinctSites = count(sitesJogados) %}
 	{% set textSitesJogados = distinctSites ~ ((distinctSites > 1) ? ' sites' : " site") %}
-	{% set sumary = openedSession['sumary'] %}
-	{% if (sumary['profit'] > 0) %}
+	{% set summary = openedSession['summary'] %}
+	{% if (summary['profit'] > 0) %}
 		{% set classTextProfit = 'text-success' %}
-	{% elseif (openedSession['sumary']['profit'] == 0) %}
+	{% elseif (openedSession['summary']['profit'] == 0) %}
 		{% set classTextProfit = 'text-primary' %}
 	{% else %}
 		{% set classTextProfit = 'text-danger'%}
@@ -50,7 +50,7 @@
 	{% set dataDistribuicaoPrejuizo = dataDistribuicaoPrejuizo~"]" %}
 	<section class="section dashboard">
 		<div class="row">
-			{% include 'Home/Includes/cards-sumary-home.twig' %}
+			{% include 'Home/Includes/cards-summary-home.twig' %}
 		</div>
 	</section>
 {% else %}

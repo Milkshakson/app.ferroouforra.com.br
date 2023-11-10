@@ -27,14 +27,14 @@
                 $distinctSites = count($sitesJogados);
                 $variaveis['sitesJogados'] = $sitesJogados;
                 $textSitesJogados = ($distinctSites > 1) ? "$distinctSites sites" : "$distinctSites site";
-                $sumary = $openedSession['sumary'];
+                $summary = $openedSession['summary'];
                 $variaveis['textSitesJogados'] = $textSitesJogados;
-                $variaveis['sumary'] = $sumary;
+                $variaveis['summary'] = $summary;
                 $variaveis['startDate'] = Time::parse($openedSession['startDate']);
                 //2021-12-20 17:43:00
-                if ($sumary['profit'] > 0)
+                if ($summary['profit'] > 0)
                     $classTextProfit = 'text-success';
-                elseif ($openedSession['sumary']['profit'] == 0)
+                elseif ($openedSession['summary']['profit'] == 0)
                     $classTextProfit = 'text-primary';
                 else $classTextProfit = 'text-danger';
                 $variaveis['classTextProfit']=$classTextProfit;
@@ -90,7 +90,7 @@
         </div>
         <div class='col-lg-6'>
             <div class='row'>
-                <?= view('session/cards-sumary.php', $variaveis) ?>
+                <?= view('session/cards-summary.php', $variaveis) ?>
             </div>
             <div class='row'>
                 <?= $this->include('common/faq.php'); ?>

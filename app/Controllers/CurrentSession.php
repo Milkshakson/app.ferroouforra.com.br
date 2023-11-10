@@ -24,7 +24,7 @@ class CurrentSession extends BaseController
             $this->dados['countFuturo'] = count(array_filter($buyInList, function ($bi) {
                 return ci_time($bi['startDate'])->isAfter(ci_time('now')) && is_null($bi['endDate']);
             }));
-            $this->dados['sumary'] = $openedSession['sumary'];
+            $this->dados['summary'] = $openedSession['summary'];
             $this->dados['countEncerrados'] = count(array_filter($buyInList, function ($bi) {
                 return !is_null($bi['endDate']);
             }));

@@ -622,7 +622,7 @@ class Session extends BaseController
         $retorno = '';
         switch ($componente) {
             case 'cards':
-                $retorno = $this->view->render('Home/Includes/cards-sumary-home.twig', $this->dados);
+                $retorno = $this->view->render('Home/Includes/cards-summary-home.twig', $this->dados);
                 break;
             case 'graficos-pizza':
                 $retorno = $this->view->render('Home/Includes/charts.twig');
@@ -640,7 +640,7 @@ class Session extends BaseController
                 } catch (APPException $e) {
                     $this->dados['erros'] = $e->getHandledMessage($e->getMessage());
                 }
-                $retorno = $this->view->render('Home/Includes/graficos-sumary-home.twig', $this->dados);
+                $retorno = $this->view->render('Home/Includes/graficos-summary-home.twig', $this->dados);
                 break;
         }
         return $retorno;

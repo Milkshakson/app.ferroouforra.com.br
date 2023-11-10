@@ -35,7 +35,7 @@ $textSitesJogados  = $textSitesJogados  ??'' ;
                         <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                        <h6 class="  <?= $classTextProfit ?>"><?= dolarFormat($sumary['profit']) ?></h6>
+                        <h6 class="  <?= $classTextProfit ?>"><?= dolarFormat($summary['profit']) ?></h6>
                     </div>
                 </div>
             </div>
@@ -52,10 +52,10 @@ $textSitesJogados  = $textSitesJogados  ??'' ;
 
                 <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi <?= $sumary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left' ?>"></i>
+                        <i class="bi <?= $summary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left' ?>"></i>
                     </div>
                     <div class="ps-3">
-                        <h6><?= percent($sumary['percentageROI']) ?></h6>
+                        <h6><?= percent($summary['percentageROI']) ?></h6>
                     </div>
                 </div>
 

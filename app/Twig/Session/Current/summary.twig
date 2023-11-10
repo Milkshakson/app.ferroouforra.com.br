@@ -7,15 +7,15 @@
 				{{box_summary_session('Encerrados',countEncerrados)}}
 				{{box_summary_session('Total',count(buyInList))}}
 
-				{{box_summary_session('$ BI total',dolarFormat(sumary.totalBuyIn))}}
-				{{box_summary_session('$ Prêmios',dolarFormat(sumary.totalPrize))}}
-				{{box_summary_session('Profit',profitFormat(sumary.profit))}}
-				{{box_summary_session('ABI',dolarFormat(sumary.avgBuyIn))}}
+				{{box_summary_session('$ BI total',dolarFormat(summary.totalBuyIn))}}
+				{{box_summary_session('$ Prêmios',dolarFormat(summary.totalPrize))}}
+				{{box_summary_session('Profit',profitFormat(summary.profit))}}
+				{{box_summary_session('ABI',dolarFormat(summary.avgBuyIn))}}
 
-				{{box_summary_session('Cotas',dolarFormat(sumary.stakingReturn))}}
-				{{box_summary_session('Em ITM',sumary.countITM ~'('~ percentFormat(sumary.percentageITM)~')')}}
-				{{box_summary_session('BI-Cotas',dolarFormat(sumary.buyInWithStakingSold))}}
-				{{box_summary_session('Total BI',dolarFormat(sumary.totalBuyIn))}}
+				{{box_summary_session('Cotas',dolarFormat(summary.stakingReturn))}}
+				{{box_summary_session('Em ITM',summary.countITM ~'('~ percentFormat(summary.percentageITM)~')')}}
+				{{box_summary_session('BI-Cotas',dolarFormat(summary.buyInWithStakingSold))}}
+				{{box_summary_session('Total BI',dolarFormat(summary.totalBuyIn))}}
 			</div>
 		</div>
 	</div>

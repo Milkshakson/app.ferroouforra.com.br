@@ -41,8 +41,8 @@
 						<i class="bi bi-currency-dollar"></i>
 					</div>
 					<div class="ps-3">
-						<h6 class="{{classTextProfit}}">{{dolarFormat(sumary['profit'])}}</h6>
-						<span class="text-muted small pt-2 ps-1">Total de premiação:{{dolarFormat(sumary['totalPrize'])}}
+						<h6 class="{{classTextProfit}}">{{dolarFormat(summary['profit'])}}</h6>
+						<span class="text-muted small pt-2 ps-1">Total de premiação:{{dolarFormat(summary['totalPrize'])}}
 						</span>
 					</div>
 				</div>
@@ -64,8 +64,8 @@
 						<i class="bi bi-currency-dollar"></i>
 					</div>
 					<div class="ps-3">
-						<h6>{{dolarFormat(sumary['avgBuyIn'])}}</h6>
-						<span class="text-muted small pt-2 ps-1">Total de buy in:{{dolarFormat(sumary['totalBuyIn'])}}
+						<h6>{{dolarFormat(summary['avgBuyIn'])}}</h6>
+						<span class="text-muted small pt-2 ps-1">Total de buy in:{{dolarFormat(summary['totalBuyIn'])}}
 						</span>
 					</div>
 				</div>
@@ -86,10 +86,10 @@
 
 				<div class="d-flex align-items-center">
 					<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-						<i class="bi {{sumary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
+						<i class="bi {{summary['percentageROI'] > 0 ? 'bi-box-arrow-up-right' : 'bi-box-arrow-down-left'}}"></i>
 					</div>
 					<div class="ps-3">
-						<h5>{{percent(sumary['percentageROI'])}}</h5>
+						<h5>{{percent(summary['percentageROI'])}}</h5>
 					</div>
 				</div>
 				<span class="p-3">

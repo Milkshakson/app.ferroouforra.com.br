@@ -3,7 +3,7 @@
 	{{parent()}}
 	<link rel="stylesheet" href="\assets\css\dashboard.css?version={{versionScripts}}" rel="stylesheet">
 	<style>
-		.card-sumary-site {
+		.card-summary-site {
 			transition: visibility 0s, opacity 0.5s linear;
 		}
 	</style>
@@ -20,7 +20,7 @@ $('.siteNameFilter').keyup();
 $(document).on("keyup", ".siteNameFilter", function () {
 const search = $(this).val()
 localStorage.setItem('siteNameFilter', search);
-const cards = $('.card-sumary-site');
+const cards = $('.card-summary-site');
 cards.each(function () {
 if (search.trim() == "") {
 $(this).show();
@@ -61,7 +61,7 @@ $(this).hide();
 		</small>
 		{% for pokerSiteName,yearlySumary in yearlysSumary %}
 
-			<div class="card card-sumary-site">
+			<div class="card card-summary-site">
 				<div class="card-body">
 					{% set totalProfitYear = array_sum(array_column(yearlySumary, 'profit')) %}
 					{% set countBuyIns = array_sum(array_column(yearlySumary, 'countBuyIns')) %}
