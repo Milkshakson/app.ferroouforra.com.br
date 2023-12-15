@@ -31,6 +31,10 @@ class PokerSessionProvider extends APIFF
     {
         return $this->consumeEndpoint('POST', "/poker_session/save_buyin", $dados);
     }
+    public function salvaStaking($dados = [])
+    {
+        return $this->consumeEndpoint('POST', "/poker_session/save_staking", $dados);
+    }
 
     public function getTiposBuyIn()
     {

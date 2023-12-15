@@ -257,20 +257,17 @@ class Session extends BaseController
                         return (!is_null($data) && trim($data)) == '' ? null : $data;
                     }, $input);
                     $idBuyIN = $input['buyinId'];
-                    $currentBI = $this->getCurrentBi($buyInList, $idBuyIN);
-
+                    $data = ['id' => $idBuyIN];
                     if ($this->validate($rules)) {
-                        if ($currentBI) {
-                            $currentBI['stakingSelling'] = filter_var($input['stakingSelling'], FILTER_VALIDATE_FLOAT);
-                            $currentBI['stakingSold'] = filter_var($input['stakingSold'], FILTER_VALIDATE_FLOAT);
-                            $currentBI['markup'] = filter_var($input['markup'], FILTER_VALIDATE_FLOAT);
-                            $adiciona = $pokerSessionProvider->salvaBuyIn($currentBI);
-                            $this->checkResponse($adiciona, 201);
-                            print(json_encode(['success' => true, 'message' => 'Cotas atualizadas com sucesso.']));
-                        } else {
-                            throw new Exception('Buy-in não encontrado na sua sessão.', 1);
-
-                        }
+                        $data['stakingSelling'] = filter_var($input['stakingSelling'], FILTER_VALIDATE_FLOAT);
+                        $data['stakingSold'] = filter_var($input['stakingSold'], FILTER_VALIDATE_FLOAT);
+                        $data['markup'] = filter_var($input['markup'], FILTER_VALIDATE_FLOAT);
+                        $data = array_map(function ($data) {
+                            return (!is_null($data) && trim($data)) == '' ? null : $data;
+                        }, $data);
+                        $adiciona = $pokerSessionProvider->salvaStaking($data);
+                        $this->checkResponse($adiciona, 200);
+                        print(json_encode(['success' => true, 'message' => 'Cotas atualizadas com sucesso.']));
                     } else {
                         throw new Exception($this->dataToString($this->validator->getErrors()), 1);
 
